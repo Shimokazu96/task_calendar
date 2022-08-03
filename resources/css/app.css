@@ -1,0 +1,10 @@
+a {
+    text-decoration: none;
+    color: inherit;
+}
+a:active {
+    color: inherit;
+}
+a:focus {
+    outline: none;
+}
