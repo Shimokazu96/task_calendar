@@ -29,6 +29,14 @@ export const mainListItems = (
                 <ListItemText primary="Login" />
             </ListItemButton>
         </Link>
+        <Link to="/user">
+            <ListItemButton>
+                <ListItemIcon>
+                    <LayersIcon />
+                </ListItemIcon>
+                <ListItemText primary="user" />
+            </ListItemButton>
+        </Link>
         <Link to="/">
             <ListItemButton>
                 <ListItemIcon>
