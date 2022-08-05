@@ -35,7 +35,15 @@ class Handler extends ExceptionHandler
         'password',
         'password_confirmation',
     ];
+    public function render($request, Throwable $exception)
+    {
+        // Tokenエラー(419)の時のメッセージ
+        if ($exception instanceof TokenMismatchException) {
+            throw new \Exception('ページの有効期限が切れました。');
+        }
 
+        return parent::render($request, $exception);
+    }
     /**
      * Register the exception handling callbacks for the application.
      *
