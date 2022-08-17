@@ -7,7 +7,7 @@ use Laravel\Fortify\Contracts\RegisterResponse as RegisterResponseContract;
 use Illuminate\Support\Facades\Auth;
 
 
-class RegisterResponse implements RegisterResponseContract
+class AdminRegisterResponse implements RegisterResponseContract
 {
     /**
      * Create an HTTP response that represents the object.
@@ -17,10 +17,9 @@ class RegisterResponse implements RegisterResponseContract
      */
     public function toResponse($request)
     {
-        $user = Auth::guard('web')->user();
-
+        $admin = Auth::guard('admin')->user();
         return $request->wantsJson()
-                    ? new JsonResponse($user, 201)
-                    : redirect('/');
+            ? new JsonResponse($admin, 201)
+            : redirect('/');
     }
 }
