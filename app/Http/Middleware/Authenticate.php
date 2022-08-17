@@ -19,6 +19,6 @@ class Authenticate extends Middleware
         }
         // return $request->expectsJson()
         //     ? response()->json(['message' => 'Unauthenticated.'], 401)
-        //     : env('NUXT_URL');
+        //     : config('app.url');
     }
 }
