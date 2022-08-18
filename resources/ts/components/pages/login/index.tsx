@@ -17,8 +17,9 @@ import {
 } from "@mui/material";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import axios from "axios";
-import { AxiosError, AxiosResponse } from "axios";
+import { AxiosResponse } from "axios";
 import { useForm } from "react-hook-form";
+import { useUserState } from "@/atoms/userAtom";
 
 // POSTデータの型
 type LoginForm = {
@@ -48,6 +49,8 @@ const Login = () => {
     // state定義
     const [validation, setValidation] = useState<Validation>({});
 
+    const { setUser } = useUserState();
+
     const onSubmit = async (data: LoginForm) => {
         setValidation({});
         await axios
@@ -59,6 +62,7 @@ const Login = () => {
                     .post("api/login", data)
                     .then((response: AxiosResponse) => {
                         console.log(response.data);
+                        setUser(response.data);
                         navigate("/");
                     })
                     .catch((err: any) => {
