@@ -14,12 +14,10 @@ import {
     ThemeProvider,
 } from "@mui/material";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
-import axios from "axios";
-import { AxiosError, AxiosResponse } from "axios";
-import { useForm } from "react-hook-form";
 import { axiosApi } from "@/lib/axios";
-import { useUserState } from '@/atoms/userAtom';
-
+import { AxiosResponse } from "axios";
+import { useForm } from "react-hook-form";
+import { useAdminState } from "@/atoms/adminAtom";
 
 // POSTデータの型
 type LoginForm = {
@@ -49,8 +47,7 @@ const Login = () => {
     // state定義
     const [validation, setValidation] = useState<Validation>({});
 
-    const { setUser } = useUserState();
-
+    const { setAdmin } = useAdminState();
 
     const onSubmit = async (data: LoginForm) => {
         setValidation({});
@@ -63,7 +60,7 @@ const Login = () => {
                     .post("/api/admin/login", data)
                     .then((response: AxiosResponse) => {
                         console.log(response.data);
-                        setUser(response.data);
+                        setAdmin(response.data);
                         navigate("/admin");
                     })
                     .catch((err: any) => {
