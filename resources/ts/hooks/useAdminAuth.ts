@@ -1,18 +1,22 @@
 import { useAdminState } from "@/atoms/adminAtom";
 import { axiosApi } from "@/lib/axios";
 
-export const useAdminAuthenticate = () => {
+const useAdminAuth = () => {
     const { admin, setAdmin } = useAdminState();
 
-    const authenticate = async (): Promise<boolean> => {
+    const adminStatus = () => {
+        return admin ? true : false;
+    };
+
+    const fetchAdmin = async (): Promise<boolean> => {
         if (admin) {
-            console.log(admin);
             return true;
         }
-
         try {
             const res = await axiosApi.get("/api/admin");
             if (!res.data) {
+                setAdmin(null);
+
                 return false;
             }
             setAdmin(res.data);
@@ -22,5 +26,6 @@ export const useAdminAuthenticate = () => {
         }
     };
 
-    return { authenticate };
+    return { adminStatus, fetchAdmin };
 };
+export default useAdminAuth;
