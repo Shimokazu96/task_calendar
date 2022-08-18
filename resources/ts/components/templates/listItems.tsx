@@ -13,7 +13,7 @@ import AssignmentIcon from "@mui/icons-material/Assignment";
 
 export const mainListItems = (
     <React.Fragment>
-        <Link to="/task">
+        <Link to="/admin/section">
             <ListItemButton>
                 <ListItemIcon>
                     <DashboardIcon />
@@ -21,7 +21,15 @@ export const mainListItems = (
                 <ListItemText primary="Dashboard" />
             </ListItemButton>
         </Link>
-        <Link to="/login">
+        <Link to="/admin/task">
+            <ListItemButton>
+                <ListItemIcon>
+                    <DashboardIcon />
+                </ListItemIcon>
+                <ListItemText primary="タスク管理" />
+            </ListItemButton>
+        </Link>
+        <Link to="/admin/login">
             <ListItemButton>
                 <ListItemIcon>
                     <PeopleIcon />
@@ -29,7 +37,7 @@ export const mainListItems = (
                 <ListItemText primary="Login" />
             </ListItemButton>
         </Link>
-        <Link to="/user">
+        <Link to="/admin/user">
             <ListItemButton>
                 <ListItemIcon>
                     <LayersIcon />
@@ -37,7 +45,7 @@ export const mainListItems = (
                 <ListItemText primary="user" />
             </ListItemButton>
         </Link>
-        <Link to="/">
+        <Link to="/admin">
             <ListItemButton>
                 <ListItemIcon>
                     <LayersIcon />
