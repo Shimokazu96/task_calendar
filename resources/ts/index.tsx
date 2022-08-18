@@ -10,12 +10,15 @@ import "../css/app.css";
 // root.render(<App />);
 import React from "react";
 import ReactDOM from "react-dom";
+import { BrowserRouter } from "react-router-dom";
 import { RecoilRoot } from "recoil";
 import App from "./App";
 
 ReactDOM.render(
     <RecoilRoot>
-        <App />
+        <BrowserRouter>
+            <App />
+        </BrowserRouter>
     </RecoilRoot>,
     document.getElementById("app")
 );

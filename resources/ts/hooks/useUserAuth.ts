@@ -1,18 +1,22 @@
 import { useUserState } from "@/atoms/userAtom";
 import { axiosApi } from "@/lib/axios";
 
-export const useUserAuthenticate = () => {
+const useUserAuth = () => {
     const { user, setUser } = useUserState();
 
-    const authenticate = async (): Promise<boolean> => {
+    const userStatus = () => {
+        return user ? true : false;
+    };
+
+    const fetchUser = async (): Promise<boolean> => {
         if (user) {
-            console.log(user);
             return true;
         }
-
         try {
             const res = await axiosApi.get("/api/user");
             if (!res.data) {
+                setUser(null);
+
                 return false;
             }
             setUser(res.data);
@@ -22,5 +26,6 @@ export const useUserAuthenticate = () => {
         }
     };
 
-    return { authenticate };
+    return { userStatus, fetchUser };
 };
+export default useUserAuth;

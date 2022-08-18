@@ -1,5 +1,5 @@
 import { ChangeEvent, useState } from "react";
-import { Link as RouterLink } from "react-router-dom";
+import { Link as RouterLink, useNavigate } from "react-router-dom";
 import {
     Avatar,
     Button,
@@ -36,6 +36,8 @@ type Validation = {
 const theme = createTheme();
 
 const Login = () => {
+    const navigate = useNavigate();
+
     // React-Hook-Form
     const {
         register,
@@ -48,8 +50,6 @@ const Login = () => {
 
     const onSubmit = async (data: LoginForm) => {
         setValidation({});
-        // const loginParams: LoginForm = { email, password };
-        // console.log(loginParams);
         await axios
             // CSRF保護の初期化
             .get("/sanctum/csrf-cookie")
@@ -59,6 +59,7 @@ const Login = () => {
                     .post("api/login", data)
                     .then((response: AxiosResponse) => {
                         console.log(response.data);
+                        navigate("/");
                     })
                     .catch((err: any) => {
                         console.log(err.response);
