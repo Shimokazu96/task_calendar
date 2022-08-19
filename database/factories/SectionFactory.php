@@ -2,17 +2,17 @@
 
 namespace Database\Factories;
 
-use App\Models\Task;
+use App\Models\Section;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-class TaskFactory extends Factory
+class SectionFactory extends Factory
 {
     /**
      * The name of the factory's corresponding model.
      *
      * @var string
      */
-    protected $model = Task::class;
+    protected $model = Section::class;
 
     /**
      * Define the model's default state.
@@ -22,8 +22,7 @@ class TaskFactory extends Factory
     public function definition()
     {
         return [
-            'task_name' => $this->faker->realText(rand(15,40)),
-            'description' => $this->faker->realText(rand(15,40)),
+            'section_name' => $this->faker->realText(rand(15,40)),
             'created_at' => now(),
             'updated_at' => now()
         ];
