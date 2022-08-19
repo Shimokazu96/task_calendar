@@ -3,33 +3,40 @@ import { Link } from "react-router-dom";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
-import TaskIcon from '@mui/icons-material/Task';
+import TaskIcon from "@mui/icons-material/Task";
 import DashboardIcon from "@mui/icons-material/Dashboard";
-import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import PeopleIcon from "@mui/icons-material/People";
 import LogoutIcon from "@mui/icons-material/Logout";
 import LayersIcon from "@mui/icons-material/Layers";
-import AssignmentIcon from "@mui/icons-material/Assignment";
-import useAdminAuth from "@/hooks/useAdminAuth";
+import { Divider } from "@mui/material";
 
 export default function MainListItems() {
-    const { logout } = useAdminAuth();
     return (
         <React.Fragment>
-            <Link to="/admin/section">
+            <Link to="/admin">
                 <ListItemButton>
                     <ListItemIcon>
                         <DashboardIcon />
                     </ListItemIcon>
-                    <ListItemText primary="Dashboard" />
+                    <ListItemText primary="タスク" />
                 </ListItemButton>
             </Link>
+            <Divider sx={{ my: 1 }} />
+
             <Link to="/admin/task">
                 <ListItemButton>
                     <ListItemIcon>
                         <TaskIcon />
                     </ListItemIcon>
-                    <ListItemText primary="タスク管理" />
+                    <ListItemText primary="タスク・マスター" />
+                </ListItemButton>
+            </Link>
+            <Link to="/admin/section">
+                <ListItemButton>
+                    <ListItemIcon>
+                        <LayersIcon />
+                    </ListItemIcon>
+                    <ListItemText primary="セクション・マスター" />
                 </ListItemButton>
             </Link>
             <Link to="/admin/user">
@@ -37,23 +44,9 @@ export default function MainListItems() {
                     <ListItemIcon>
                         <PeopleIcon />
                     </ListItemIcon>
-                    <ListItemText primary="user" />
+                    <ListItemText primary="スタッフ" />
                 </ListItemButton>
             </Link>
-            <Link to="/admin">
-                <ListItemButton>
-                    <ListItemIcon>
-                        <LayersIcon />
-                    </ListItemIcon>
-                    <ListItemText primary="Home" />
-                </ListItemButton>
-            </Link>
-            <ListItemButton onClick={logout}>
-                <ListItemIcon>
-                    <LogoutIcon />
-                </ListItemIcon>
-                <ListItemText primary="Logout" />
-            </ListItemButton>
         </React.Fragment>
     );
 }

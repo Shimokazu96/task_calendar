@@ -7,7 +7,7 @@ import FullCalendar, {
     EventClickArg,
     EventContentArg,
 } from "@fullcalendar/react";
-import Dashboard from "@/components/templates/dashboard";
+import Dashboard from "@/components/templates/admin/Dashboard";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import allLocales from "@fullcalendar/core/locales-all";
 import interactionPlugin from "@fullcalendar/interaction";
@@ -53,7 +53,7 @@ const TaskPage: React.FC = () => {
     );
 
     return (
-        <Dashboard title="タスク管理">
+        <Dashboard title="タスク">
             <div className="calendar">
                 <FullCalendar
                     plugins={[

@@ -1,99 +1,241 @@
-import { useCallback, useState } from "react";
-import "@fullcalendar/react/dist/vdom";
-import FullCalendar, {
-    DateSelectArg,
-    DayCellContentArg,
-    EventApi,
-    EventClickArg,
-    EventContentArg,
-} from "@fullcalendar/react";
-import Dashboard from "@/components/templates/dashboard";
-import dayGridPlugin from "@fullcalendar/daygrid";
-import allLocales from "@fullcalendar/core/locales-all";
-import interactionPlugin from "@fullcalendar/interaction";
-import listPlugin from "@fullcalendar/list";
-import timeGridPlugin from "@fullcalendar/timegrid";
-import { INITIAL_EVENTS, createEventId } from "@/lib/event-utils";
+import React from "react";
+import { useEffect, useState } from "react";
+import { AxiosError, AxiosResponse } from "axios";
+import { axiosApi } from "@/lib/axios";
 import { Task } from "@/types/Task";
+import MUIDataTable from "mui-datatables";
+import {
+    IconButton,
+    Box,
+    Button,
+    Typography,
+    ListItemIcon,
+    TextField,
+    Dialog,
+    DialogActions,
+    DialogContent,
+    DialogContentText,
+    DialogTitle,
+} from "@mui/material";
+import MenuItem from "@mui/material/MenuItem";
+import Menu from "@mui/material/Menu";
+import MoreVertOutlinedIcon from "@mui/icons-material/MoreVertOutlined";
+import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
+import DeleteOutlineOutlinedIcon from "@mui/icons-material/DeleteOutlineOutlined";
+import Dashboard from "@/components/templates/admin/Dashboard";
+import useDataTable from "@/hooks/useDataTable";
 
-const TaskPage: React.FC = () => {
-    const [currentEvents, setCurrentEvents] = useState<EventApi[]>([]);
-    const handleEvents = useCallback(
-        (events: EventApi[]) => setCurrentEvents(events),
-        []
-    );
-    const handleDateSelect = useCallback((selectInfo: DateSelectArg) => {
-        let title = prompt("イベントのタイトルを入力してください")?.trim();
-        let calendarApi = selectInfo.view.calendar;
-        calendarApi.unselect();
-        if (title) {
-            calendarApi.addEvent({
-                id: createEventId(),
-                title,
-                start: selectInfo.startStr,
-                end: selectInfo.endStr,
-                allDay: selectInfo.allDay,
-            });
-        }
-    }, []);
-    const handleEventClick = useCallback((clickInfo: EventClickArg) => {
-        if (
-            window.confirm(
-                `このイベント「${clickInfo.event.title}」を削除しますか`
-            )
-        ) {
-            clickInfo.event.remove();
-        }
-    }, []);
-    const renderEventContent = (eventContent: EventContentArg) => (
-        <>
-            <b>{eventContent.timeText}</b>
-            <i>{eventContent.event.title}</i>
-        </>
-    );
+const columns = [
+    // 非表示の列 sortに利用している
+    {
+        name: "id",
+        label: "ID",
+        // filterにも入れない
+        options: { filter: true },
+    },
+    {
+        name: "task_name",
+        label: "タスク名",
+        options: { filter: true },
+    },
+    // 編集アイコンを表示
+    {
+        name: "",
+        options: {
+            filter: false, // filterには入れない
+            sort: false, // sortにも入れない
+            download: false, // CSVにも入れない
+            // 編集コンポーネント（列の値情報を渡している）
+            customBodyRenderLite: (dataIndex: number) => {
+                const [menuFlag, setMenuFlag] = React.useState(false);
+                const [editFlag, setEditFlag] = React.useState(false);
 
+                const [anchorEl, setAnchorEl] =
+                    React.useState<null | HTMLElement>(null);
+
+                const handleMenu = (event: React.MouseEvent<HTMLElement>) => {
+                    setAnchorEl(event.currentTarget);
+                };
+                const handleEditClickOpen = () => {
+                    setEditFlag(true);
+                    setAnchorEl(null);
+                };
+                const handleEditClickClose = () => {
+                    setEditFlag(false);
+                };
+                const handleMenuClose = () => {
+                    setAnchorEl(null);
+                };
+                return (
+                    // <EditDialog
+                    //     editData={{
+                    //         id: exampleData[dataIndex].id,
+                    //         test_code: exampleData[dataIndex].test_code,
+                    //         remarks: exampleData[dataIndex].remarks,
+                    //     }}
+                    // />
+                    <>
+                        <IconButton
+                            size="large"
+                            aria-label="account of current user"
+                            aria-controls="menu-appbar"
+                            aria-haspopup="true"
+                            onClick={handleMenu}
+                            color="inherit"
+                        >
+                            <MoreVertOutlinedIcon />
+                        </IconButton>
+                        <Menu
+                            sx={{ mt: "45px" }}
+                            id="menu-appbar"
+                            anchorEl={anchorEl}
+                            anchorOrigin={{
+                                vertical: "top",
+                                horizontal: "right",
+                            }}
+                            keepMounted
+                            transformOrigin={{
+                                vertical: "top",
+                                horizontal: "right",
+                            }}
+                            open={Boolean(anchorEl)}
+                            onClose={handleMenuClose}
+                        >
+                            <MenuItem onClick={handleEditClickOpen}>
+                                <ListItemIcon>
+                                    <EditOutlinedIcon width={24} height={24} />
+                                </ListItemIcon>
+                                編集
+                            </MenuItem>
+                            <MenuItem
+                                sx={{ color: "error.main" }}
+                                onClick={handleMenuClose}
+                            >
+                                <ListItemIcon>
+                                    <DeleteOutlineOutlinedIcon
+                                        sx={{ color: "error.main" }}
+                                        width={24}
+                                        height={24}
+                                    />
+                                </ListItemIcon>
+                                削除
+                            </MenuItem>
+                        </Menu>
+                        <Dialog
+                            fullWidth={true}
+                            maxWidth={"xl"}
+                            open={editFlag}
+                            onClose={handleEditClickClose}
+                        >
+                            <DialogTitle>スタッフ作成</DialogTitle>
+                            <DialogContent>
+
+                                <TextField
+                                    autoFocus
+                                    margin="dense"
+                                    id="name"
+                                    label="名前"
+                                    type="text"
+                                    fullWidth
+                                    variant="standard"
+                                />
+                                <TextField
+                                    autoFocus
+                                    margin="dense"
+                                    id="email"
+                                    label="メールアドレス"
+                                    type="email"
+                                    fullWidth
+                                    variant="standard"
+                                />
+                                <TextField
+                                    autoFocus
+                                    margin="dense"
+                                    id="password"
+                                    label="パスワード"
+                                    type="password"
+                                    fullWidth
+                                    variant="standard"
+                                />
+                                <TextField
+                                    autoFocus
+                                    margin="dense"
+                                    id="password-confirmation"
+                                    label="パスワード確認用"
+                                    type="password"
+                                    fullWidth
+                                    variant="standard"
+                                />
+                            </DialogContent>
+                            <DialogActions>
+                                <Button onClick={handleEditClickClose}>
+                                    Cancel
+                                </Button>
+                                <Button onClick={handleMenuClose}>
+                                    Subscribe
+                                </Button>
+                            </DialogActions>
+                        </Dialog>
+                    </>
+                );
+            },
+        },
+    },
+];
+
+
+const UserPage: React.FC = () => {
+    const [tasks, setTasks] = useState<Task[]>([]);
+    const { options } = useDataTable();
+
+    const getTasks = async () => {
+        await axiosApi
+            .get("/api/admin/task")
+            .then((response: AxiosResponse) => {
+                console.log(response.data);
+                setTasks(response.data);
+            })
+            .catch((err: AxiosError) => console.log(err.response));
+        return tasks;
+    };
+
+    useEffect(() => {
+        getTasks();
+    }, []);
     return (
-        <Dashboard title="タスク管理">
-            <div className="calendar">
-                <FullCalendar
-                    plugins={[
-                        dayGridPlugin,
-                        timeGridPlugin,
-                        interactionPlugin,
-                        listPlugin,
-                    ]}
-                    headerToolbar={{
-                        start: "prev,next today",
-                        center: "title",
-                        end: "dayGridMonth,timeGridWeek,timeGridDay,listMonth",
-                    }}
-                    eventTimeFormat={{ hour: "2-digit", minute: "2-digit" }}
-                    slotLabelFormat={[{ hour: "2-digit", minute: "2-digit" }]}
-                    initialView="dayGridMonth"
-                    eventContent={renderEventContent}
-                    selectable={true}
-                    editable={true}
-                    selectMirror={true}
-                    dayMaxEvents={true}
-                    navLinks={true}
-                    nowIndicator={true}
-                    initialEvents={INITIAL_EVENTS}
-                    aspectRatio={1.5}
-                    locales={allLocales}
-                    locale="ja"
-                    eventsSet={handleEvents}
-                    select={handleDateSelect}
-                    eventClick={handleEventClick}
-                    // dayCellContent={(event: DayCellContentArg) =>
-                    //     (event.dayNumberText = event.dayNumberText.replace(
-                    //         "日",
-                    //         ""
-                    //     ))
-                    // }
-                />
-            </div>
+        <Dashboard title="">
+            <Box
+                sx={{
+                    alignItems: "center",
+                    display: "flex",
+                    justifyContent: "space-between",
+                    flexWrap: "wrap",
+                    m: -1,
+                    mb: 2,
+                }}
+            >
+                <Box sx={{ m: 1 }}>
+                    <Typography
+                        sx={{ m: 1, fontWeight: "bold" }}
+                        component="h2"
+                        variant="h5"
+                    >
+                        タスク・マスター
+                    </Typography>
+                </Box>
+                <Box sx={{ m: 1 }}>
+                    <Button color="primary" variant="contained">
+                        新規作成
+                    </Button>
+                </Box>
+            </Box>
+            <MUIDataTable
+                title={""}
+                data={tasks}
+                columns={columns}
+                options={options}
+            />
         </Dashboard>
     );
 };
-
-export default TaskPage;
+export default UserPage;

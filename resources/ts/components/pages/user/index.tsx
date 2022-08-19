@@ -1,5 +1,5 @@
 import React from "react";
-import Dashboard from "@/components/templates/dashboard";
+import Dashboard from "@/components/templates/admin/Dashboard";
 import MUIDataTable from "mui-datatables";
 
 const columns = ["Name", "Company", "City", "State"];
