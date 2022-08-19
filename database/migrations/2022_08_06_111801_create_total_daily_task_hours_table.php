@@ -13,10 +13,15 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('tasks', function (Blueprint $table) {
+        Schema::create('total_daily_task_hours', function (Blueprint $table) {
             $table->id();
-            $table->string('task_name');
-            $table->boolean('display_flag')->default(false);
+            $table->unsignedBigInteger( 'user_id' );
+            $table->foreign('user_id')
+                ->references('id')
+                ->on('users')
+                ->onDelete('cascade');
+            $table->string('date');
+            $table->string('total_daily_task_hours');
             $table->timestamps();
         });
     }
@@ -28,6 +33,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('tasks');
+        Schema::dropIfExists('total_daily_task_hours');
     }
 };
