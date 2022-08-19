@@ -17,7 +17,7 @@ import Link from "@mui/material/Link";
 import MenuIcon from "@mui/icons-material/Menu";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import NotificationsIcon from "@mui/icons-material/Notifications";
-import { mainListItems } from "@/components/templates/listItems";
+import MainListItems from "@/components/templates/listItems";
 // import Chart from "./Chart";
 // import Deposits from "./Deposits";
 // import Orders from "./Orders";
@@ -135,7 +135,7 @@ const DashboardContent: React.FC<DashboardProps> = ({ children, title }) => {
                             <ChevronLeftIcon />
                         </IconButton>
                     </Toolbar>
-                    <List component="nav">{mainListItems}</List>
+                    <List component="nav"><MainListItems></MainListItems></List>
                 </Drawer>
                 <Box
                     component="main"
