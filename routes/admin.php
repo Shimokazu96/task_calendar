@@ -41,6 +41,12 @@ Route::middleware('auth:sanctum')->get('/', function (Request $request) {
         ->user();
 });
 // admin ログイン認証後
-Route::group(['middleware' => ['auth:sanctum']], function () {
-    Route::post('/logout', 'App\Http\Controllers\Admin\LoginController@destroy');
+Route::group([
+    'namespace' => 'App\Http\Controllers\Admin',
+    'middleware' => ['auth:sanctum']
+], function () {
+    Route::post('/logout', 'LoginController@destroy');
+    Route::apiResource('/user', UserController::class);
+    Route::apiResource('/task', TaskController::class);
+    Route::apiResource('/section', SectionController::class);
 });
