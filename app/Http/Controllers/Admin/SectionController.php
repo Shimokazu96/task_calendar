@@ -40,7 +40,8 @@ class SectionController extends Controller
 
     public function update(SectionRequest $request, Section $section)
     {
-        $section->section_name = $request->section_name;
+        $section->fill($request->all());
+        $section->save();
 
         return $section->update()
             ? response()->json($section)
