@@ -19,6 +19,7 @@ import MoreVertOutlinedIcon from "@mui/icons-material/MoreVertOutlined";
 import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 import DeleteOutlineOutlinedIcon from "@mui/icons-material/DeleteOutlineOutlined";
 import Dashboard from "@/components/templates/admin/Dashboard";
+import DeleteDialog from "@/components/templates/admin/DeleteDialog";
 import useDataTable from "@/hooks/useDataTable";
 
 const UserPage: React.FC = () => {
@@ -42,17 +43,6 @@ const UserPage: React.FC = () => {
         getSections();
     }, []);
 
-    // const deleteSection = (id: number) => {
-    //     axiosApi
-    //         .delete(`/api/admin/section/${id}`)
-    //         .then((response: AxiosResponse) => {
-    //             console.log(response.data);
-    //             getSections();
-    //         })
-    //         .catch((err: AxiosError) => console.log(err.response));
-    //     return sections;
-    // };
-
     const columns = [
         // 非表示の列 sortに利用している
         {
@@ -75,8 +65,8 @@ const UserPage: React.FC = () => {
                 download: false, // CSVにも入れない
                 // 編集コンポーネント（列の値情報を渡している）
                 customBodyRenderLite: (dataIndex: number) => {
-                    const [menuFlag, setMenuFlag] = React.useState(false);
                     const [editFlag, setEditFlag] = React.useState(false);
+                    const [deleteFlag, setDeleteFlag] = React.useState(false);
 
                     const [anchorEl, setAnchorEl] =
                         React.useState<null | HTMLElement>(null);
@@ -86,15 +76,19 @@ const UserPage: React.FC = () => {
                     ) => {
                         setAnchorEl(event.currentTarget);
                     };
+                    const handleMenuClose = () => {
+                        setAnchorEl(null);
+                    };
                     const handleEditClickOpen = () => {
                         setEditFlag(true);
                         setAnchorEl(null);
                     };
-                    const handleEditClickClose = () => {
-                        setEditFlag(false);
+                    const handleDeleteDialogOpen = () => {
+                        setDeleteFlag(true);
                     };
-                    const handleMenuClose = () => {
-                        setAnchorEl(null);
+
+                    const handleDeleteDialogClose = () => {
+                        setDeleteFlag(false);
                     };
 
                     const onDelete = (id: number) => {
@@ -104,6 +98,7 @@ const UserPage: React.FC = () => {
                                 console.log(response.data);
                                 getSections();
                                 handleMenuClose();
+                                handleDeleteDialogClose();
                             })
                             .catch((err: AxiosError) =>
                                 console.log(err.response)
@@ -112,13 +107,6 @@ const UserPage: React.FC = () => {
                     };
 
                     return (
-                        // <EditDialog
-                        //     editData={{
-                        //         id: exampleData[dataIndex].id,
-                        //         test_code: exampleData[dataIndex].test_code,
-                        //         remarks: exampleData[dataIndex].remarks,
-                        //     }}
-                        // />
                         <>
                             <IconButton
                                 size="large"
@@ -165,7 +153,7 @@ const UserPage: React.FC = () => {
                                 <MenuItem
                                     sx={{ color: "error.main" }}
                                     onClick={() =>
-                                        onDelete(sections[dataIndex].id)
+                                        handleDeleteDialogOpen()
                                     }
                                 >
                                     <ListItemIcon>
@@ -178,10 +166,11 @@ const UserPage: React.FC = () => {
                                     削除
                                 </MenuItem>
                             </Menu>
-                            {/* <CreateDialog
-                                open={editFlag}
-                                onClose={handleEditClickClose}
-                            /> */}
+                            <DeleteDialog
+                                open={deleteFlag}
+                                close={() => handleDeleteDialogClose()}
+                                DeleteData={() => onDelete(sections[dataIndex].id)}
+                            />
                         </>
                     );
                 },
