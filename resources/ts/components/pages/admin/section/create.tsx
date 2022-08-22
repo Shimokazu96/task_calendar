@@ -15,13 +15,9 @@ import {
     CircularProgress,
 } from "@mui/material";
 import { useForm } from "react-hook-form";
-import { Section, Validation } from "@/types/Section";
+import { Section, Validation, Form } from "@/types/Section";
 import useNotification from "@/hooks/useNotification";
 
-// POSTデータの型
-type Form = {
-    section_name: string;
-};
 
 const CreateSectionPage: React.FC = () => {
     const navigate = useNavigate();

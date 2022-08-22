@@ -15,22 +15,22 @@ import {
     CircularProgress,
 } from "@mui/material";
 import { useForm } from "react-hook-form";
-import { Section, Validation, Form } from "@/types/Section";
+import { Task, Validation,Form } from "@/types/Task";
 import useNotification from "@/hooks/useNotification";
 
-const EditSectionPage: React.FC = () => {
-    const params = useParams(); // URLのパスパラメータを取得。例えば、 /uses/2 なら、2の部分を取得
+
+const CreateTaskPage: React.FC = () => {
     const navigate = useNavigate();
-    const { updated } = useNotification();
+    const { saved } = useNotification();
 
     const [validation, setValidation] = useState<Validation>({});
-    const [section, setSection] = useState<Section>({
+    const [task, setTask] = useState<Task>({
         id: 0,
-        section_name: "",
+        task_name: "",
+        description: "",
         created_at: "",
         updated_at: "",
     });
-    const [loading, setLoading] = useState(true);
 
     // React-Hook-Form
     const {
@@ -39,31 +39,14 @@ const EditSectionPage: React.FC = () => {
         formState: { errors },
     } = useForm<Form>();
 
-    const getSection = async () => {
-        await axiosApi
-            .get(`/api/admin/section/${params.id}`)
-            .then((response: AxiosResponse) => {
-                console.log(response.data);
-                setSection(response.data);
-                setLoading(false);
-            })
-            .catch((err: AxiosError) => console.log(err.response));
-        return section;
-    };
-
-    useEffect(() => {
-        getSection();
-    }, []);
-    console.log(section);
-
     const onSubmit = async (data: Form) => {
         setValidation({});
         await axiosApi
-            .put(`/api/admin/section/${params.id}`, data)
+            .post(`/api/admin/task`, data)
             .then((response: AxiosResponse) => {
                 console.log(response.data);
-                updated();
-                navigate(`/admin/section/${params.id}`);
+                saved();
+                navigate(`/admin/task`);
             })
             .catch((err: any) => {
                 console.log(err.response);
@@ -86,13 +69,6 @@ const EditSectionPage: React.FC = () => {
             });
     };
 
-    if (loading) {
-        return (
-            <Dashboard title="">
-                <CircularProgress />
-            </Dashboard>
-        );
-    }
     return (
         <Dashboard title="">
             <Box
@@ -111,7 +87,7 @@ const EditSectionPage: React.FC = () => {
                         component="h2"
                         variant="h5"
                     >
-                        セクション・マスター編集
+                        タスク・マスター登録
                     </Typography>
                 </Box>
             </Box>
@@ -123,15 +99,31 @@ const EditSectionPage: React.FC = () => {
                     <Grid container spacing={3}>
                         <Grid item xs={12} md={12}>
                             <TextField
-                                {...register("section_name", {
+                                {...register("task_name", {
                                     required: "必須入力です。",
                                 })}
-                                error={"section_name" in errors}
-                                helperText={errors.section_name?.message}
-                                defaultValue={section.section_name}
+                                error={"task_name" in errors}
+                                sx={{ mb: 2 }}
+                                helperText={errors.task_name?.message}
+                                defaultValue={task.task_name}
                                 required
-                                id="section_name"
-                                label="セクション名"
+                                id="task_name"
+                                label="タスク名"
+                                fullWidth
+                                variant="standard"
+                            ></TextField>
+                            <TextField
+                                {...register("description", {
+                                    required: "必須入力です。",
+                                })}
+                                error={"description" in errors}
+                                helperText={errors.description?.message}
+                                defaultValue={task.description}
+                                multiline
+                                rows={4}
+                                required
+                                id="description"
+                                label="タスク概要"
                                 fullWidth
                                 variant="standard"
                             ></TextField>
@@ -144,7 +136,7 @@ const EditSectionPage: React.FC = () => {
                             style={{ padding: 16 }}
                         >
                             <Grid>
-                                <Link to="/admin/section">
+                                <Link to="/admin/task">
                                     <Button>キャンセル</Button>
                                 </Link>
 
@@ -165,4 +157,4 @@ const EditSectionPage: React.FC = () => {
         </Dashboard>
     );
 };
-export default EditSectionPage;
+export default CreateTaskPage;
