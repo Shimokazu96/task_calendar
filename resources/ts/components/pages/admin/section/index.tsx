@@ -21,11 +21,13 @@ import DeleteOutlineOutlinedIcon from "@mui/icons-material/DeleteOutlineOutlined
 import Dashboard from "@/components/templates/admin/Dashboard";
 import DeleteDialog from "@/components/templates/admin/DeleteDialog";
 import useDataTable from "@/hooks/useDataTable";
+import useNotification from "@/hooks/useNotification";
 
 const UserPage: React.FC = () => {
     const { options } = useDataTable();
     const [sections, setSections] = useState<Section[]>([]);
     const [loading, setLoading] = useState(true);
+    const { deleted } = useNotification();
 
     const getSections = async () => {
         await axiosApi
@@ -96,6 +98,7 @@ const UserPage: React.FC = () => {
                             .delete(`/api/admin/section/${id}`)
                             .then((response: AxiosResponse) => {
                                 console.log(response.data);
+                                deleted();
                                 getSections();
                                 handleMenuClose();
                                 handleDeleteDialogClose();
@@ -152,9 +155,7 @@ const UserPage: React.FC = () => {
                                 </Link>
                                 <MenuItem
                                     sx={{ color: "error.main" }}
-                                    onClick={() =>
-                                        handleDeleteDialogOpen()
-                                    }
+                                    onClick={() => handleDeleteDialogOpen()}
                                 >
                                     <ListItemIcon>
                                         <DeleteOutlineOutlinedIcon
@@ -169,7 +170,9 @@ const UserPage: React.FC = () => {
                             <DeleteDialog
                                 open={deleteFlag}
                                 close={() => handleDeleteDialogClose()}
-                                DeleteData={() => onDelete(sections[dataIndex].id)}
+                                DeleteData={() =>
+                                    onDelete(sections[dataIndex].id)
+                                }
                             />
                         </>
                     );
