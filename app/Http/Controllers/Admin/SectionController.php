@@ -12,47 +12,46 @@ class SectionController extends Controller
 
     public function index()
     {
-        // abort(500);
-        // return [];
         return Section::orderByDEsc('id')->get();
     }
 
 
-    public function store(SectionRequest $request)
+    public function store(SectionRequest $request, Section $section)
     {
-        $Section = Section::create($request->all());
+        $section->fill($request->all());
+        $section->save();
 
-        return $Section
-        ? response()->json($Section, 201)
-        : response()->json([], 500);
+        return $section
+            ? response()->json($section, 201)
+            : response()->json([], 500);
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Section  $Section
+     * @param  \App\Models\Section  $section
      * @return \Illuminate\Http\Response
      */
-    public function show(Section $Section)
+    public function show(Section $section)
     {
-        //
+        return response()->json($section, 200) ?? abort(404);
     }
 
 
-    public function update(SectionRequest $request, Section $Section)
+    public function update(SectionRequest $request, Section $section)
     {
-        $Section->title = $request->title;
+        $section->section_name = $request->section_name;
 
-        return $Section->update()
-        ? response()->json($Section)
-        : response()->json([], 500);
+        return $section->update()
+            ? response()->json($section)
+            : response()->json([], 500);
     }
 
 
-    public function destroy(Section $Section)
+    public function destroy(Section $section)
     {
-        return $Section->delete()
-        ? response()->json($Section)
-        : response()->json([], 500);
+        return $section->delete()
+            ? response()->json(200)
+            : response()->json([], 500);
     }
 }
