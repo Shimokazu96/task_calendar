@@ -16,6 +16,7 @@ import {
 } from "@mui/material";
 import { useForm } from "react-hook-form";
 import { Section, Validation } from "@/types/Section";
+import useNotification from "@/hooks/useNotification";
 
 // POSTデータの型
 type Form = {
@@ -24,6 +25,7 @@ type Form = {
 
 const CreateSectionPage: React.FC = () => {
     const navigate = useNavigate();
+    const { saved } = useNotification();
 
     const [validation, setValidation] = useState<Validation>({});
     const [section, setSection] = useState<Section>({
@@ -40,13 +42,13 @@ const CreateSectionPage: React.FC = () => {
         formState: { errors },
     } = useForm<Form>();
 
-
     const onSubmit = async (data: Form) => {
         setValidation({});
         await axiosApi
             .post(`/api/admin/section`, data)
             .then((response: AxiosResponse) => {
                 console.log(response.data);
+                saved();
                 navigate(`/admin/section`);
             })
             .catch((err: any) => {

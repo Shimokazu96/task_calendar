@@ -16,6 +16,7 @@ import {
 } from "@mui/material";
 import { useForm } from "react-hook-form";
 import { Section, Validation } from "@/types/Section";
+import useNotification from "@/hooks/useNotification";
 
 // POSTデータの型
 type Form = {
@@ -24,8 +25,8 @@ type Form = {
 
 const EditSectionPage: React.FC = () => {
     const params = useParams(); // URLのパスパラメータを取得。例えば、 /uses/2 なら、2の部分を取得
-    console.log(params);
     const navigate = useNavigate();
+    const { updated } = useNotification();
 
     const [validation, setValidation] = useState<Validation>({});
     const [section, setSection] = useState<Section>({
@@ -66,6 +67,7 @@ const EditSectionPage: React.FC = () => {
             .put(`/api/admin/section/${params.id}`, data)
             .then((response: AxiosResponse) => {
                 console.log(response.data);
+                updated();
                 navigate(`/admin/section/${params.id}`);
             })
             .catch((err: any) => {
