@@ -12,7 +12,7 @@ export const AdminRoutes = (
         <Route path="/admin/task" element={<TaskPage />} />
         <Route path="/admin/section" element={<SectionPage />} />
         <Route path="/admin/section/create" element={<CreateSectionPage />} />
-        <Route path="/admin/section/:id" element={<CreateSectionPage />} />
+        <Route path="/admin/section/:id" element={<EditSectionPage />} />
         <Route path="/admin/user" element={<UserPage />} />
     </>
 );
