@@ -8,8 +8,5 @@ use Illuminate\Database\Eloquent\Model;
 class Section extends Model
 {
     use HasFactory;
-
-    protected $guard = [
-        'id'
-    ];
+    protected $guarded = ['id'];
 }

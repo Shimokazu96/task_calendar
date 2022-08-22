@@ -1,6 +1,6 @@
 import { Route } from "react-router-dom";
 import TopPage from "@/components/pages/index";
-import TaskPage from "@/components/pages/tasks";
+import TaskPage from "@/components/pages/task";
 import Register from "@/components/pages/register";
 import UserPage from "@/components/pages/user";
 

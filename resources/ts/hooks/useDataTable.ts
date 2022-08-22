@@ -3,7 +3,7 @@ const useDataTable = () => {
         filter: true as any,
         print: false as any,
         viewColumns: false as any,
-        download: false as any,
+        download: true as any,
         selectableRows: "none" as any,
         tableBodyMaxHeight: "500px",
     };
