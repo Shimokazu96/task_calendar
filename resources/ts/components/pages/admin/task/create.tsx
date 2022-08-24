@@ -15,15 +15,13 @@ import {
     CircularProgress,
 } from "@mui/material";
 import { useForm } from "react-hook-form";
-import { Task, Validation,Form } from "@/types/Task";
+import { Task, Validation, Form } from "@/types/Task";
 import useNotification from "@/hooks/useNotification";
-
 
 const CreateTaskPage: React.FC = () => {
     const navigate = useNavigate();
-    const { saved } = useNotification();
+    const { saved, error } = useNotification();
 
-    const [validation, setValidation] = useState<Validation>({});
     const [task, setTask] = useState<Task>({
         id: 0,
         task_name: "",
@@ -40,7 +38,6 @@ const CreateTaskPage: React.FC = () => {
     } = useForm<Form>();
 
     const onSubmit = async (data: Form) => {
-        setValidation({});
         await axiosApi
             .post(`/api/admin/task`, data)
             .then((response: AxiosResponse) => {
@@ -53,18 +50,13 @@ const CreateTaskPage: React.FC = () => {
                 // バリデーションエラー
                 if (err.response?.status === 422) {
                     const errors = err.response?.data.errors;
-                    // state更新用のオブジェクトを別で定義
-                    const validationMessages: {
-                        [index: string]: string;
-                    } = {} as Validation;
                     Object.keys(errors).map((key: string) => {
-                        validationMessages[key] = errors[key][0];
+                        error(errors[key][0]);
                     });
-                    // state更新用オブジェクトに更新
-                    setValidation(validationMessages);
+
                 }
                 if (err.response?.status === 500) {
-                    alert("システムエラーです！！");
+                    error("システムエラーです！");
                 }
             });
     };

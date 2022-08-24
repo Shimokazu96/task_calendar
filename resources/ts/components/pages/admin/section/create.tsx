@@ -18,12 +18,10 @@ import { useForm } from "react-hook-form";
 import { Section, Validation, Form } from "@/types/Section";
 import useNotification from "@/hooks/useNotification";
 
-
 const CreateSectionPage: React.FC = () => {
     const navigate = useNavigate();
-    const { saved } = useNotification();
+    const { saved, error } = useNotification();
 
-    const [validation, setValidation] = useState<Validation>({});
     const [section, setSection] = useState<Section>({
         id: 0,
         section_name: "",
@@ -39,7 +37,6 @@ const CreateSectionPage: React.FC = () => {
     } = useForm<Form>();
 
     const onSubmit = async (data: Form) => {
-        setValidation({});
         await axiosApi
             .post(`/api/admin/section`, data)
             .then((response: AxiosResponse) => {
@@ -52,18 +49,12 @@ const CreateSectionPage: React.FC = () => {
                 // バリデーションエラー
                 if (err.response?.status === 422) {
                     const errors = err.response?.data.errors;
-                    // state更新用のオブジェクトを別で定義
-                    const validationMessages: {
-                        [index: string]: string;
-                    } = {} as Validation;
                     Object.keys(errors).map((key: string) => {
-                        validationMessages[key] = errors[key][0];
+                        error(errors[key][0]);
                     });
-                    // state更新用オブジェクトに更新
-                    setValidation(validationMessages);
                 }
                 if (err.response?.status === 500) {
-                    alert("システムエラーです！！");
+                    error("システムエラーです！");
                 }
             });
     };

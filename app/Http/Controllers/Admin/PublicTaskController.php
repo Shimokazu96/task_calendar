@@ -33,7 +33,7 @@ class PublicTaskController extends Controller
      */
     public function show(PublicTask $public_task)
     {
-        return response()->json($public_task->with(['section', 'task'])->get(), 200) ?? abort(404);
+        return response()->json($public_task->with(['section', 'task'])->first(), 200) ?? abort(404);
     }
 
 
