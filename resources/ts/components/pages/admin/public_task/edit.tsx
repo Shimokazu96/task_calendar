@@ -102,12 +102,16 @@ const EditPublicTaskPage: React.FC = () => {
                         >
                             <Grid
                                 item
-                                xs={6}
+                                sm={12}
+                                md={12}
+                                lg={6}
                                 sx={{
                                     display: "flex",
                                 }}
                             >
                                 <Typography
+                                    noWrap
+                                    component="p"
                                     color="text.secondary"
                                     gutterBottom
                                     sx={{
@@ -130,12 +134,16 @@ const EditPublicTaskPage: React.FC = () => {
                             </Grid>
                             <Grid
                                 item
-                                xs={6}
+                                sm={12}
+                                md={12}
+                                lg={6}
                                 sx={{
                                     display: "flex",
                                 }}
                             >
                                 <Typography
+                                    noWrap
+                                    component="p"
                                     color="text.secondary"
                                     gutterBottom
                                     sx={{
@@ -169,12 +177,16 @@ const EditPublicTaskPage: React.FC = () => {
                         >
                             <Grid
                                 item
-                                xs={6}
+                                sm={12}
+                                md={12}
+                                lg={6}
                                 sx={{
                                     display: "flex",
                                 }}
                             >
                                 <Typography
+                                    noWrap
+                                    component="p"
                                     color="text.secondary"
                                     gutterBottom
                                     sx={{
@@ -201,12 +213,16 @@ const EditPublicTaskPage: React.FC = () => {
                             </Grid>
                             <Grid
                                 item
-                                xs={6}
+                                sm={12}
+                                md={12}
+                                lg={6}
                                 sx={{
                                     display: "flex",
                                 }}
                             >
                                 <Typography
+                                    noWrap
+                                    component="p"
                                     color="text.secondary"
                                     gutterBottom
                                     sx={{
@@ -240,12 +256,16 @@ const EditPublicTaskPage: React.FC = () => {
                         >
                             <Grid
                                 item
-                                xs={6}
+                                sm={12}
+                                md={12}
+                                lg={6}
                                 sx={{
                                     display: "flex",
                                 }}
                             >
                                 <Typography
+                                    noWrap
+                                    component="p"
                                     color="text.secondary"
                                     gutterBottom
                                     sx={{
@@ -269,12 +289,16 @@ const EditPublicTaskPage: React.FC = () => {
                             </Grid>
                             <Grid
                                 item
-                                xs={6}
+                                sm={12}
+                                md={12}
+                                lg={6}
                                 sx={{
                                     display: "flex",
                                 }}
                             >
                                 <Typography
+                                    noWrap
+                                    component="p"
                                     color="text.secondary"
                                     gutterBottom
                                     sx={{
