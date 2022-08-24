@@ -197,6 +197,7 @@ const CreatePublicTaskPage: React.FC = () => {
                                             : { color: "text.secondary" }
                                     }
                                     id="task_id"
+                                    required
                                 >
                                     タスク選択
                                 </InputLabel>
@@ -231,6 +232,7 @@ const CreatePublicTaskPage: React.FC = () => {
                                             : { color: "text.secondary" }
                                     }
                                     id="section_id"
+                                    required
                                 >
                                     セクション選択
                                 </InputLabel>

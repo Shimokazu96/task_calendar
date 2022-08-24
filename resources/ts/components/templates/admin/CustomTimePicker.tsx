@@ -41,6 +41,7 @@ const CustomTimePicker: React.FC<Props> = (props) => {
                                     ...params.inputProps,
                                     placeholder: "00:00", //プレースホルダー（フォーカスを合わせたときに薄く表示される入力例）
                                 }}
+                                required
                                 variant="standard"
                                 sx={{ mr: props.mr }}
                             />
