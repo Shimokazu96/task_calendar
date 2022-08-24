@@ -16,7 +16,7 @@ import timeGridPlugin from "@fullcalendar/timegrid";
 import { INITIAL_EVENTS, createEventId } from "@/lib/event-utils";
 import { Task } from "@/types/Task";
 
-const TaskPage: React.FC = () => {
+const TopPage: React.FC = () => {
     const [currentEvents, setCurrentEvents] = useState<EventApi[]>([]);
     const handleEvents = useCallback(
         (events: EventApi[]) => setCurrentEvents(events),
@@ -96,4 +96,4 @@ const TaskPage: React.FC = () => {
     );
 };
 
-export default TaskPage;
+export default TopPage;

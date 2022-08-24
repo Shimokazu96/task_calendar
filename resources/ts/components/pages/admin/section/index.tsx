@@ -23,7 +23,7 @@ import DeleteDialog from "@/components/templates/admin/DeleteDialog";
 import useDataTable from "@/hooks/useDataTable";
 import useNotification from "@/hooks/useNotification";
 
-const UserPage: React.FC = () => {
+const SectionPage: React.FC = () => {
     const { options } = useDataTable();
     const [sections, setSections] = useState<Section[]>([]);
     const [loading, setLoading] = useState(true);
@@ -50,7 +50,6 @@ const UserPage: React.FC = () => {
         {
             name: "id",
             label: "ID",
-            // filterにも入れない
             options: { filter: true },
         },
         {
@@ -227,4 +226,4 @@ const UserPage: React.FC = () => {
         </Dashboard>
     );
 };
-export default UserPage;
+export default SectionPage;

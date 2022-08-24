@@ -20,6 +20,7 @@ import axios from "axios";
 import { AxiosResponse } from "axios";
 import { useForm } from "react-hook-form";
 import { useUserState } from "@/atoms/userAtom";
+import useNotification from "@/hooks/useNotification";
 
 // POSTデータの型
 type LoginForm = {
@@ -38,6 +39,7 @@ const theme = createTheme();
 
 const Login = () => {
     const navigate = useNavigate();
+    const { error } = useNotification();
 
     // React-Hook-Form
     const {
@@ -81,7 +83,7 @@ const Login = () => {
                             setValidation(validationMessages);
                         }
                         if (err.response?.status === 500) {
-                            alert("システムエラーです！！");
+                            error("システムエラーです！！")
                         }
                     });
             });
