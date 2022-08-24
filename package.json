@@ -23,6 +23,7 @@
         "vite-tsconfig-paths": "^3.5.0"
     },
     "dependencies": {
+        "@date-io/date-fns": "^2.15.0",
         "@emotion/react": "^11.10.0",
         "@emotion/styled": "^11.10.0",
         "@fullcalendar/core": "^5.11.2",
@@ -33,7 +34,10 @@
         "@fullcalendar/timegrid": "^5.11.2",
         "@hookform/error-message": "^2.0.0",
         "@mui/material": "^5.9.3",
+        "@mui/x-date-pickers": "^5.0.0-beta.6",
+        "@mui/x-date-pickers-pro": "^5.0.0-beta.6",
         "@vitejs/plugin-react": "^2.0.0",
+        "date-fns": "^2.29.2",
         "mui-datatables": "^4.2.2",
         "react-hook-form": "^7.34.2",
         "react-toastify": "^9.0.8",
