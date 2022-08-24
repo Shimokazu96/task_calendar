@@ -21,9 +21,8 @@ import useNotification from "@/hooks/useNotification";
 const EditTaskPage: React.FC = () => {
     const params = useParams(); // URLのパスパラメータを取得。例えば、 /uses/2 なら、2の部分を取得
     const navigate = useNavigate();
-    const { updated } = useNotification();
+    const { updated, error } = useNotification();
 
-    const [validation, setValidation] = useState<Validation>({});
     const [task, setTask] = useState<Task>({
         id: 0,
         task_name: "",
@@ -58,7 +57,6 @@ const EditTaskPage: React.FC = () => {
     console.log(task);
 
     const onSubmit = async (data: Form) => {
-        setValidation({});
         await axiosApi
             .put(`/api/admin/task/${params.id}`, data)
             .then((response: AxiosResponse) => {
@@ -71,18 +69,12 @@ const EditTaskPage: React.FC = () => {
                 // バリデーションエラー
                 if (err.response?.status === 422) {
                     const errors = err.response?.data.errors;
-                    // state更新用のオブジェクトを別で定義
-                    const validationMessages: {
-                        [index: string]: string;
-                    } = {} as Validation;
                     Object.keys(errors).map((key: string) => {
-                        validationMessages[key] = errors[key][0];
+                        error(errors[key][0]);
                     });
-                    // state更新用オブジェクトに更新
-                    setValidation(validationMessages);
                 }
                 if (err.response?.status === 500) {
-                    alert("システムエラーです！！");
+                    error("システムエラーです！");
                 }
             });
     };
