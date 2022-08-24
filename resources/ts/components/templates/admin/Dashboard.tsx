@@ -10,6 +10,7 @@ import {
     IconButton,
     Container,
     Badge,
+    ListItemIcon,
 } from "@mui/material";
 import MenuItem from "@mui/material/MenuItem";
 import Menu from "@mui/material/Menu";
@@ -19,6 +20,8 @@ import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import SideBarList from "@/components/templates/admin/SideBarList";
 import useAdminAuth from "@/hooks/useAdminAuth";
+import SettingsIcon from "@mui/icons-material/Settings";
+import LogoutIcon from '@mui/icons-material/Logout';
 
 const drawerWidth: number = 240;
 
@@ -147,8 +150,16 @@ const DashboardContent: React.FC<DashboardProps> = ({ children, title }) => {
                             open={Boolean(anchorEl)}
                             onClose={handleClose}
                         >
-                            <MenuItem onClick={handleClose}>設定</MenuItem>
+                            <MenuItem onClick={handleClose}>
+                                <ListItemIcon>
+                                    <SettingsIcon width={24} height={24} />
+                                </ListItemIcon>
+                                設定
+                            </MenuItem>
                             <MenuItem onClick={logout}>
+                                <ListItemIcon>
+                                    <LogoutIcon width={24} height={24} />
+                                </ListItemIcon>
                                 ログアウト
                             </MenuItem>
                         </Menu>

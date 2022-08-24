@@ -55,4 +55,9 @@ class TaskController extends Controller
             ? response()->json($task)
             : response()->json([], 500);
     }
+
+    public function getTaskName()
+    {
+        return Task::get(['id','task_name']);
+    }
 }

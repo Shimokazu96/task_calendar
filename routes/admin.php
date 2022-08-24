@@ -48,5 +48,8 @@ Route::group([
     Route::post('/logout', 'LoginController@destroy');
     Route::apiResource('/user', UserController::class);
     Route::apiResource('/task', TaskController::class);
+    Route::apiResource('/public_task', PublicTaskController::class);
+    Route::get('/task_name', 'TaskController@getTaskName');
+    Route::get('/section_name', 'SectionController@getSectionName');
     Route::apiResource('/section', SectionController::class);
 });
