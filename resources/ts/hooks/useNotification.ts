@@ -37,7 +37,19 @@ const useNotification = () => {
             theme: "colored",
         });
     };
+    const error = (msg: string) => {
+        toast.error(msg, {
+            position: "top-right",
+            autoClose: 3000,
+            hideProgressBar: true,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "colored",
+        });
+    };
 
-    return { saved, updated, deleted };
+    return { saved, updated, deleted, error };
 };
 export default useNotification;

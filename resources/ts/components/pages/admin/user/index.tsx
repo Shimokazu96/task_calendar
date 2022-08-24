@@ -30,7 +30,6 @@ const columns = [
     {
         name: "id",
         label: "ID",
-        // filterにも入れない
         options: { filter: true },
     },
     {
