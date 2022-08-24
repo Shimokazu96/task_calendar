@@ -55,4 +55,8 @@ class SectionController extends Controller
             ? response()->json(200)
             : response()->json([], 500);
     }
+    public function getSectionName()
+    {
+        return Section::get(['id','section_name']);
+    }
 }

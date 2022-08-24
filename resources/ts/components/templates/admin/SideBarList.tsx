@@ -6,7 +6,7 @@ import ListItemText from "@mui/material/ListItemText";
 import TaskIcon from "@mui/icons-material/Task";
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import PeopleIcon from "@mui/icons-material/People";
-import LogoutIcon from "@mui/icons-material/Logout";
+import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 import LayersIcon from "@mui/icons-material/Layers";
 import { Divider } from "@mui/material";
 
@@ -18,7 +18,15 @@ export default function MainListItems() {
                     <ListItemIcon>
                         <DashboardIcon />
                     </ListItemIcon>
-                    <ListItemText primary="タスク" />
+                    <ListItemText primary="ダッシュボード" />
+                </ListItemButton>
+            </Link>
+            <Link to="/admin/public_task">
+                <ListItemButton>
+                    <ListItemIcon>
+                        <CalendarMonthIcon />
+                    </ListItemIcon>
+                    <ListItemText primary="公開タスク" />
                 </ListItemButton>
             </Link>
             <Divider sx={{ my: 1 }} />

@@ -26,12 +26,12 @@ return new class extends Migration
                 ->on('sections')
                 ->onDelete('cascade');
             $table->integer('required_personnel');
-            $table->integer('determined_personnel')->nullable();
-            $table->text('description');
+            $table->integer('determined_personnel')->default(0);
+            $table->text('description')->nullable();
             $table->string('date');
             $table->string('start_time');
             $table->string('end_time');
-            $table->boolean('display_flag')->default(false);
+            $table->boolean('display_flag')->default(true);
             $table->timestamps();
         });
     }
