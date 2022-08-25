@@ -23,8 +23,8 @@ import { useForm } from "react-hook-form";
 import { PublicTask, Validation, Form } from "@/types/PublicTask";
 import { format } from "date-fns";
 import useNotification from "@/hooks/useNotification";
-import CustomDatePicker from "@/components/templates/admin/CustomDatePicker";
-import CustomTimePicker from "@/components/templates/admin/CustomTimePicker";
+import CustomDatePicker from "@/components/parts/CustomDatePicker";
+import CustomTimePicker from "@/components/parts/CustomTimePicker";
 
 type Task = {
     id: number;

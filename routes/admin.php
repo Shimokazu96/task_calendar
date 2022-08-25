@@ -49,6 +49,8 @@ Route::group([
     Route::apiResource('/user', UserController::class);
     Route::apiResource('/task', TaskController::class);
     Route::apiResource('/public_task', PublicTaskController::class);
+    Route::post('/public_task/{public_task}/fix/{id}', 'PublicTaskController@fixPublicTask');
+    Route::post('/public_task/{public_task}/cancel/{id}', 'PublicTaskController@cancelPublicTask');
     Route::get('/task_name', 'TaskController@getTaskName');
     Route::get('/section_name', 'SectionController@getSectionName');
     Route::apiResource('/section', SectionController::class);

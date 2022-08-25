@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\PublicTask;
 use App\Http\Requests\PublicTaskRequest;
 use Illuminate\Http\Request;
+use App\Models\User;
 
 class PublicTaskController extends Controller
 {
@@ -52,5 +53,41 @@ class PublicTaskController extends Controller
         return $public_task->delete()
             ? response()->json($public_task)
             : response()->json([], 500);
+    }
+
+    public function fixPublicTask(Request $request, PublicTask $public_task, $id)
+    {
+        $user = User::where('id', $id)->first();
+        if ($public_task->required_personnel <= $public_task->determined_personnel) {
+            return response()->json("over_capacity");
+        }
+        $public_task->determined_personnel = $public_task->determined_personnel + 1;
+        $public_task->save();
+        $public_task->determined_users()->detach($user->id);
+        $public_task->determined_users()->attach($user->id);
+
+        return response()->json(200) ?? response()->json([], 500);
+    }
+    public function cancelPublicTask(Request $request, PublicTask $public_task, $id)
+    {
+        $user = User::where('id', $id)->first();
+        $public_task->determined_users()->detach($user->id);
+        $public_task->determined_personnel = $public_task->determined_personnel - 1;
+        $public_task->save();
+
+        return response()->json(200) ?? response()->json([], 500);
+    }
+
+    public function unfollow(Request $request, User $user)
+    {
+        $user = User::where('id', $user->id)->first();
+
+        if ($user->id === $request->user()->id) {
+            return abort('404', 'Cannot follow yourself.');
+        }
+
+        $request->user()->followings()->detach($user);
+
+        return $user;
     }
 }
