@@ -51,6 +51,7 @@ Route::group([
     Route::apiResource('/public_task', PublicTaskController::class);
     Route::post('/public_task/{public_task}/fix/{id}', 'PublicTaskController@fixPublicTask');
     Route::post('/public_task/{public_task}/cancel/{id}', 'PublicTaskController@cancelPublicTask');
+    Route::get('/public_task/calendar/{this_month}', 'PublicTaskController@getTasksThisMonth');
     Route::get('/task_name', 'TaskController@getTaskName');
     Route::get('/section_name', 'SectionController@getSectionName');
     Route::apiResource('/section', SectionController::class);

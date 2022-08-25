@@ -56,7 +56,6 @@ const CreatePublicTaskPage: React.FC = () => {
         await axiosApi
             .get(`/api/admin/task_name`)
             .then((response: AxiosResponse) => {
-                console.log(response.data);
                 setTasks(response.data);
                 setLoading(false);
             })
@@ -67,7 +66,6 @@ const CreatePublicTaskPage: React.FC = () => {
         await axiosApi
             .get(`/api/admin/section_name`)
             .then((response: AxiosResponse) => {
-                console.log(response.data);
                 setSections(response.data);
                 setLoading(false);
             })

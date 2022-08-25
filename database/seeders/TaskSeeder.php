@@ -13,6 +13,25 @@ class TaskSeeder extends Seeder
      */
     public function run()
     {
-        Task::factory()->count(10)->create();
+        \DB::table('tasks')->insert([
+            [
+                'task_name' => 'ロビー清掃',
+                'description' => 'ロビー清掃',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'task_name' => '朝食配膳',
+                'description' => '朝食配膳',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'task_name' => 'DM作業',
+                'description' => 'DM作業',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+        ]);
     }
 }
