@@ -190,12 +190,12 @@ const DashboardContent: React.FC<DashboardProps> = ({ children, title }) => {
                                 ? theme.palette.grey[100]
                                 : theme.palette.grey[900],
                         flexGrow: 1,
-                        height: "100vh",
+                        minHeight: "100vh",
                         overflow: "auto",
                     }}
                 >
                     <Toolbar />
-                    <Container maxWidth={false} sx={{ mt: 4, mb: 4 }}>
+                    <Container maxWidth={false} sx={{ mt: 2, mb: 2 }}>
                         <Typography
                             component="h2"
                             variant="h5"

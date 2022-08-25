@@ -1,13 +1,13 @@
 const useDataTable = () => {
     const options = {
+        Response: "standard",
         filter: true as any,
         print: false as any,
         viewColumns: false as any,
         download: true as any,
         selectableRows: "none" as any,
-        tableBodyMaxHeight: "500px",
+        tableBodyMaxHeight: "69vh",
     };
-
 
     return { options };
 };
