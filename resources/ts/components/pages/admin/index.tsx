@@ -62,11 +62,7 @@ const TopPage: React.FC = () => {
                         interactionPlugin,
                         listPlugin,
                     ]}
-                    headerToolbar={{
-                        start: "prev,next today",
-                        center: "title",
-                        end: "dayGridMonth,timeGridWeek,timeGridDay,listMonth",
-                    }}
+                    height={"88vh"}
                     eventTimeFormat={{ hour: "2-digit", minute: "2-digit" }}
                     slotLabelFormat={[{ hour: "2-digit", minute: "2-digit" }]}
                     initialView="dayGridMonth"
