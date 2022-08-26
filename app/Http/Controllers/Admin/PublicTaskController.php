@@ -18,12 +18,13 @@ class PublicTaskController extends Controller
 
     public function getTasksThisMonth($this_month)
     {
-        $public_tasks = PublicTask::where("date", "LIKE", "%" . $this_month . "%")->with(['task'])->get();
+        $public_tasks = PublicTask::where("date", "LIKE", "%" . $this_month . "%")->with(['section', 'task'])->get();
         $public_task = [];
         foreach ($public_tasks as $key => $value) {
             $public_task[] = [
                 'id' => $value->id,
-                'title' => $value->task->task_name,
+                'resourceId' => $value->section->id,
+                'title' => $value->task->task_name . "(" . $value->determined_personnel . "/" . $value->required_personnel . ")",
                 'start' => $value->date . 'T' . $value->start_time,
                 'end' => $value->date  . 'T' . $value->end_time,
                 'url' => config("app.url") . "/admin/public_task/" . $value->id,
