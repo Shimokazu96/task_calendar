@@ -5,10 +5,11 @@ import { Link, useParams, useNavigate } from "react-router-dom";
 import useNotification from "@/hooks/useNotification";
 import { PublicTask } from "@/types/PublicTask";
 import { User } from "@/types/User";
-import { Box, Typography, Chip, CircularProgress, Button } from "@mui/material";
+import { Box, Typography, Chip, Button } from "@mui/material";
 import Dashboard from "@/components/templates/admin/Dashboard";
 import PublicTaskCard from "@/components/templates/admin/PublicTaskCard";
 import MUIDataTable from "mui-datatables";
+import Loading from "@/components/parts/Loading";
 import useDataTable from "@/hooks/useDataTable";
 
 const options = {
@@ -180,11 +181,7 @@ const EditPublicTaskPage: React.FC = () => {
     }, []);
     console.log(publicTask);
     if (loading) {
-        return (
-            <Dashboard title="">
-                <CircularProgress />
-            </Dashboard>
-        );
+        return <Loading open={loading} />;
     }
     return (
         <Dashboard title="">

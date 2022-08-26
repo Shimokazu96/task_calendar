@@ -12,7 +12,6 @@ import {
     Typography,
     Container,
     Paper,
-    CircularProgress,
 } from "@mui/material";
 import { useForm } from "react-hook-form";
 import { Section, Validation, Form } from "@/types/Section";

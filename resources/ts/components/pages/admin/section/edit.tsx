@@ -12,11 +12,11 @@ import {
     Typography,
     Container,
     Paper,
-    CircularProgress,
 } from "@mui/material";
 import { useForm } from "react-hook-form";
 import { Section, Validation, Form } from "@/types/Section";
 import useNotification from "@/hooks/useNotification";
+import Loading from "@/components/parts/Loading";
 
 const EditSectionPage: React.FC = () => {
     const params = useParams(); // URLのパスパラメータを取得。例えば、 /uses/2 なら、2の部分を取得
@@ -80,11 +80,7 @@ const EditSectionPage: React.FC = () => {
     };
 
     if (loading) {
-        return (
-            <Dashboard title="">
-                <CircularProgress />
-            </Dashboard>
-        );
+        return <Loading open={loading} />;
     }
     return (
         <Dashboard title="">
