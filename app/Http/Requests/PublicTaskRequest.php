@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use Carbon\Carbon;
 use Illuminate\Foundation\Http\FormRequest;
 
 class PublicTaskRequest extends FormRequest
@@ -23,12 +24,14 @@ class PublicTaskRequest extends FormRequest
      */
     public function rules()
     {
+        $time = date("H:i");
+
         return [
             'task_id' => 'required',
             'section_id' => 'required',
             'required_personnel' => 'required',
             'date' => 'required|date|after:yesterday',
-            'start_time' =>  'required|date_format:H:i',
+            'start_time' =>  "required|date_format:H:i|after:" . $time,
             'end_time' => 'required|date_format:H:i|after:start_time',
         ];
     }
