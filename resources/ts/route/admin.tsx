@@ -1,5 +1,6 @@
 import { Route } from "react-router-dom";
 import TopPage from "@/components/pages/admin/index";
+import CurrentDatePage from "@/components/pages/admin/date/CurrentDate";
 import TaskPage from "@/components/pages/admin/task";
 import CreateTaskPage from "@/components/pages/admin/task/create";
 import EditTaskPage from "@/components/pages/admin/task/edit";
@@ -14,6 +15,7 @@ import UserPage from "@/components/pages/admin/user";
 export const AdminRoutes = (
     <>
         <Route path="/admin" element={<TopPage />} />
+        <Route path="/admin/date/:date" element={<CurrentDatePage />} />
         <Route path="/admin/section" element={<SectionPage />} />
         <Route path="/admin/section/create" element={<CreateSectionPage />} />
         <Route path="/admin/section/:id" element={<EditSectionPage />} />
