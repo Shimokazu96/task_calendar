@@ -1,11 +1,19 @@
 import * as React from "react";
-import CircularProgress from "@mui/material/CircularProgress";
-import Box from "@mui/material/Box";
+import Dashboard from "@/components/templates/admin/Dashboard";
+import { CircularProgress, Backdrop } from "@mui/material";
 
-export default function CircularIndeterminate() {
+export default function CircularIndeterminate({ open }: { open: boolean }) {
     return (
-        <Box sx={{ display: "flex" }}>
-            <CircularProgress />
-        </Box>
+        <Dashboard title="">
+            <Backdrop
+                open={open}
+                sx={{
+                    color: "#fff",
+                    zIndex: (theme) => theme.zIndex.drawer + 1,
+                }}
+            >
+                <CircularProgress color="inherit" />
+            </Backdrop>
+        </Dashboard>
     );
 }

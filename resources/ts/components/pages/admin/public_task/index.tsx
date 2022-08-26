@@ -11,7 +11,6 @@ import {
     Button,
     Typography,
     ListItemIcon,
-    CircularProgress,
 } from "@mui/material";
 import MenuItem from "@mui/material/MenuItem";
 import Menu from "@mui/material/Menu";
@@ -22,6 +21,7 @@ import Dashboard from "@/components/templates/admin/Dashboard";
 import DeleteDialog from "@/components/templates/admin/DeleteDialog";
 import useDataTable from "@/hooks/useDataTable";
 import useNotification from "@/hooks/useNotification";
+import Loading from "@/components/parts/Loading";
 
 const PublicTaskPage: React.FC = () => {
     const { options } = useDataTable();
@@ -226,11 +226,7 @@ const PublicTaskPage: React.FC = () => {
     ];
 
     if (loading) {
-        return (
-            <Dashboard title="">
-                <CircularProgress />
-            </Dashboard>
-        );
+        return <Loading open={loading} />;
     }
 
     return (

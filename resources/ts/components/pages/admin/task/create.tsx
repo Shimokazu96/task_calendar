@@ -12,11 +12,11 @@ import {
     Typography,
     Container,
     Paper,
-    CircularProgress,
 } from "@mui/material";
 import { useForm } from "react-hook-form";
 import { Task, Validation, Form } from "@/types/Task";
 import useNotification from "@/hooks/useNotification";
+import Loading from "@/components/parts/Loading";
 
 const CreateTaskPage: React.FC = () => {
     const navigate = useNavigate();
