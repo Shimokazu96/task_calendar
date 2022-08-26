@@ -19,7 +19,6 @@ import listPlugin from "@fullcalendar/list";
 import timeGridPlugin from "@fullcalendar/timegrid";
 import { Task } from "@/types/Task";
 import { format } from "date-fns";
-import useNotification from "@/hooks/useNotification";
 import resourceTimeGridPlugin from "@fullcalendar/resource-timegrid";
 
 const TopPage: React.FC = () => {
@@ -29,7 +28,6 @@ const TopPage: React.FC = () => {
 
     const [publicTasks, setPublicTasks] = useState<EventInput[]>([]);
     const [loading, setLoading] = useState(true);
-    const { deleted } = useNotification();
 
     const getPublicTasks = async () => {
         await axiosApi
@@ -49,38 +47,7 @@ const TopPage: React.FC = () => {
 
     const handleDateSelect = useCallback((selectInfo: DateSelectArg) => {
         navigate(`/admin/date/${selectInfo.startStr}`);
-        // calendarRef.current
-        // .getApi()
-        // .changeView("resourceTimeGridDay", selectInfo.startStr);
-        // console.log(selectInfo.startStr);
-        // let title = prompt("イベントのタイトルを入力してください")?.trim();
-        // let calendarApi = selectInfo.view.calendar;
-        // calendarApi.unselect();
-        // if (title) {
-        //     calendarApi.addEvent({
-        //         id: createEventId(),
-        //         title,
-        //         start: selectInfo.startStr,
-        //         end: selectInfo.endStr,
-        //         allDay: selectInfo.allDay,
-        //     });
-        // }
     }, []);
-    // const handleEventClick = useCallback((clickInfo: EventClickArg) => {
-    //     if (
-    //         window.confirm(
-    //             `このイベント「${clickInfo.event.title}」を削除しますか`
-    //         )
-    //     ) {
-    //         clickInfo.event.remove();
-    //     }
-    // }, []);
-    // const renderEventContent = (eventContent: EventContentArg) => (
-    //     <>
-    //         <b>{eventContent.timeText}</b>
-    //         <i>{eventContent.event.title}</i>
-    //     </>
-    // );
     if (loading) {
         return <Loading open={loading} />;
     }

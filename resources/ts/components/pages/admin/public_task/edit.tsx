@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
 import { AxiosError, AxiosResponse } from "axios";
 import { axiosApi } from "@/lib/axios";
-import { Link, useParams, useNavigate } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import useNotification from "@/hooks/useNotification";
 import { PublicTask } from "@/types/PublicTask";
-import { User } from "@/types/User";
+import { ApplicantUsers } from "@/types/User";
 import { Box, Typography, Chip, Button } from "@mui/material";
 import Dashboard from "@/components/templates/admin/Dashboard";
 import PublicTaskCard from "@/components/templates/admin/PublicTaskCard";
@@ -22,19 +22,8 @@ const options = {
 };
 const EditPublicTaskPage: React.FC = () => {
     const params = useParams(); // URLのパスパラメータを取得。例えば、 /uses/2 なら、2の部分を取得
-    const navigate = useNavigate();
     const { error } = useNotification();
-    const [users, setUsers] = useState<User[]>([]);
-    const getUsers = async () => {
-        await axiosApi
-            .get("/api/admin/user")
-            .then((response: AxiosResponse) => {
-                console.log(response.data);
-                setUsers(response.data);
-            })
-            .catch((err: AxiosError) => console.log(err.response));
-        return users;
-    };
+    const [applicantUsers, setApplicantUsers] = useState<ApplicantUsers[]>([]);
 
     const [publicTask, setPublicTask] = useState<PublicTask>({
         id: 0,
@@ -56,6 +45,24 @@ const EditPublicTaskPage: React.FC = () => {
         },
     });
 
+    const [loading, setLoading] = useState(true);
+
+    const getPublicTask = async () => {
+        await axiosApi
+            .get(`/api/admin/public_task/${params.id}`)
+            .then((response: AxiosResponse) => {
+                console.log(response.data);
+                setPublicTask(response.data.public_task);
+                setApplicantUsers(response.data.applicant_users);
+                setLoading(false);
+            })
+            .catch((err: AxiosError) => console.log(err.response));
+        return publicTask;
+    };
+
+    useEffect(() => {
+        getPublicTask();
+    }, []);
     const columns = [
         {
             name: "name",
@@ -70,7 +77,7 @@ const EditPublicTaskPage: React.FC = () => {
                 customBodyRenderLite: (dataIndex: number) => {
                     return (
                         <>
-                            {users[dataIndex].fixed_public_task ? (
+                            {applicantUsers[dataIndex].pivot.fixed ? (
                                 <Chip
                                     sx={{ p: 1 }}
                                     label="確定"
@@ -100,16 +107,16 @@ const EditPublicTaskPage: React.FC = () => {
                             )
                             .then((response: AxiosResponse) => {
                                 console.log(response.data);
-                                if(response.data == "over_capacity") {
-                                    error('これ以上人数を増やせません。')
+                                if (response.data == "over_capacity") {
+                                    error("これ以上人数を増やせません。");
                                 }
-                                getUsers();
+
                                 getPublicTask();
                             })
                             .catch((err: AxiosError) =>
                                 console.log(err.response)
                             );
-                        return users;
+                        return applicantUsers;
                     };
                     const cancelPublicTask = (id: number) => {
                         axiosApi
@@ -118,23 +125,25 @@ const EditPublicTaskPage: React.FC = () => {
                             )
                             .then((response: AxiosResponse) => {
                                 console.log(response.data);
-                                getUsers();
+
                                 getPublicTask();
                             })
                             .catch((err: AxiosError) =>
                                 console.log(err.response)
                             );
-                        return users;
+                        return applicantUsers;
                     };
 
                     return (
                         <>
-                            {users[dataIndex].fixed_public_task ? (
+                            {applicantUsers[dataIndex].pivot.fixed ? (
                                 <Button
                                     color="inherit"
                                     variant="contained"
                                     onClick={() =>
-                                        cancelPublicTask(users[dataIndex].id)
+                                        cancelPublicTask(
+                                            applicantUsers[dataIndex].id
+                                        )
                                     }
                                 >
                                     確定済み
@@ -144,7 +153,9 @@ const EditPublicTaskPage: React.FC = () => {
                                     color="primary"
                                     variant="contained"
                                     onClick={() =>
-                                        fixPublicTask(users[dataIndex].id)
+                                        fixPublicTask(
+                                            applicantUsers[dataIndex].id
+                                        )
                                     }
                                 >
                                     確定する
@@ -161,25 +172,6 @@ const EditPublicTaskPage: React.FC = () => {
         },
     ];
 
-    const [loading, setLoading] = useState(true);
-
-    const getPublicTask = async () => {
-        await axiosApi
-            .get(`/api/admin/public_task/${params.id}`)
-            .then((response: AxiosResponse) => {
-                console.log(response.data);
-                setPublicTask(response.data);
-                setLoading(false);
-            })
-            .catch((err: AxiosError) => console.log(err.response));
-        return publicTask;
-    };
-
-    useEffect(() => {
-        getUsers();
-        getPublicTask();
-    }, []);
-    console.log(publicTask);
     if (loading) {
         return <Loading open={loading} />;
     }
@@ -210,7 +202,7 @@ const EditPublicTaskPage: React.FC = () => {
             </Box>
             <MUIDataTable
                 title={"申請スタッフ一覧"}
-                data={users}
+                data={applicantUsers}
                 columns={columns}
                 options={options}
             />

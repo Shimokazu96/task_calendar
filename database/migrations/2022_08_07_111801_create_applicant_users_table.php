@@ -25,6 +25,8 @@ return new class extends Migration
                 ->references('id')
                 ->on('public_tasks')
                 ->onDelete('cascade');
+            $table->boolean('fixed')->default(false);
+            $table->boolean('task_completion_notifications')->default(false);
             $table->timestamps();
         });
     }
