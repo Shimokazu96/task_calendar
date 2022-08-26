@@ -19,16 +19,10 @@ class PublicTask extends Model
     {
         return $this->belongsTo(Section::class, 'section_id', 'id');
     }
-
-    //確定したユーザー
-    public function determined_users()
-    {
-        return $this->belongsToMany(User::class, 'determined_users', 'public_task_id', 'user_id')->withTimestamps();
-    }
     //応募したしたユーザー
     public function applicant_users()
     {
-        return $this->belongsToMany(User::class, 'applicant_users', 'public_task_id', 'user_id')->withTimestamps();
+        return $this->belongsToMany(User::class, 'applicant_users', 'public_task_id', 'user_id')->withPivot('fixed');
     }
     //タスク完了通知
     public function task_completion_notifications()

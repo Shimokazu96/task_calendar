@@ -24,14 +24,12 @@ class PublicTaskRequest extends FormRequest
      */
     public function rules()
     {
-        $time = date("H:i");
-
         return [
             'task_id' => 'required',
             'section_id' => 'required',
             'required_personnel' => 'required',
             'date' => 'required|date|after:yesterday',
-            'start_time' =>  "required|date_format:H:i|after:" . $time,
+            'start_time' =>  "required|date_format:H:i",
             'end_time' => 'required|date_format:H:i|after:start_time',
         ];
     }

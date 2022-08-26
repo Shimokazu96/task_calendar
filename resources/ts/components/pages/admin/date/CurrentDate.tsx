@@ -6,9 +6,6 @@ import { axiosApi } from "@/lib/axios";
 import FullCalendar, {
     DateSelectArg,
     EventInput,
-    EventApi,
-    EventClickArg,
-    EventContentArg,
 } from "@fullcalendar/react";
 import Dashboard from "@/components/templates/admin/Dashboard";
 import Loading from "@/components/parts/Loading";
@@ -17,9 +14,7 @@ import allLocales from "@fullcalendar/core/locales-all";
 import interactionPlugin from "@fullcalendar/interaction";
 import listPlugin from "@fullcalendar/list";
 import timeGridPlugin from "@fullcalendar/timegrid";
-import { Task } from "@/types/Task";
 import { format } from "date-fns";
-import useNotification from "@/hooks/useNotification";
 import resourceTimeGridPlugin from "@fullcalendar/resource-timegrid";
 
 const CurrentDatePage: React.FC = () => {
@@ -28,10 +23,8 @@ const CurrentDatePage: React.FC = () => {
     const thisDate = format(new Date(), "yyyy");
 
     const calendarRef = useRef<FullCalendar>(null!);
-
     const [publicTasks, setPublicTasks] = useState<EventInput[]>([]);
     const [loading, setLoading] = useState(true);
-    const { deleted } = useNotification();
 
     const getPublicTasks = async () => {
         await axiosApi
@@ -48,6 +41,7 @@ const CurrentDatePage: React.FC = () => {
     useEffect(() => {
         getPublicTasks();
     }, []);
+    console.log(calendarRef.current);
 
     const handleDateSelect = useCallback((selectInfo: DateSelectArg) => {
         navigate(`/admin/date/${selectInfo.startStr}`);
@@ -69,20 +63,14 @@ const CurrentDatePage: React.FC = () => {
                         resourceTimeGridPlugin,
                     ]}
                     headerToolbar={{
-                        // start: "prev,next today",
-                        // center: "title",
-                        // end: "dayGridMonth,timeGridWeek,resourceTimeGridDay",
                         end: "prev,next Month",
                     }}
                     height={"88vh"}
                     eventTimeFormat={{ hour: "2-digit", minute: "2-digit" }}
                     slotLabelFormat={[{ hour: "2-digit", minute: "2-digit" }]}
                     initialView="resourceTimeGridDay"
-                    // eventContent={renderEventContent}
-                    selectable={true}
-                    // editable={true}
+                    initialDate={params.date}
                     droppable={false}
-                    // showNonCurrentDates={false}
                     customButtons={{
                         Month: {
                             text: "月",
@@ -92,8 +80,6 @@ const CurrentDatePage: React.FC = () => {
                         },
                     }}
                     dayMaxEvents={true}
-                    // selectMirror={true}
-                    // navLinks={true}
                     nowIndicator={true}
                     resources={[
                         { id: "1", title: "フロント", eventColor: "#5aa7de" },
@@ -103,15 +89,7 @@ const CurrentDatePage: React.FC = () => {
                     aspectRatio={1.5}
                     locales={allLocales}
                     locale="ja"
-                    // eventsSet={handleEvents}
                     select={handleDateSelect}
-                    // eventClick={handleEventClick}
-                    // dayCellContent={(event: DayCellContentArg) =>
-                    //     (event.dayNumberText = event.dayNumberText.replace(
-                    //         "日",
-                    //         ""
-                    //     ))
-                    // }
                 />
             </div>
         </Dashboard>

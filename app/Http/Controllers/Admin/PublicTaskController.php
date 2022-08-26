@@ -49,9 +49,10 @@ class PublicTaskController extends Controller
      * @param  \App\Models\PublicTask  $public_task
      * @return \Illuminate\Http\Response
      */
-    public function show(PublicTask $public_task)
+    public function show($id)
     {
-        return response()->json($public_task->with(['section', 'task'])->first(), 200) ?? abort(404);
+        $public_task = PublicTask::where('id', $id)->with(['section', 'task','applicant_users'])->first();
+        return response()->json(["public_task" => $public_task, "applicant_users" => $public_task->applicant_users], 200) ?? abort(404);
     }
 
 
@@ -80,31 +81,19 @@ class PublicTaskController extends Controller
         }
         $public_task->determined_personnel = $public_task->determined_personnel + 1;
         $public_task->save();
-        $public_task->determined_users()->detach($user->id);
-        $public_task->determined_users()->attach($user->id);
+        $public_task->applicant_users()->detach($user->id);
+        $public_task->applicant_users()->attach($user->id, ["fixed" => true]);
 
         return response()->json(200) ?? response()->json([], 500);
     }
     public function cancelPublicTask(Request $request, PublicTask $public_task, $id)
     {
         $user = User::where('id', $id)->first();
-        $public_task->determined_users()->detach($user->id);
+        $public_task->applicant_users()->detach($user->id);
+        $public_task->applicant_users()->attach($user->id, ["fixed" => false]);
         $public_task->determined_personnel = $public_task->determined_personnel - 1;
         $public_task->save();
 
         return response()->json(200) ?? response()->json([], 500);
-    }
-
-    public function unfollow(Request $request, User $user)
-    {
-        $user = User::where('id', $user->id)->first();
-
-        if ($user->id === $request->user()->id) {
-            return abort('404', 'Cannot follow yourself.');
-        }
-
-        $request->user()->followings()->detach($user);
-
-        return $user;
     }
 }
