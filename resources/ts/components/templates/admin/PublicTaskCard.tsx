@@ -4,7 +4,11 @@ import { Link, useParams, useNavigate } from "react-router-dom";
 import { PublicTask } from "@/types/PublicTask";
 import { Card, CardContent, Divider, Grid, Typography } from "@mui/material";
 
-export default function PublicTaskCard({ publicTask }: { publicTask: PublicTask }) {
+export default function PublicTaskCard({
+    publicTask,
+}: {
+    publicTask: PublicTask;
+}) {
     console.log(publicTask);
     return (
         <Card>
@@ -31,6 +35,8 @@ export default function PublicTaskCard({ publicTask }: { publicTask: PublicTask 
                             color="text.secondary"
                             gutterBottom
                             sx={{
+                                minWidth: "20%",
+
                                 m: 0,
                                 p: 2,
                             }}
@@ -63,6 +69,8 @@ export default function PublicTaskCard({ publicTask }: { publicTask: PublicTask 
                             color="text.secondary"
                             gutterBottom
                             sx={{
+                                minWidth: "20%",
+
                                 m: 0,
                                 p: 2,
                             }}
@@ -73,6 +81,7 @@ export default function PublicTaskCard({ publicTask }: { publicTask: PublicTask 
                             color="textPrimary"
                             gutterBottom
                             sx={{
+                                minWidth:"80%",
                                 m: 0,
                                 p: 2,
                             }}
@@ -105,6 +114,8 @@ export default function PublicTaskCard({ publicTask }: { publicTask: PublicTask 
                             color="text.secondary"
                             gutterBottom
                             sx={{
+                                minWidth: "20%",
+
                                 m: 0,
                                 p: 2,
                             }}
@@ -119,6 +130,7 @@ export default function PublicTaskCard({ publicTask }: { publicTask: PublicTask 
                             color="textPrimary"
                             gutterBottom
                             sx={{
+                                minWidth: "80%",
                                 m: 0,
                                 p: 2,
                             }}
@@ -141,6 +153,7 @@ export default function PublicTaskCard({ publicTask }: { publicTask: PublicTask 
                             color="text.secondary"
                             gutterBottom
                             sx={{
+                                minWidth: "20%",
                                 m: 0,
                                 p: 2,
                             }}
@@ -151,6 +164,7 @@ export default function PublicTaskCard({ publicTask }: { publicTask: PublicTask 
                             color="textPrimary"
                             gutterBottom
                             sx={{
+                                minWidth: "80%",
                                 m: 0,
                                 p: 2,
                             }}
@@ -184,6 +198,7 @@ export default function PublicTaskCard({ publicTask }: { publicTask: PublicTask 
                             color="text.secondary"
                             gutterBottom
                             sx={{
+                                minWidth: "20%",
                                 m: 0,
                                 p: 2,
                             }}
@@ -195,6 +210,7 @@ export default function PublicTaskCard({ publicTask }: { publicTask: PublicTask 
                             color="textPrimary"
                             gutterBottom
                             sx={{
+                                minWidth:"80%",
                                 fontSize: 24,
                                 m: 0,
                                 p: 1,
@@ -218,6 +234,7 @@ export default function PublicTaskCard({ publicTask }: { publicTask: PublicTask 
                             color="text.secondary"
                             gutterBottom
                             sx={{
+                                minWidth: "20%",
                                 m: 0,
                                 p: 2,
                             }}
@@ -229,6 +246,7 @@ export default function PublicTaskCard({ publicTask }: { publicTask: PublicTask 
                             color="textPrimary"
                             gutterBottom
                             sx={{
+                                minWidth:"80%",
                                 fontSize: 24,
                                 m: 0,
                                 p: 1,

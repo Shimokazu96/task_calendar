@@ -1,7 +1,7 @@
 import { useCallback, useState, useEffect, useRef } from "react";
 import "@fullcalendar/react/dist/vdom";
 import { AxiosError, AxiosResponse } from "axios";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { axiosApi } from "@/lib/axios";
 import FullCalendar, {
     DateSelectArg,
@@ -22,9 +22,11 @@ import { format } from "date-fns";
 import useNotification from "@/hooks/useNotification";
 import resourceTimeGridPlugin from "@fullcalendar/resource-timegrid";
 
-const TopPage: React.FC = () => {
-    const thisDate = format(new Date(), "yyyy");
+const CurrentDatePage: React.FC = () => {
     const navigate = useNavigate();
+    const params = useParams(); // URLのパスパラメータを取得。例えば、 /uses/2 なら、2の部分を取得
+    const thisDate = format(new Date(), "yyyy");
+
     const calendarRef = useRef<FullCalendar>(null!);
 
     const [publicTasks, setPublicTasks] = useState<EventInput[]>([]);
@@ -49,38 +51,8 @@ const TopPage: React.FC = () => {
 
     const handleDateSelect = useCallback((selectInfo: DateSelectArg) => {
         navigate(`/admin/date/${selectInfo.startStr}`);
-        // calendarRef.current
-        // .getApi()
-        // .changeView("resourceTimeGridDay", selectInfo.startStr);
-        // console.log(selectInfo.startStr);
-        // let title = prompt("イベントのタイトルを入力してください")?.trim();
-        // let calendarApi = selectInfo.view.calendar;
-        // calendarApi.unselect();
-        // if (title) {
-        //     calendarApi.addEvent({
-        //         id: createEventId(),
-        //         title,
-        //         start: selectInfo.startStr,
-        //         end: selectInfo.endStr,
-        //         allDay: selectInfo.allDay,
-        //     });
-        // }
     }, []);
-    // const handleEventClick = useCallback((clickInfo: EventClickArg) => {
-    //     if (
-    //         window.confirm(
-    //             `このイベント「${clickInfo.event.title}」を削除しますか`
-    //         )
-    //     ) {
-    //         clickInfo.event.remove();
-    //     }
-    // }, []);
-    // const renderEventContent = (eventContent: EventContentArg) => (
-    //     <>
-    //         <b>{eventContent.timeText}</b>
-    //         <i>{eventContent.event.title}</i>
-    //     </>
-    // );
+
     if (loading) {
         return <Loading open={loading} />;
     }
@@ -100,19 +72,27 @@ const TopPage: React.FC = () => {
                         // start: "prev,next today",
                         // center: "title",
                         // end: "dayGridMonth,timeGridWeek,resourceTimeGridDay",
-                        end: "prev,next",
+                        end: "prev,next Month",
                     }}
                     height={"88vh"}
                     eventTimeFormat={{ hour: "2-digit", minute: "2-digit" }}
                     slotLabelFormat={[{ hour: "2-digit", minute: "2-digit" }]}
-                    // initialView="resourceTimeGridDay"
+                    initialView="resourceTimeGridDay"
                     // eventContent={renderEventContent}
                     selectable={true}
-                    editable={false}
+                    // editable={true}
+                    droppable={false}
                     // showNonCurrentDates={false}
-
-                    // selectMirror={true}
+                    customButtons={{
+                        Month: {
+                            text: "月",
+                            click: () => {
+                                navigate(`/admin`);
+                            },
+                        },
+                    }}
                     dayMaxEvents={true}
+                    // selectMirror={true}
                     // navLinks={true}
                     nowIndicator={true}
                     resources={[
@@ -138,4 +118,4 @@ const TopPage: React.FC = () => {
     );
 };
 
-export default TopPage;
+export default CurrentDatePage;
