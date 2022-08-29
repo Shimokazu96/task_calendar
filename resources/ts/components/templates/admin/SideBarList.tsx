@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Link } from "react-router-dom";
+import { NavLink, useResolvedPath } from "react-router-dom";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
@@ -11,50 +11,79 @@ import LayersIcon from "@mui/icons-material/Layers";
 import { Divider } from "@mui/material";
 
 export default function MainListItems() {
+    const resolvedLocation = useResolvedPath("");
     return (
         <React.Fragment>
-            <Link to="/admin">
+            <NavLink
+                className={() =>
+                    resolvedLocation.pathname == "/admin" ||
+                    resolvedLocation.pathname.indexOf("/admin/date") > -1
+                        ? " sidebarActivated"
+                        : ""
+                }
+                to="/admin"
+            >
                 <ListItemButton>
                     <ListItemIcon>
                         <DashboardIcon />
                     </ListItemIcon>
                     <ListItemText primary="ダッシュボード" />
                 </ListItemButton>
-            </Link>
-            <Link to="/admin/public_task">
+            </NavLink>
+            <NavLink
+                className={({ isActive }) =>
+                    isActive ? " sidebarActivated" : ""
+                }
+                to="/admin/public_task"
+            >
                 <ListItemButton>
                     <ListItemIcon>
                         <CalendarMonthIcon />
                     </ListItemIcon>
                     <ListItemText primary="公開タスク" />
                 </ListItemButton>
-            </Link>
+            </NavLink>
             <Divider sx={{ my: 1 }} />
 
-            <Link to="/admin/task">
+            <NavLink
+                className={({ isActive }) =>
+                    isActive ? " sidebarActivated" : ""
+                }
+                to="/admin/task"
+            >
                 <ListItemButton>
                     <ListItemIcon>
                         <TaskIcon />
                     </ListItemIcon>
                     <ListItemText primary="タスク・マスター" />
                 </ListItemButton>
-            </Link>
-            <Link to="/admin/section">
+            </NavLink>
+            <NavLink
+                className={({ isActive }) =>
+                    isActive ? " sidebarActivated" : ""
+                }
+                to="/admin/section"
+            >
                 <ListItemButton>
                     <ListItemIcon>
                         <LayersIcon />
                     </ListItemIcon>
                     <ListItemText primary="セクション・マスター" />
                 </ListItemButton>
-            </Link>
-            <Link to="/admin/user">
+            </NavLink>
+            <NavLink
+                className={({ isActive }) =>
+                    isActive ? " sidebarActivated" : ""
+                }
+                to="/admin/user"
+            >
                 <ListItemButton>
                     <ListItemIcon>
                         <PeopleIcon />
                     </ListItemIcon>
                     <ListItemText primary="スタッフ" />
                 </ListItemButton>
-            </Link>
+            </NavLink>
         </React.Fragment>
     );
 }
