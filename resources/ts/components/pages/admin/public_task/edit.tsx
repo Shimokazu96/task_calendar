@@ -7,7 +7,7 @@ import { PublicTask } from "@/types/PublicTask";
 import { ApplicantUsers } from "@/types/User";
 import { Box, Typography, Chip, Button } from "@mui/material";
 import Dashboard from "@/components/templates/admin/Dashboard";
-import PublicTaskCard from "@/components/templates/admin/PublicTaskCard";
+import PublicTaskCard from "@/components/templates/admin/public_task/PublicTaskCard";
 import MUIDataTable from "mui-datatables";
 import Loading from "@/components/parts/Loading";
 import useDataTable from "@/hooks/useDataTable";

@@ -8,7 +8,6 @@ export const MasterRoutes = (
     <>
         <Route path="/" element={<TopPage />} />
         <Route path="/task" element={<TaskPage />} />
-        <Route path="/register" element={<Register />} />
         <Route path="/user" element={<UserPage />} />
     </>
 );

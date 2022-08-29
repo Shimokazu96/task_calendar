@@ -2,65 +2,36 @@ import * as React from "react";
 import { useEffect, useState } from "react";
 import { AxiosError, AxiosResponse } from "axios";
 import { axiosApi } from "@/lib/axios";
-import Dashboard from "@/components/templates/admin/Dashboard";
 import { Link, useParams, useNavigate } from "react-router-dom";
 import {
     Button,
     TextField,
     Grid,
-    Box,
     Typography,
     Paper,
 } from "@mui/material";
 import { useForm } from "react-hook-form";
-import { Section, Validation, Form } from "@/types/Section";
+import { User, PasswordUpdateForm } from "@/types/User";
 import useNotification from "@/hooks/useNotification";
-import Loading from "@/components/parts/Loading";
 
-const EditSectionPage: React.FC = () => {
+export default function UserProfileInformation({ user }: { user: User }) {
     const params = useParams(); // URLのパスパラメータを取得。例えば、 /uses/2 なら、2の部分を取得
     const navigate = useNavigate();
     const { updated, error } = useNotification();
-
-    const [section, setSection] = useState<Section>({
-        id: 0,
-        section_name: "",
-        created_at: "",
-        updated_at: "",
-    });
-    const [loading, setLoading] = useState(true);
-
     // React-Hook-Form
     const {
         register,
         handleSubmit,
         formState: { errors },
-    } = useForm<Form>();
+    } = useForm<PasswordUpdateForm>();
 
-    const getSection = async () => {
+    const onSubmit = async (data: PasswordUpdateForm) => {
         await axiosApi
-            .get(`/api/admin/section/${params.id}`)
-            .then((response: AxiosResponse) => {
-                console.log(response.data);
-                setSection(response.data);
-                setLoading(false);
-            })
-            .catch((err: AxiosError) => console.log(err.response));
-        return section;
-    };
-
-    useEffect(() => {
-        getSection();
-    }, []);
-    console.log(section);
-
-    const onSubmit = async (data: Form) => {
-        await axiosApi
-            .put(`/api/admin/section/${params.id}`, data)
+            .put(`/api/admin/user/${params.id}/password`, data)
             .then((response: AxiosResponse) => {
                 console.log(response.data);
                 updated();
-                navigate(`/admin/section/${params.id}`);
+                navigate(`/admin/user/${params.id}`);
             })
             .catch((err: any) => {
                 console.log(err.response);
@@ -77,49 +48,61 @@ const EditSectionPage: React.FC = () => {
             });
     };
 
-    if (loading) {
-        return <Loading open={loading} />;
-    }
     return (
-        <Dashboard title="">
-            <Box
-                sx={{
-                    alignItems: "center",
-                    display: "flex",
-                    justifyContent: "space-between",
-                    flexWrap: "wrap",
-                    m: -1,
-                    mb: 2,
-                }}
-            >
-                <Box sx={{ m: 1 }}>
-                    <Typography
-                        sx={{ m: 1, fontWeight: "bold" }}
-                        component="h2"
-                        variant="h5"
-                    >
-                        セクション・マスター編集
-                    </Typography>
-                </Box>
-            </Box>
+        <React.Fragment>
             <Paper
                 variant="outlined"
                 sx={{ my: { xs: 3, md: 6 }, p: { xs: 2, md: 3 } }}
             >
                 <Grid container spacing={3}>
                     <Grid item xs={12} md={12}>
+                        <Typography
+                            sx={{ fontWeight: "bold" }}
+                            component="h3"
+                            variant="subtitle1"
+                        >
+                            パスワード編集
+                        </Typography>
                         <TextField
-                            {...register("section_name", {
+                            {...register("current_password", {
                                 required: "必須入力です。",
                             })}
-                            error={"section_name" in errors}
-                            helperText={errors.section_name?.message}
-                            defaultValue={section.section_name}
+                            error={"current_password" in errors}
+                            sx={{ mb: 2 }}
+                            helperText={errors.current_password?.message}
                             required
-                            id="section_name"
-                            label="セクション名"
+                            id="current_password"
+                            label="現在のパスワード"
                             fullWidth
                             variant="standard"
+                        ></TextField>
+                        <TextField
+                            {...register("password", {
+                                required: "必須入力です。",
+                            })}
+                            error={"password" in errors}
+                            sx={{ mb: 2 }}
+
+                            helperText={errors.password?.message}
+                            required
+                            id="password"
+                            label="新しいパスワード"
+                            fullWidth
+                            variant="standard"
+                            type="password"
+                        ></TextField>
+                        <TextField
+                            {...register("password_confirmation", {
+                                required: "必須入力です。",
+                            })}
+                            error={"password_confirmation" in errors}
+                            helperText={errors.password_confirmation?.message}
+                            required
+                            id="password_confirmation"
+                            label="新しいパスワード（確認用）"
+                            fullWidth
+                            variant="standard"
+                            type="password"
                         ></TextField>
                     </Grid>
 
@@ -130,7 +113,7 @@ const EditSectionPage: React.FC = () => {
                         style={{ padding: 16 }}
                     >
                         <Grid>
-                            <Link to="/admin/section">
+                            <Link to="/admin/user">
                                 <Button>キャンセル</Button>
                             </Link>
 
@@ -147,7 +130,6 @@ const EditSectionPage: React.FC = () => {
                     </Grid>
                 </Grid>
             </Paper>
-        </Dashboard>
+        </React.Fragment>
     );
-};
-export default EditSectionPage;
+}

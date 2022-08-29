@@ -10,7 +10,6 @@ import {
     Grid,
     Box,
     Typography,
-    Container,
     Paper,
 } from "@mui/material";
 import { useForm } from "react-hook-form";
@@ -80,53 +79,51 @@ const CreateSectionPage: React.FC = () => {
                     </Typography>
                 </Box>
             </Box>
-            <Container component="main" maxWidth={false} sx={{ mb: 4 }}>
-                <Paper
-                    variant="outlined"
-                    sx={{ my: { xs: 3, md: 6 }, p: { xs: 2, md: 3 } }}
-                >
-                    <Grid container spacing={3}>
-                        <Grid item xs={12} md={12}>
-                            <TextField
-                                {...register("section_name", {
-                                    required: "必須入力です。",
-                                })}
-                                error={"section_name" in errors}
-                                helperText={errors.section_name?.message}
-                                defaultValue={section.section_name}
-                                required
-                                id="section_name"
-                                label="セクション名"
-                                fullWidth
-                                variant="standard"
-                            ></TextField>
-                        </Grid>
+            <Paper
+                variant="outlined"
+                sx={{ my: { xs: 3, md: 6 }, p: { xs: 2, md: 3 } }}
+            >
+                <Grid container spacing={3}>
+                    <Grid item xs={12} md={12}>
+                        <TextField
+                            {...register("section_name", {
+                                required: "必須入力です。",
+                            })}
+                            error={"section_name" in errors}
+                            helperText={errors.section_name?.message}
+                            defaultValue={section.section_name}
+                            required
+                            id="section_name"
+                            label="セクション名"
+                            fullWidth
+                            variant="standard"
+                        ></TextField>
+                    </Grid>
 
-                        <Grid
-                            container
-                            sx={{ display: "flex", justifyContent: "flex-end" }}
-                            alignItems="center"
-                            style={{ padding: 16 }}
-                        >
-                            <Grid>
-                                <Link to="/admin/section">
-                                    <Button>キャンセル</Button>
-                                </Link>
+                    <Grid
+                        container
+                        sx={{ display: "flex", justifyContent: "flex-end" }}
+                        alignItems="center"
+                        style={{ padding: 16 }}
+                    >
+                        <Grid>
+                            <Link to="/admin/section">
+                                <Button>キャンセル</Button>
+                            </Link>
 
-                                <Button
-                                    onClick={handleSubmit(onSubmit)}
-                                    variant="contained"
-                                    color="primary"
-                                    type="button"
-                                    sx={{ ml: 1 }}
-                                >
-                                    更新
-                                </Button>
-                            </Grid>
+                            <Button
+                                onClick={handleSubmit(onSubmit)}
+                                variant="contained"
+                                color="primary"
+                                type="button"
+                                sx={{ ml: 1 }}
+                            >
+                                更新
+                            </Button>
                         </Grid>
                     </Grid>
-                </Paper>
-            </Container>
+                </Grid>
+            </Paper>
         </Dashboard>
     );
 };
