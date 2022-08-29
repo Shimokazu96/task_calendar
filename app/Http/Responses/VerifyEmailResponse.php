@@ -16,7 +16,7 @@ class VerifyEmailResponse implements VerifyEmailResponseContract
      */
     public function toResponse($request)
     {
-        return redirect(config('app.front_url'));
+        return redirect(config('app.url'));
         // return $request->wantsJson()
         //     ? new JsonResponse('', 204)
         //     : redirect()->intended(Fortify::redirects('email-verification').'?verified=1');

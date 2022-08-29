@@ -93,33 +93,14 @@ class VerifyEmail extends Notification
         if (static::$createUrlCallback) {
             return call_user_func(static::$createUrlCallback, $notifiable);
         }
-        //docker環境だとメール認証のリンクが上手く作動しない？
-        if (config('app.env') === 'local') {
-            VerifyEmail::createUrlUsing(function ($notifiable) {
-
-                $verifyUrl = URL::temporarySignedRoute(
-                    'verification.verify',
-                    Carbon::now()->addMinutes(Config::get('auth.verification.expire', 60)),
-                    [
-                        'id' => $notifiable->getKey(),
-                        'hash' => sha1($notifiable->getEmailForVerification()),
-                    ]
-                );
-                $returnUrl = strstr($verifyUrl, 'api/email/verify');
-                return config('app.front_url') . '/' . $returnUrl;
-            });
-        }
-        if (config('app.env') === 'production') {
-
-            return URL::temporarySignedRoute(
-                'verification.verify',
-                Carbon::now()->addMinutes(Config::get('auth.verification.expire', 60)),
-                [
-                    'id' => $notifiable->getKey(),
-                    'hash' => sha1($notifiable->getEmailForVerification()),
-                ]
-            );
-        }
+        return URL::temporarySignedRoute(
+            'verification.verify',
+            Carbon::now()->addMinutes(Config::get('auth.verification.expire', 60)),
+            [
+                'id' => $notifiable->getKey(),
+                'hash' => sha1($notifiable->getEmailForVerification()),
+            ]
+        );
     }
 
     /**

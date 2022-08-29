@@ -39,50 +39,9 @@ class UserController extends Controller
         return response()->json(200) ?? abort(404);
     }
 
-
-    /**
-     * Update the specified resource in storage.
-     *  パスワード・メールアドレス更新
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, User $user)
+    public function show(User $user)
     {
-        if (
-            $request->email !== $user->email &&
-            $user instanceof MustVerifyEmail
-        ) {
-            $this->updateVerifiedUser($user, $request);
-        } else {
-            $user->forceFill([
-                'name' => $request->name,
-                'email' => $request->email,
-                'password' => Hash::make($request->password),
-                'available' => $request->available,
-            ])->save();
-        }
-        return User::where('id', $user->id)->first() ?? abort(404);
-    }
-
-    /**
-     * Update the given verified user's profile information.
-     *
-     * @param  mixed  $user
-     * @param  array  $input
-     * @return void
-     */
-    protected function updateVerifiedUser($user, Request $request)
-    {
-        $user->forceFill([
-            'name' => $request->name,
-            'email' => $request->email,
-            'email_verified_at' => null,
-            'available' => $request->available,
-            'password' => Hash::make($request->password),
-        ])->save();
-
-        $user->sendEmailVerificationNotification();
+        return $user ?? abort(404);
     }
 
     /**
@@ -95,15 +54,5 @@ class UserController extends Controller
     {
         $user->delete();
         return response()->json(200) ?? abort(404);
-    }
-
-    /**
-     * ユーザー詳細情報
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
     }
 }
