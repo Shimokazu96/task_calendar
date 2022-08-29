@@ -10,6 +10,7 @@ import {
 import { MasterRoutes } from "./route";
 import { AdminRoutes } from "./route/admin";
 import Login from "@/components/pages/login";
+import Register from "@/components/pages/register";
 import useAdminAuth from "@/hooks/useAdminAuth";
 import useUserAuth from "@/hooks/useUserAuth";
 import AdminLogin from "@/components/pages/admin/login";
@@ -62,6 +63,10 @@ const App: React.FC = () => {
             <Route
                 path="/login"
                 element={userStatus() ? <Navigate to="/" /> : <Login />}
+            />
+            <Route
+                path="/register"
+                element={userStatus() ? <Navigate to="/" /> : <Register />}
             />
             <Route
                 path="/admin/login"

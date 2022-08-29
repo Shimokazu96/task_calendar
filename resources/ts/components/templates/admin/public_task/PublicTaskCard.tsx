@@ -1,6 +1,3 @@
-import { useEffect, useState } from "react";
-import { AxiosError, AxiosResponse } from "axios";
-import { Link, useParams, useNavigate } from "react-router-dom";
 import { PublicTask } from "@/types/PublicTask";
 import { Card, CardContent, Divider, Grid, Typography } from "@mui/material";
 
@@ -81,7 +78,7 @@ export default function PublicTaskCard({
                             color="textPrimary"
                             gutterBottom
                             sx={{
-                                minWidth:"80%",
+                                minWidth: "80%",
                                 m: 0,
                                 p: 2,
                             }}
@@ -210,7 +207,7 @@ export default function PublicTaskCard({
                             color="textPrimary"
                             gutterBottom
                             sx={{
-                                minWidth:"80%",
+                                minWidth: "80%",
                                 fontSize: 24,
                                 m: 0,
                                 p: 1,
@@ -246,7 +243,7 @@ export default function PublicTaskCard({
                             color="textPrimary"
                             gutterBottom
                             sx={{
-                                minWidth:"80%",
+                                minWidth: "80%",
                                 fontSize: 24,
                                 m: 0,
                                 p: 1,

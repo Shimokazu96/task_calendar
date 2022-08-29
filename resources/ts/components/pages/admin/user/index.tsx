@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { AxiosError, AxiosResponse } from "axios";
 import { axiosApi } from "@/lib/axios";
 import { User } from "@/types/User";
+import { Link } from "react-router-dom";
 import MUIDataTable from "mui-datatables";
 import {
     IconButton,
@@ -10,12 +11,7 @@ import {
     Button,
     Typography,
     ListItemIcon,
-    TextField,
-    Dialog,
-    DialogActions,
-    DialogContent,
-    DialogContentText,
-    DialogTitle,
+    Chip,
 } from "@mui/material";
 import MenuItem from "@mui/material/MenuItem";
 import Menu from "@mui/material/Menu";
@@ -23,174 +19,16 @@ import MoreVertOutlinedIcon from "@mui/icons-material/MoreVertOutlined";
 import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 import DeleteOutlineOutlinedIcon from "@mui/icons-material/DeleteOutlineOutlined";
 import Dashboard from "@/components/templates/admin/Dashboard";
+import DeleteDialog from "@/components/templates/admin/DeleteDialog";
 import useDataTable from "@/hooks/useDataTable";
-
-const columns = [
-    // 非表示の列 sortに利用している
-    {
-        name: "id",
-        label: "ID",
-        options: { filter: true },
-    },
-    {
-        name: "name",
-        label: "名前",
-        options: { filter: true },
-    },
-    {
-        name: "email",
-        label: "メールアドレス",
-        options: { filter: true },
-    },
-    // 編集アイコンを表示
-    {
-        name: "",
-        options: {
-            filter: false, // filterには入れない
-            sort: false, // sortにも入れない
-            download: false, // CSVにも入れない
-            // 編集コンポーネント（列の値情報を渡している）
-            customBodyRenderLite: (dataIndex: number) => {
-                const [menuFlag, setMenuFlag] = React.useState(false);
-                const [editFlag, setEditFlag] = React.useState(false);
-
-                const [anchorEl, setAnchorEl] =
-                    React.useState<null | HTMLElement>(null);
-
-                const handleMenu = (event: React.MouseEvent<HTMLElement>) => {
-                    setAnchorEl(event.currentTarget);
-                };
-                const handleEditClickOpen = () => {
-                    setEditFlag(true);
-                    setAnchorEl(null);
-                };
-                const handleEditClickClose = () => {
-                    setEditFlag(false);
-                };
-                const handleMenuClose = () => {
-                    setAnchorEl(null);
-                };
-                return (
-                    // <EditDialog
-                    //     editData={{
-                    //         id: exampleData[dataIndex].id,
-                    //         test_code: exampleData[dataIndex].test_code,
-                    //         remarks: exampleData[dataIndex].remarks,
-                    //     }}
-                    // />
-                    <>
-                        <IconButton
-                            size="large"
-                            aria-label="account of current user"
-                            aria-controls="menu-appbar"
-                            aria-haspopup="true"
-                            onClick={handleMenu}
-                            color="inherit"
-                        >
-                            <MoreVertOutlinedIcon />
-                        </IconButton>
-                        <Menu
-                            sx={{ mt: "45px" }}
-                            id="menu-appbar"
-                            anchorEl={anchorEl}
-                            anchorOrigin={{
-                                vertical: "top",
-                                horizontal: "right",
-                            }}
-                            keepMounted
-                            transformOrigin={{
-                                vertical: "top",
-                                horizontal: "right",
-                            }}
-                            open={Boolean(anchorEl)}
-                            onClose={handleMenuClose}
-                        >
-                            <MenuItem onClick={handleEditClickOpen}>
-                                <ListItemIcon>
-                                    <EditOutlinedIcon width={24} height={24} />
-                                </ListItemIcon>
-                                編集
-                            </MenuItem>
-                            <MenuItem
-                                sx={{ color: "error.main" }}
-                                onClick={handleMenuClose}
-                            >
-                                <ListItemIcon>
-                                    <DeleteOutlineOutlinedIcon
-                                        sx={{ color: "error.main" }}
-                                        width={24}
-                                        height={24}
-                                    />
-                                </ListItemIcon>
-                                削除
-                            </MenuItem>
-                        </Menu>
-                        <Dialog
-                            fullWidth={true}
-                            maxWidth={"xl"}
-                            open={editFlag}
-                            onClose={handleEditClickClose}
-                        >
-                            <DialogTitle>スタッフ作成</DialogTitle>
-                            <DialogContent>
-
-                                <TextField
-                                    autoFocus
-                                    margin="dense"
-                                    id="name"
-                                    label="名前"
-                                    type="text"
-                                    fullWidth
-                                    variant="standard"
-                                />
-                                <TextField
-                                    autoFocus
-                                    margin="dense"
-                                    id="email"
-                                    label="メールアドレス"
-                                    type="email"
-                                    fullWidth
-                                    variant="standard"
-                                />
-                                <TextField
-                                    autoFocus
-                                    margin="dense"
-                                    id="password"
-                                    label="パスワード"
-                                    type="password"
-                                    fullWidth
-                                    variant="standard"
-                                />
-                                <TextField
-                                    autoFocus
-                                    margin="dense"
-                                    id="password-confirmation"
-                                    label="パスワード確認用"
-                                    type="password"
-                                    fullWidth
-                                    variant="standard"
-                                />
-                            </DialogContent>
-                            <DialogActions>
-                                <Button onClick={handleEditClickClose}>
-                                    Cancel
-                                </Button>
-                                <Button onClick={handleMenuClose}>
-                                    Subscribe
-                                </Button>
-                            </DialogActions>
-                        </Dialog>
-                    </>
-                );
-            },
-        },
-    },
-];
-
+import useNotification from "@/hooks/useNotification";
+import Loading from "@/components/parts/Loading";
 
 const UserPage: React.FC = () => {
-    const [users, setUsers] = useState<User[]>([]);
     const { options } = useDataTable();
+    const [users, setUsers] = useState<User[]>([]);
+    const [loading, setLoading] = useState(true);
+    const { deleted } = useNotification();
 
     const getUsers = async () => {
         await axiosApi
@@ -198,6 +36,7 @@ const UserPage: React.FC = () => {
             .then((response: AxiosResponse) => {
                 console.log(response.data);
                 setUsers(response.data);
+                setLoading(false);
             })
             .catch((err: AxiosError) => console.log(err.response));
         return users;
@@ -206,6 +45,175 @@ const UserPage: React.FC = () => {
     useEffect(() => {
         getUsers();
     }, []);
+
+    const columns = [
+        // 非表示の列 sortに利用している
+        {
+            name: "id",
+            label: "ID",
+            options: { filter: true },
+        },
+        {
+            name: "name",
+            label: "名前",
+            options: { filter: true },
+        },
+        {
+            name: "email",
+            label: "メールアドレス",
+            options: { filter: true },
+        },
+        {
+            name: "email",
+            label: "メールアドレス",
+            options: { filter: true },
+        },
+        {
+            name: "email_verified_at",
+            label: "メールアドレス認証",
+            options: {
+                filter: true,
+                customBodyRenderLite: (dataIndex: number) => {
+                    return (
+                        <>
+                            {users[dataIndex].email_verified_at ? (
+                                <Chip
+                                    sx={{ p: 1 }}
+                                    label="認証済み"
+                                    color="success"
+                                />
+                            ) : (
+                                <Chip
+                                    sx={{ p: 1 }}
+                                    label="認証前"
+                                    color="default"
+                                />
+                            )}
+                        </>
+                    );
+                },
+            },
+        },
+        // 編集アイコンを表示
+        {
+            name: "",
+            options: {
+                filter: false, // filterには入れない
+                sort: false, // sortにも入れない
+                download: false, // CSVにも入れない
+                // 編集コンポーネント（列の値情報を渡している）
+                customBodyRenderLite: (dataIndex: number) => {
+                    const [editFlag, setEditFlag] = React.useState(false);
+                    const [deleteFlag, setDeleteFlag] = React.useState(false);
+
+                    const [anchorEl, setAnchorEl] =
+                        React.useState<null | HTMLElement>(null);
+
+                    const handleMenu = (
+                        event: React.MouseEvent<HTMLElement>
+                    ) => {
+                        setAnchorEl(event.currentTarget);
+                    };
+                    const handleMenuClose = () => {
+                        setAnchorEl(null);
+                    };
+                    const handleEditClickOpen = () => {
+                        setEditFlag(true);
+                        setAnchorEl(null);
+                    };
+                    const handleDeleteDialogOpen = () => {
+                        setDeleteFlag(true);
+                    };
+
+                    const handleDeleteDialogClose = () => {
+                        setDeleteFlag(false);
+                    };
+
+                    const onDelete = (id: number) => {
+                        axiosApi
+                            .delete(`/api/admin/user/${id}`)
+                            .then((response: AxiosResponse) => {
+                                console.log(response.data);
+                                deleted();
+                                getUsers();
+                                handleMenuClose();
+                                handleDeleteDialogClose();
+                            })
+                            .catch((err: AxiosError) =>
+                                console.log(err.response)
+                            );
+                        return users;
+                    };
+
+                    return (
+                        <>
+                            <IconButton
+                                size="large"
+                                aria-label="account of current user"
+                                aria-controls="menu-appbar"
+                                aria-haspopup="true"
+                                onClick={handleMenu}
+                                color="inherit"
+                            >
+                                <MoreVertOutlinedIcon />
+                            </IconButton>
+                            <Menu
+                                sx={{ mt: "45px" }}
+                                id="menu-appbar"
+                                anchorEl={anchorEl}
+                                anchorOrigin={{
+                                    vertical: "top",
+                                    horizontal: "right",
+                                }}
+                                keepMounted
+                                transformOrigin={{
+                                    vertical: "top",
+                                    horizontal: "right",
+                                }}
+                                open={Boolean(anchorEl)}
+                                onClose={handleMenuClose}
+                            >
+                                <Link to={"/admin/user/" + users[dataIndex].id}>
+                                    <MenuItem onClick={handleEditClickOpen}>
+                                        <ListItemIcon>
+                                            <EditOutlinedIcon
+                                                width={24}
+                                                height={24}
+                                            />
+                                        </ListItemIcon>
+                                        編集
+                                    </MenuItem>
+                                </Link>
+                                <MenuItem
+                                    sx={{ color: "error.main" }}
+                                    onClick={() => handleDeleteDialogOpen()}
+                                >
+                                    <ListItemIcon>
+                                        <DeleteOutlineOutlinedIcon
+                                            sx={{ color: "error.main" }}
+                                            width={24}
+                                            height={24}
+                                        />
+                                    </ListItemIcon>
+                                    削除
+                                </MenuItem>
+                            </Menu>
+                            <DeleteDialog
+                                open={deleteFlag}
+                                close={() => handleDeleteDialogClose()}
+                                DeleteData={() => onDelete(users[dataIndex].id)}
+                            />
+                        </>
+                    );
+                },
+            },
+        },
+    ];
+
+    if (loading) {
+        return <Loading open={loading} />;
+    }
+
     return (
         <Dashboard title="">
             <Box
@@ -228,9 +236,11 @@ const UserPage: React.FC = () => {
                     </Typography>
                 </Box>
                 <Box sx={{ m: 1 }}>
-                    <Button color="primary" variant="contained">
-                        新規作成
-                    </Button>
+                    <Link to={"/admin/user/create"}>
+                        <Button color="primary" variant="contained">
+                            新規作成
+                        </Button>
+                    </Link>
                 </Box>
             </Box>
             <MUIDataTable

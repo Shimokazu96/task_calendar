@@ -1,12 +1,9 @@
 import { useCallback, useState, useEffect, useRef } from "react";
 import "@fullcalendar/react/dist/vdom";
 import { AxiosError, AxiosResponse } from "axios";
-import { useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { axiosApi } from "@/lib/axios";
-import FullCalendar, {
-    DateSelectArg,
-    EventInput,
-} from "@fullcalendar/react";
+import FullCalendar, { DateSelectArg, EventInput } from "@fullcalendar/react";
 import Dashboard from "@/components/templates/admin/Dashboard";
 import Loading from "@/components/parts/Loading";
 import dayGridPlugin from "@fullcalendar/daygrid";
@@ -16,6 +13,8 @@ import listPlugin from "@fullcalendar/list";
 import timeGridPlugin from "@fullcalendar/timegrid";
 import { format } from "date-fns";
 import resourceTimeGridPlugin from "@fullcalendar/resource-timegrid";
+import { Button, Tooltip } from "@mui/material";
+import AddIcon from "@mui/icons-material/Add";
 
 const CurrentDatePage: React.FC = () => {
     const navigate = useNavigate();
@@ -92,6 +91,23 @@ const CurrentDatePage: React.FC = () => {
                     select={handleDateSelect}
                 />
             </div>
+            <Link to={`/admin/public_task/create?date=${params.date}`}>
+                <Tooltip title="公開タスクを追加">
+                    <Button
+                        variant="contained"
+                        color="primary"
+                        role="presentation"
+                        sx={{
+                            position: "fixed",
+                            bottom: 50,
+                            right: 30,
+                            zIndex: 1000,
+                        }}
+                    >
+                        <AddIcon color="inherit" fontSize="large"></AddIcon>
+                    </Button>
+                </Tooltip>
+            </Link>
         </Dashboard>
     );
 };

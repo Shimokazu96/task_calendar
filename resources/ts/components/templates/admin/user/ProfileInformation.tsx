@@ -2,7 +2,6 @@ import * as React from "react";
 import { useEffect, useState } from "react";
 import { AxiosError, AxiosResponse } from "axios";
 import { axiosApi } from "@/lib/axios";
-import Dashboard from "@/components/templates/admin/Dashboard";
 import { Link, useParams, useNavigate } from "react-router-dom";
 import {
     Button,
@@ -10,57 +9,31 @@ import {
     Grid,
     Box,
     Typography,
+    Container,
     Paper,
 } from "@mui/material";
 import { useForm } from "react-hook-form";
-import { Section, Validation, Form } from "@/types/Section";
+import { User, ProfileInformationForm } from "@/types/User";
 import useNotification from "@/hooks/useNotification";
-import Loading from "@/components/parts/Loading";
 
-const EditSectionPage: React.FC = () => {
+export default function ProfileInformation({ user }: { user: User }) {
     const params = useParams(); // URLのパスパラメータを取得。例えば、 /uses/2 なら、2の部分を取得
     const navigate = useNavigate();
     const { updated, error } = useNotification();
-
-    const [section, setSection] = useState<Section>({
-        id: 0,
-        section_name: "",
-        created_at: "",
-        updated_at: "",
-    });
-    const [loading, setLoading] = useState(true);
-
     // React-Hook-Form
     const {
         register,
         handleSubmit,
         formState: { errors },
-    } = useForm<Form>();
+    } = useForm<ProfileInformationForm>();
 
-    const getSection = async () => {
+    const onSubmit = async (data: ProfileInformationForm) => {
         await axiosApi
-            .get(`/api/admin/section/${params.id}`)
-            .then((response: AxiosResponse) => {
-                console.log(response.data);
-                setSection(response.data);
-                setLoading(false);
-            })
-            .catch((err: AxiosError) => console.log(err.response));
-        return section;
-    };
-
-    useEffect(() => {
-        getSection();
-    }, []);
-    console.log(section);
-
-    const onSubmit = async (data: Form) => {
-        await axiosApi
-            .put(`/api/admin/section/${params.id}`, data)
+            .put(`/api/admin/user/${params.id}/profile-information`, data)
             .then((response: AxiosResponse) => {
                 console.log(response.data);
                 updated();
-                navigate(`/admin/section/${params.id}`);
+                navigate(`/admin/user/${params.id}`);
             })
             .catch((err: any) => {
                 console.log(err.response);
@@ -77,47 +50,53 @@ const EditSectionPage: React.FC = () => {
             });
     };
 
-    if (loading) {
-        return <Loading open={loading} />;
-    }
     return (
-        <Dashboard title="">
-            <Box
-                sx={{
-                    alignItems: "center",
-                    display: "flex",
-                    justifyContent: "space-between",
-                    flexWrap: "wrap",
-                    m: -1,
-                    mb: 2,
-                }}
-            >
-                <Box sx={{ m: 1 }}>
-                    <Typography
-                        sx={{ m: 1, fontWeight: "bold" }}
-                        component="h2"
-                        variant="h5"
-                    >
-                        セクション・マスター編集
-                    </Typography>
-                </Box>
-            </Box>
+        <React.Fragment>
             <Paper
                 variant="outlined"
                 sx={{ my: { xs: 3, md: 6 }, p: { xs: 2, md: 3 } }}
             >
                 <Grid container spacing={3}>
                     <Grid item xs={12} md={12}>
+                        <Typography
+                            sx={{ fontWeight: "bold" }}
+                            component="h3"
+                            variant="subtitle1"
+                        >
+                            アカウント編集
+                        </Typography>
+                        <Typography
+                            sx={{ mb: 2 }}
+                            component="h3"
+                            variant="subtitle2"
+                        >
+                            ※メールアドレスを変更すると認証メールが送付されます。
+                        </Typography>
                         <TextField
-                            {...register("section_name", {
+                            {...register("name", {
                                 required: "必須入力です。",
                             })}
-                            error={"section_name" in errors}
-                            helperText={errors.section_name?.message}
-                            defaultValue={section.section_name}
+                            error={"name" in errors}
+                            sx={{ mb: 2 }}
+                            helperText={errors.name?.message}
+                            defaultValue={user.name}
                             required
-                            id="section_name"
-                            label="セクション名"
+                            id="name"
+                            label="名前"
+                            fullWidth
+                            variant="standard"
+                        ></TextField>
+                        <TextField
+                            {...register("email", {
+                                required: "必須入力です。",
+                            })}
+                            error={"email" in errors}
+                            helperText={errors.email?.message}
+                            defaultValue={user.email}
+                            multiline
+                            required
+                            id="email"
+                            label="メールアドレス"
                             fullWidth
                             variant="standard"
                         ></TextField>
@@ -130,7 +109,7 @@ const EditSectionPage: React.FC = () => {
                         style={{ padding: 16 }}
                     >
                         <Grid>
-                            <Link to="/admin/section">
+                            <Link to="/admin/user">
                                 <Button>キャンセル</Button>
                             </Link>
 
@@ -147,7 +126,6 @@ const EditSectionPage: React.FC = () => {
                     </Grid>
                 </Grid>
             </Paper>
-        </Dashboard>
+        </React.Fragment>
     );
-};
-export default EditSectionPage;
+}

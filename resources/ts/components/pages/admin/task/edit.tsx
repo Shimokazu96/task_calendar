@@ -4,15 +4,7 @@ import { AxiosError, AxiosResponse } from "axios";
 import { axiosApi } from "@/lib/axios";
 import Dashboard from "@/components/templates/admin/Dashboard";
 import { Link, useParams, useNavigate } from "react-router-dom";
-import {
-    Button,
-    TextField,
-    Grid,
-    Box,
-    Typography,
-    Container,
-    Paper,
-} from "@mui/material";
+import { Button, TextField, Grid, Box, Typography, Paper } from "@mui/material";
 import { useForm } from "react-hook-form";
 import { Task, Validation, Form } from "@/types/Task";
 import useNotification from "@/hooks/useNotification";
@@ -104,69 +96,67 @@ const EditTaskPage: React.FC = () => {
                     </Typography>
                 </Box>
             </Box>
-            <Container component="main" maxWidth={false} sx={{ mb: 4 }}>
-                <Paper
-                    variant="outlined"
-                    sx={{ my: { xs: 3, md: 6 }, p: { xs: 2, md: 3 } }}
-                >
-                    <Grid container spacing={3}>
-                        <Grid item xs={12} md={12}>
-                            <TextField
-                                {...register("task_name", {
-                                    required: "必須入力です。",
-                                })}
-                                error={"task_name" in errors}
-                                sx={{ mb: 2 }}
-                                helperText={errors.task_name?.message}
-                                defaultValue={task.task_name}
-                                required
-                                id="task_name"
-                                label="タスク名"
-                                fullWidth
-                                variant="standard"
-                            ></TextField>
-                            <TextField
-                                {...register("description", {
-                                    required: "必須入力です。",
-                                })}
-                                error={"description" in errors}
-                                helperText={errors.description?.message}
-                                defaultValue={task.description}
-                                multiline
-                                rows={4}
-                                required
-                                id="description"
-                                label="タスク概要"
-                                fullWidth
-                                variant="standard"
-                            ></TextField>
-                        </Grid>
+            <Paper
+                variant="outlined"
+                sx={{ my: { xs: 3, md: 6 }, p: { xs: 2, md: 3 } }}
+            >
+                <Grid container spacing={3}>
+                    <Grid item xs={12} md={12}>
+                        <TextField
+                            {...register("task_name", {
+                                required: "必須入力です。",
+                            })}
+                            error={"task_name" in errors}
+                            sx={{ mb: 2 }}
+                            helperText={errors.task_name?.message}
+                            defaultValue={task.task_name}
+                            required
+                            id="task_name"
+                            label="タスク名"
+                            fullWidth
+                            variant="standard"
+                        ></TextField>
+                        <TextField
+                            {...register("description", {
+                                required: "必須入力です。",
+                            })}
+                            error={"description" in errors}
+                            helperText={errors.description?.message}
+                            defaultValue={task.description}
+                            multiline
+                            rows={4}
+                            required
+                            id="description"
+                            label="タスク概要"
+                            fullWidth
+                            variant="standard"
+                        ></TextField>
+                    </Grid>
 
-                        <Grid
-                            container
-                            sx={{ display: "flex", justifyContent: "flex-end" }}
-                            alignItems="center"
-                            style={{ padding: 16 }}
-                        >
-                            <Grid>
-                                <Link to="/admin/task">
-                                    <Button>キャンセル</Button>
-                                </Link>
+                    <Grid
+                        container
+                        sx={{ display: "flex", justifyContent: "flex-end" }}
+                        alignItems="center"
+                        style={{ padding: 16 }}
+                    >
+                        <Grid>
+                            <Link to="/admin/task">
+                                <Button>キャンセル</Button>
+                            </Link>
 
-                                <Button
-                                    onClick={handleSubmit(onSubmit)}
-                                    variant="contained"
-                                    color="primary"
-                                    type="button"
-                                    sx={{ ml: 1 }}
-                                >
-                                    更新
-                                </Button>
-                            </Grid>
+                            <Button
+                                onClick={handleSubmit(onSubmit)}
+                                variant="contained"
+                                color="primary"
+                                type="button"
+                                sx={{ ml: 1 }}
+                            >
+                                更新
+                            </Button>
                         </Grid>
                     </Grid>
-                </Paper>
-            </Container>
+                </Grid>
+            </Paper>
         </Dashboard>
     );
 };

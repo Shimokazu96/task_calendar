@@ -20,7 +20,7 @@ export default function DeleteDialog(props: Props) {
                 <DialogTitle>削除してもよろしいですか？</DialogTitle>
 
                 <DialogActions>
-                    <Button onClick={() => props.close()}>No</Button>
+                    <Button  sx={{ color: 'text.primary' }} onClick={() => props.close()}>No</Button>
                     <Button
                         onClick={() => props.DeleteData()}
                         color="error"
