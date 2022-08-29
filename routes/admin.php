@@ -47,6 +47,8 @@ Route::group([
 ], function () {
     Route::post('/logout', 'LoginController@destroy');
     Route::apiResource('/user', UserController::class);
+    Route::put('/user/{user}/profile-information', 'UserProfileInformationController@update');
+    Route::put('/user/{user}/password', 'UserPasswordController@update');
     Route::apiResource('/task', TaskController::class);
     Route::apiResource('/public_task', PublicTaskController::class);
     Route::post('/public_task/{public_task}/fix/{id}', 'PublicTaskController@fixPublicTask');
