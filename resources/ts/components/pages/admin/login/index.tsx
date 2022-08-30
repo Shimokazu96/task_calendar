@@ -18,6 +18,7 @@ import { axiosApi } from "@/lib/axios";
 import { AxiosResponse } from "axios";
 import { useForm } from "react-hook-form";
 import { useAdminState } from "@/atoms/adminAtom";
+import useNotification from "@/hooks/useNotification";
 
 // POSTデータの型
 type LoginForm = {
@@ -25,17 +26,11 @@ type LoginForm = {
     password: string;
 };
 
-// バリデーションメッセージの型
-type Validation = {
-    email?: string;
-    password?: string;
-    loginFailed?: string;
-};
-
 const theme = createTheme();
 
 const Login = () => {
     const navigate = useNavigate();
+    const { error } = useNotification();
 
     // React-Hook-Form
     const {
@@ -44,13 +39,9 @@ const Login = () => {
         formState: { errors },
     } = useForm<LoginForm>();
 
-    // state定義
-    const [validation, setValidation] = useState<Validation>({});
-
     const { setAdmin } = useAdminState();
 
     const onSubmit = async (data: LoginForm) => {
-        setValidation({});
         await axiosApi
             // CSRF保護の初期化
             .get("/sanctum/csrf-cookie")
@@ -68,18 +59,12 @@ const Login = () => {
                         // バリデーションエラー
                         if (err.response?.status === 422) {
                             const errors = err.response?.data.errors;
-                            // state更新用のオブジェクトを別で定義
-                            const validationMessages: {
-                                [index: string]: string;
-                            } = {} as Validation;
                             Object.keys(errors).map((key: string) => {
-                                validationMessages[key] = errors[key][0];
+                                error(errors[key][0]);
                             });
-                            // state更新用オブジェクトに更新
-                            setValidation(validationMessages);
                         }
                         if (err.response?.status === 500) {
-                            alert("システムエラーです！！");
+                            error("システムエラーです！！");
                         }
                     });
             });
@@ -144,13 +129,6 @@ const Login = () => {
                             id="password"
                             autoComplete="current-password"
                         />
-                        <Typography
-                            sx={{ color: "error.main" }}
-                            component="div"
-                            variant="body1"
-                        >
-                            {validation.email}
-                        </Typography>
                         <Button
                             onClick={handleSubmit(onSubmit)}
                             fullWidth

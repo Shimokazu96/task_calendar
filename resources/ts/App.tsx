@@ -1,16 +1,11 @@
 import React, { useEffect, useState } from "react";
-import {
-    Routes,
-    Route,
-    useLocation,
-    Navigate,
-    Outlet,
-} from "react-router-dom";
+import { Routes, Route, useLocation, Navigate, Outlet } from "react-router-dom";
 
 import { MasterRoutes } from "./route";
 import { AdminRoutes } from "./route/admin";
 import Login from "@/components/pages/login";
 import Register from "@/components/pages/register";
+import EmailVerify from "@/components/pages/emailVerify";
 import useAdminAuth from "@/hooks/useAdminAuth";
 import useUserAuth from "@/hooks/useUserAuth";
 import AdminLogin from "@/components/pages/admin/login";
@@ -19,7 +14,7 @@ import AdminLogin from "@/components/pages/admin/login";
 
 const App: React.FC = () => {
     const location = useLocation();
-    const { userStatus, fetchUser } = useUserAuth();
+    const { userStatus, emailVerified, fetchUser } = useUserAuth();
     const { adminStatus, fetchAdmin } = useAdminAuth();
     // ログイン状態の確認が終わったか
     const [authChecked, setAuthChecked] = useState(false);
@@ -37,9 +32,17 @@ const App: React.FC = () => {
         };
         init();
     }, []);
+    console.log("email:" + emailVerified());
+    console.log("user:" + userStatus());
     const RouteUserAuthGuard = () => {
         if (authChecked) {
-            return userStatus() ? <Outlet /> : <Navigate to="/login" replace />;
+            if (userStatus() && emailVerified()) {
+                return <Outlet />;
+            } else if (userStatus() && !emailVerified()) {
+                return <Navigate to="/email/verify" replace />;
+            } else {
+                return <Navigate to="/login" replace />;
+            }
         } else {
             return <></>;
         }
@@ -67,6 +70,18 @@ const App: React.FC = () => {
             <Route
                 path="/register"
                 element={userStatus() ? <Navigate to="/" /> : <Register />}
+            />
+            <Route
+                path="/email/verify"
+                element={
+                    userStatus() && emailVerified() ? (
+                        <Navigate to="/" />
+                    ) : userStatus() && !emailVerified() ? (
+                        <EmailVerify />
+                    ) : (
+                        <Navigate to="/login" replace />
+                    )
+                }
             />
             <Route
                 path="/admin/login"
