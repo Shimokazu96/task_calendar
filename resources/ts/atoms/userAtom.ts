@@ -1,7 +1,7 @@
 // user global state
 import { atom, useRecoilState } from "recoil";
 
-type userState = { id: string; name: string } | null;
+type userState = { id: string; name: string; email_verified_at: string } | null;
 
 const userState = atom<userState>({
     key: "user",

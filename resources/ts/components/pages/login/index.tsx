@@ -16,7 +16,7 @@ import {
     ThemeProvider,
 } from "@mui/material";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
-import axios from "axios";
+import { axiosApi } from "@/lib/axios";
 import { AxiosResponse } from "axios";
 import { useForm } from "react-hook-form";
 import { useUserState } from "@/atoms/userAtom";
@@ -28,12 +28,6 @@ type LoginForm = {
     password: string;
 };
 
-// バリデーションメッセージの型
-type Validation = {
-    email?: string;
-    password?: string;
-    loginFailed?: string;
-};
 
 const theme = createTheme();
 
@@ -49,52 +43,35 @@ const Login = () => {
     } = useForm<LoginForm>();
 
     // state定義
-    const [validation, setValidation] = useState<Validation>({});
 
     const { setUser } = useUserState();
 
     const onSubmit = async (data: LoginForm) => {
-        setValidation({});
-        await axios
+        await axiosApi
             // CSRF保護の初期化
             .get("/sanctum/csrf-cookie")
             .then((response: AxiosResponse) => {
                 // ログイン処理
-                axios
+                axiosApi
                     .post("api/login", data)
                     .then((response: AxiosResponse) => {
                         console.log(response.data);
                         setUser(response.data);
-                        navigate("/");
+                        navigate("/email/verify");
                     })
                     .catch((err: any) => {
                         console.log(err.response);
                         // バリデーションエラー
                         if (err.response?.status === 422) {
                             const errors = err.response?.data.errors;
-                            // state更新用のオブジェクトを別で定義
-                            const validationMessages: {
-                                [index: string]: string;
-                            } = {} as Validation;
                             Object.keys(errors).map((key: string) => {
-                                validationMessages[key] = errors[key][0];
+                                error(errors[key][0]);
                             });
-                            // state更新用オブジェクトに更新
-                            setValidation(validationMessages);
                         }
                         if (err.response?.status === 500) {
-                            error("システムエラーです！！")
+                            error("システムエラーです！！");
                         }
                     });
-            });
-    };
-
-    // SPA認証済みではないとアクセスできないAPI
-    const handleUserClick = () => {
-        axios
-            .get("/api/user", { withCredentials: true })
-            .then((response: AxiosResponse) => {
-                console.log(response.data);
             });
     };
 
@@ -132,7 +109,7 @@ const Login = () => {
                             required
                             fullWidth
                             id="email"
-                            label="Email Address"
+                            label="メールアドレス"
                             name="email"
                             autoComplete="email"
                             autoFocus
@@ -152,38 +129,24 @@ const Login = () => {
                             required
                             fullWidth
                             name="password"
-                            label="Password"
+                            label="パスワード"
                             type="password"
                             id="password"
                             autoComplete="current-password"
                         />
-                        <Typography
-                            sx={{ color: "error.main" }}
-                            component="div"
-                            variant="body1"
-                        >
-                            {validation.email}
-                        </Typography>
                         <Button
                             onClick={handleSubmit(onSubmit)}
                             fullWidth
                             variant="contained"
                             sx={{ mt: 3, mb: 2 }}
                         >
-                            Login
+                            ログイン
                         </Button>
-                        <Button
-                            onClick={handleUserClick}
-                            fullWidth
-                            variant="contained"
-                            sx={{ mt: 3, mb: 2 }}
-                        >
-                            Login Check
-                        </Button>
+
                         <Grid container>
                             <Grid item xs>
                                 <Link href="#" variant="body2">
-                                    Forgot password?
+                                    パスワードを忘れた方はこちら
                                 </Link>
                             </Grid>
                             <Grid item>
@@ -192,7 +155,7 @@ const Login = () => {
                                     to="/register"
                                     variant="body2"
                                 >
-                                    {"Don't have an account? Sign Up"}
+                                    登録はこちら
                                 </Link>
                             </Grid>
                         </Grid>
