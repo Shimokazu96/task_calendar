@@ -52,7 +52,7 @@ const TopPage: React.FC = () => {
         return <Loading open={loading} />;
     }
     return (
-        <Dashboard title="">
+        <Dashboard>
             <div className="calendar">
                 <FullCalendar
                     ref={calendarRef}

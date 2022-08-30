@@ -11,7 +11,7 @@ import useNotification from "@/hooks/useNotification";
 import Loading from "@/components/parts/Loading";
 
 const EditTaskPage: React.FC = () => {
-    const params = useParams(); // URLのパスパラメータを取得。例えば、 /uses/2 なら、2の部分を取得
+    const params = useParams();
     const navigate = useNavigate();
     const { updated, error } = useNotification();
 
@@ -75,7 +75,7 @@ const EditTaskPage: React.FC = () => {
         return <Loading open={loading} />;
     }
     return (
-        <Dashboard title="">
+        <Dashboard>
             <Box
                 sx={{
                     alignItems: "center",

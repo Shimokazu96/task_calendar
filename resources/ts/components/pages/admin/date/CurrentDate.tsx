@@ -18,7 +18,7 @@ import AddIcon from "@mui/icons-material/Add";
 
 const CurrentDatePage: React.FC = () => {
     const navigate = useNavigate();
-    const params = useParams(); // URLのパスパラメータを取得。例えば、 /uses/2 なら、2の部分を取得
+    const params = useParams();
     const thisDate = format(new Date(), "yyyy");
 
     const calendarRef = useRef<FullCalendar>(null!);
@@ -50,7 +50,7 @@ const CurrentDatePage: React.FC = () => {
         return <Loading open={loading} />;
     }
     return (
-        <Dashboard title="">
+        <Dashboard>
             <div className="calendar">
                 <FullCalendar
                     ref={calendarRef}
@@ -92,7 +92,7 @@ const CurrentDatePage: React.FC = () => {
                 />
             </div>
             <Link to={`/admin/public_task/create?date=${params.date}`}>
-                <Tooltip title="公開タスクを追加">
+                <Tooltip placement="top" title="公開タスクを追加">
                     <Button
                         variant="contained"
                         color="primary"

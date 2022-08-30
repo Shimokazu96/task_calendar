@@ -185,7 +185,7 @@ const SectionPage: React.FC = () => {
     }
 
     return (
-        <Dashboard title="">
+        <Dashboard>
             <Box
                 sx={{
                     alignItems: "center",

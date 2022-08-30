@@ -11,7 +11,7 @@ import ProfileInformation from "@/components/templates/admin/user/ProfileInforma
 import PasswordUpdate from "@/components/templates/admin/user/PasswordUpdate";
 
 const EditUserPage: React.FC = () => {
-    const params = useParams(); // URLのパスパラメータを取得。例えば、 /uses/2 なら、2の部分を取得
+    const params = useParams();
     const navigate = useNavigate();
 
     const [user, setUser] = useState<User>({
@@ -45,7 +45,7 @@ const EditUserPage: React.FC = () => {
         return <Loading open={loading} />;
     }
     return (
-        <Dashboard title="">
+        <Dashboard>
             <Box
                 sx={{
                     alignItems: "center",
@@ -67,7 +67,7 @@ const EditUserPage: React.FC = () => {
                 </Box>
             </Box>
             <ProfileInformation user={user} />
-            <PasswordUpdate user={user} />
+            <PasswordUpdate />
         </Dashboard>
     );
 };

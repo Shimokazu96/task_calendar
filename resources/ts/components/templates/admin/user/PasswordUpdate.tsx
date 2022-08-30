@@ -1,21 +1,14 @@
 import * as React from "react";
-import { useEffect, useState } from "react";
 import { AxiosError, AxiosResponse } from "axios";
 import { axiosApi } from "@/lib/axios";
 import { Link, useParams, useNavigate } from "react-router-dom";
-import {
-    Button,
-    TextField,
-    Grid,
-    Typography,
-    Paper,
-} from "@mui/material";
+import { Button, TextField, Grid, Typography, Paper } from "@mui/material";
 import { useForm } from "react-hook-form";
-import { User, PasswordUpdateForm } from "@/types/User";
+import { PasswordUpdateForm } from "@/types/User";
 import useNotification from "@/hooks/useNotification";
 
-export default function UserProfileInformation({ user }: { user: User }) {
-    const params = useParams(); // URLのパスパラメータを取得。例えば、 /uses/2 なら、2の部分を取得
+export default function UserProfileInformation() {
+    const params = useParams();
     const navigate = useNavigate();
     const { updated, error } = useNotification();
     // React-Hook-Form
@@ -82,7 +75,6 @@ export default function UserProfileInformation({ user }: { user: User }) {
                             })}
                             error={"password" in errors}
                             sx={{ mb: 2 }}
-
                             helperText={errors.password?.message}
                             required
                             id="password"

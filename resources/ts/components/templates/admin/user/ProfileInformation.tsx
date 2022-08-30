@@ -1,5 +1,4 @@
 import * as React from "react";
-import { useEffect, useState } from "react";
 import { AxiosError, AxiosResponse } from "axios";
 import { axiosApi } from "@/lib/axios";
 import { Link, useParams, useNavigate } from "react-router-dom";
@@ -17,7 +16,7 @@ import { User, ProfileInformationForm } from "@/types/User";
 import useNotification from "@/hooks/useNotification";
 
 export default function ProfileInformation({ user }: { user: User }) {
-    const params = useParams(); // URLのパスパラメータを取得。例えば、 /uses/2 なら、2の部分を取得
+    const params = useParams();
     const navigate = useNavigate();
     const { updated, error } = useNotification();
     // React-Hook-Form

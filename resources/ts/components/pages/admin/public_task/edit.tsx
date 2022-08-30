@@ -21,7 +21,7 @@ const options = {
     selectableRows: "none" as any,
 };
 const EditPublicTaskPage: React.FC = () => {
-    const params = useParams(); // URLのパスパラメータを取得。例えば、 /uses/2 なら、2の部分を取得
+    const params = useParams();
     const { error } = useNotification();
     const [applicantUsers, setApplicantUsers] = useState<ApplicantUsers[]>([]);
 
@@ -176,7 +176,7 @@ const EditPublicTaskPage: React.FC = () => {
         return <Loading open={loading} />;
     }
     return (
-        <Dashboard title="">
+        <Dashboard>
             <Box
                 sx={{
                     alignItems: "center",
