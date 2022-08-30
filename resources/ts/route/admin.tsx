@@ -20,7 +20,7 @@ const AdminSettingPage = lazy(() => import("@/components/pages/admin/setting"));
 export const AdminRoutes = (
     <>
     <Route path="/admin" element={<Dashboard />}>
-        <Route path="/admin" element={<TopPage />} />
+        <Route index element={<TopPage />} />
         <Route path="/admin/date/:date" element={<CurrentDatePage />} />
         <Route path="/admin/section" element={<SectionPage />} />
         <Route path="/admin/section/create" element={<CreateSectionPage />} />

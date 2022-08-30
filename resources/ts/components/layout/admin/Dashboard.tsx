@@ -77,7 +77,7 @@ const Drawer = styled(MuiDrawer, {
 
 const mdTheme = createTheme();
 
-const DashboardContent: React.FC = () => {
+const Dashboard: React.FC = () => {
     const [open, setOpen] = React.useState(true);
     const [loading, setLoading] = useState(true);
 
@@ -226,4 +226,4 @@ const DashboardContent: React.FC = () => {
     );
 };
 
-export default DashboardContent;
+export default Dashboard;
