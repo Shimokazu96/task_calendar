@@ -77,10 +77,6 @@ const TopPage: React.FC = () => {
                 dayMaxEvents={true}
                 // navLinks={true}
                 nowIndicator={true}
-                resources={[
-                    { id: "1", title: "フロント", eventColor: "#5aa7de" },
-                    { id: "2", title: "厨房", eventColor: "#61dd56" },
-                ]}
                 events={publicTasks}
                 aspectRatio={1.5}
                 locales={allLocales}

@@ -57,6 +57,15 @@ class SectionController extends Controller
     }
     public function getSectionName()
     {
-        return Section::get(['id','section_name']);
+        return Section::get(['id', 'section_name']);
+    }
+    public function getResourceTimeGridSection()
+    {
+        $resources = [];
+        $sections = Section::get(['id', 'section_name']);
+        foreach($sections as $key=> $section) {
+            $resources[] = ["id" => $section->id, "title" => $section->section_name];
+        }
+        return response()->json($resources, 200) ?? abort(404);
     }
 }
