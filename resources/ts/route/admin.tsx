@@ -13,6 +13,7 @@ import EditSectionPage from "@/components/pages/admin/section/edit";
 import UserPage from "@/components/pages/admin/user";
 import EditUserPage from "@/components/pages/admin/user/edit";
 import CreateUserPage from "@/components/pages/admin/user/create";
+import AdminSettingPage from "@/components/pages/admin/setting";
 
 export const AdminRoutes = (
     <>
@@ -30,5 +31,6 @@ export const AdminRoutes = (
         <Route path="/admin/user" element={<UserPage />} />
         <Route path="/admin/user/create" element={<CreateUserPage />} />
         <Route path="/admin/user/:id" element={<EditUserPage />} />
+        <Route path="/admin/setting" element={<AdminSettingPage />} />
     </>
 );

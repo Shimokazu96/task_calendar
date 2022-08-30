@@ -23,8 +23,5 @@ class AdminPasswordUpdateResponse implements PasswordUpdateResponseContract
 
         $request->session()->regenerateToken();
         return response()->json(['message' => 'Logout'], 200);
-        // return $request->wantsJson()
-        //     ? new JsonResponse('', 200)
-        //     : back()->with('status', 'password-updated');
     }
 }

@@ -57,4 +57,6 @@ Route::group([
     Route::get('/task_name', 'TaskController@getTaskName');
     Route::get('/section_name', 'SectionController@getSectionName');
     Route::apiResource('/section', SectionController::class);
+    Route::put('/password', 'PasswordController@update');
+    Route::put('/profile-information', 'ProfileInformationController@update');
 });
