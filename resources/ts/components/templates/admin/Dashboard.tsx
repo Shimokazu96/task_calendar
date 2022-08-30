@@ -1,4 +1,5 @@
 import * as React from "react";
+import { useEffect, useState } from "react";
 import { styled, createTheme, ThemeProvider } from "@mui/material/styles";
 import MenuIcon from "@mui/icons-material/Menu";
 import {
@@ -9,19 +10,20 @@ import {
     Typography,
     IconButton,
     Container,
-    Badge,
     ListItemIcon,
 } from "@mui/material";
 import MenuItem from "@mui/material/MenuItem";
 import Menu from "@mui/material/Menu";
+import { Link } from "react-router-dom";
 import MuiDrawer from "@mui/material/Drawer";
 import MuiAppBar, { AppBarProps as MuiAppBarProps } from "@mui/material/AppBar";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import SideBarList from "@/components/templates/admin/SideBarList";
 import useAdminAuth from "@/hooks/useAdminAuth";
+import useWindowSize from "@/hooks/useWindowSize";
 import SettingsIcon from "@mui/icons-material/Settings";
-import LogoutIcon from '@mui/icons-material/Logout';
+import LogoutIcon from "@mui/icons-material/Logout";
 
 const drawerWidth: number = 240;
 
@@ -30,7 +32,6 @@ interface AppBarProps extends MuiAppBarProps {
 }
 export interface DashboardProps {
     children: React.ReactNode;
-    title: string;
 }
 
 const AppBar = styled(MuiAppBar, {
@@ -79,20 +80,40 @@ const Drawer = styled(MuiDrawer, {
 
 const mdTheme = createTheme();
 
-const DashboardContent: React.FC<DashboardProps> = ({ children, title }) => {
+const DashboardContent: React.FC<DashboardProps> = ({ children }) => {
     const [open, setOpen] = React.useState(true);
+    const [loading, setLoading] = useState(true);
+
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
     const { logout } = useAdminAuth();
+    const [width, height] = useWindowSize();
 
     const toggleDrawer = () => {
         setOpen(!open);
     };
+
     const handleMenu = (event: React.MouseEvent<HTMLElement>) => {
         setAnchorEl(event.currentTarget);
     };
     const handleClose = () => {
         setAnchorEl(null);
     };
+
+    useEffect(() => {
+        if (width == 0) {
+            return setOpen(true);
+        }
+        if (width < 768) {
+            setOpen(false);
+            return setLoading(false);
+        }
+        setOpen(true);
+        return setLoading(false);
+    }, [width]);
+
+    if (loading) {
+        return <></>;
+    }
     return (
         <ThemeProvider theme={mdTheme}>
             <Box sx={{ display: "flex" }}>
@@ -150,12 +171,14 @@ const DashboardContent: React.FC<DashboardProps> = ({ children, title }) => {
                             open={Boolean(anchorEl)}
                             onClose={handleClose}
                         >
-                            <MenuItem onClick={handleClose}>
-                                <ListItemIcon>
-                                    <SettingsIcon width={24} height={24} />
-                                </ListItemIcon>
-                                設定
-                            </MenuItem>
+                            <Link to={"/admin/setting"}>
+                                <MenuItem>
+                                    <ListItemIcon>
+                                        <SettingsIcon width={24} height={24} />
+                                    </ListItemIcon>
+                                    設定
+                                </MenuItem>
+                            </Link>
                             <MenuItem onClick={logout}>
                                 <ListItemIcon>
                                     <LogoutIcon width={24} height={24} />
@@ -179,7 +202,7 @@ const DashboardContent: React.FC<DashboardProps> = ({ children, title }) => {
                         </IconButton>
                     </Toolbar>
                     <List component="nav">
-                        <SideBarList></SideBarList>
+                        <SideBarList open={open}></SideBarList>
                     </List>
                 </Drawer>
                 <Box
@@ -196,14 +219,6 @@ const DashboardContent: React.FC<DashboardProps> = ({ children, title }) => {
                 >
                     <Toolbar />
                     <Container maxWidth={false} sx={{ mt: 2, mb: 2 }}>
-                        <Typography
-                            component="h2"
-                            variant="h5"
-                            color="inherit"
-                            noWrap
-                        >
-                            {title}
-                        </Typography>
                         {children}
                     </Container>
                 </Box>
