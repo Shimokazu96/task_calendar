@@ -4,7 +4,7 @@ import { CircularProgress, Backdrop } from "@mui/material";
 
 export default function CircularIndeterminate({ open }: { open: boolean }) {
     return (
-        <Dashboard title="">
+        <Dashboard>
             <Backdrop
                 open={open}
                 sx={{

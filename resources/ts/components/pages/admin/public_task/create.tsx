@@ -122,7 +122,7 @@ const CreatePublicTaskPage: React.FC = () => {
         return <Loading open={loading} />;
     }
     return (
-        <Dashboard title="">
+        <Dashboard>
             <Box
                 sx={{
                     alignItems: "center",
