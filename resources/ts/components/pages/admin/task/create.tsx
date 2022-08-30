@@ -2,7 +2,6 @@ import * as React from "react";
 import { useEffect, useState } from "react";
 import { AxiosError, AxiosResponse } from "axios";
 import { axiosApi } from "@/lib/axios";
-import Dashboard from "@/components/templates/admin/Dashboard";
 import { Link, useParams, useNavigate } from "react-router-dom";
 import { Button, TextField, Grid, Box, Typography, Paper } from "@mui/material";
 import { useForm } from "react-hook-form";
@@ -53,7 +52,7 @@ const CreateTaskPage: React.FC = () => {
     };
 
     return (
-        <Dashboard>
+        <>
             <Box
                 sx={{
                     alignItems: "center",
@@ -135,7 +134,7 @@ const CreateTaskPage: React.FC = () => {
                     </Grid>
                 </Grid>
             </Paper>
-        </Dashboard>
+        </>
     );
 };
 export default CreateTaskPage;

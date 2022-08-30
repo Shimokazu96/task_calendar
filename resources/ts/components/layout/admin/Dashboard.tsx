@@ -1,5 +1,5 @@
 import * as React from "react";
-import { useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import { styled, createTheme, ThemeProvider } from "@mui/material/styles";
 import MenuIcon from "@mui/icons-material/Menu";
 import {
@@ -14,7 +14,7 @@ import {
 } from "@mui/material";
 import MenuItem from "@mui/material/MenuItem";
 import Menu from "@mui/material/Menu";
-import { Link } from "react-router-dom";
+import { Link, Outlet } from "react-router-dom";
 import MuiDrawer from "@mui/material/Drawer";
 import MuiAppBar, { AppBarProps as MuiAppBarProps } from "@mui/material/AppBar";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
@@ -29,9 +29,6 @@ const drawerWidth: number = 240;
 
 interface AppBarProps extends MuiAppBarProps {
     open?: boolean;
-}
-export interface DashboardProps {
-    children: React.ReactNode;
 }
 
 const AppBar = styled(MuiAppBar, {
@@ -80,7 +77,7 @@ const Drawer = styled(MuiDrawer, {
 
 const mdTheme = createTheme();
 
-const DashboardContent: React.FC<DashboardProps> = ({ children }) => {
+const DashboardContent: React.FC = () => {
     const [open, setOpen] = React.useState(true);
     const [loading, setLoading] = useState(true);
 
@@ -219,7 +216,9 @@ const DashboardContent: React.FC<DashboardProps> = ({ children }) => {
                 >
                     <Toolbar />
                     <Container maxWidth={false} sx={{ mt: 2, mb: 2 }}>
-                        {children}
+                        <Suspense fallback={<div>Loading...</div>}>
+                            <Outlet />
+                        </Suspense>
                     </Container>
                 </Box>
             </Box>

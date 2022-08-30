@@ -2,7 +2,6 @@ import * as React from "react";
 import { useEffect, useState } from "react";
 import { AxiosError, AxiosResponse } from "axios";
 import { axiosApi } from "@/lib/axios";
-import Dashboard from "@/components/templates/admin/Dashboard";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import {
     Button,
@@ -122,7 +121,7 @@ const CreatePublicTaskPage: React.FC = () => {
         return <Loading open={loading} />;
     }
     return (
-        <Dashboard>
+        <>
             <Box
                 sx={{
                     alignItems: "center",
@@ -331,7 +330,7 @@ const CreatePublicTaskPage: React.FC = () => {
                     </Grid>
                 </Grid>
             </Paper>
-        </Dashboard>
+        </>
     );
 };
 export default CreatePublicTaskPage;

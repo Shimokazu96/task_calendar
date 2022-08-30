@@ -2,7 +2,6 @@ import * as React from "react";
 import { useEffect, useState } from "react";
 import { AxiosError, AxiosResponse } from "axios";
 import { axiosApi } from "@/lib/axios";
-import Dashboard from "@/components/templates/admin/Dashboard";
 import { Link, useParams, useNavigate } from "react-router-dom";
 import {
     Button,
@@ -67,7 +66,7 @@ const CreateUserPage: React.FC = () => {
 
 
     return (
-        <Dashboard>
+        <>
             <Box
                 sx={{
                     alignItems: "center",
@@ -181,7 +180,7 @@ const CreateUserPage: React.FC = () => {
                     </Grid>
                 </Paper>
             </Container>
-        </Dashboard>
+        </>
     );
 };
 export default CreateUserPage;
