@@ -17,7 +17,6 @@ import Menu from "@mui/material/Menu";
 import MoreVertOutlinedIcon from "@mui/icons-material/MoreVertOutlined";
 import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 import DeleteOutlineOutlinedIcon from "@mui/icons-material/DeleteOutlineOutlined";
-import Dashboard from "@/components/templates/admin/Dashboard";
 import DeleteDialog from "@/components/templates/admin/DeleteDialog";
 import useDataTable from "@/hooks/useDataTable";
 import useNotification from "@/hooks/useNotification";
@@ -230,7 +229,7 @@ const PublicTaskPage: React.FC = () => {
     }
 
     return (
-        <Dashboard>
+        <>
             <Box
                 sx={{
                     alignItems: "center",
@@ -264,7 +263,7 @@ const PublicTaskPage: React.FC = () => {
                 columns={columns}
                 options={options}
             />
-        </Dashboard>
+        </>
     );
 };
 export default PublicTaskPage;

@@ -2,7 +2,6 @@ import * as React from "react";
 import { useEffect, useState } from "react";
 import { AxiosError, AxiosResponse } from "axios";
 import { axiosApi } from "@/lib/axios";
-import Dashboard from "@/components/templates/admin/Dashboard";
 import { useParams, useNavigate } from "react-router-dom";
 import { Box, Typography } from "@mui/material";
 import { Admin } from "@/types/Admin";
@@ -45,7 +44,7 @@ const AdminSettingPage: React.FC = () => {
         return <Loading open={loading} />;
     }
     return (
-        <Dashboard>
+        <>
             <Box
                 sx={{
                     alignItems: "center",
@@ -68,7 +67,7 @@ const AdminSettingPage: React.FC = () => {
             </Box>
             <ProfileInformation admin={admin} />
             <PasswordUpdate />
-        </Dashboard>
+        </>
     );
 };
 export default AdminSettingPage;

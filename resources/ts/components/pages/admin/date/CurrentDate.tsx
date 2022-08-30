@@ -4,7 +4,6 @@ import { AxiosError, AxiosResponse } from "axios";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { axiosApi } from "@/lib/axios";
 import FullCalendar, { DateSelectArg, EventInput } from "@fullcalendar/react";
-import Dashboard from "@/components/templates/admin/Dashboard";
 import Loading from "@/components/parts/Loading";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import allLocales from "@fullcalendar/core/locales-all";
@@ -50,7 +49,7 @@ const CurrentDatePage: React.FC = () => {
         return <Loading open={loading} />;
     }
     return (
-        <Dashboard>
+        <>
             <div className="calendar">
                 <FullCalendar
                     ref={calendarRef}
@@ -108,7 +107,7 @@ const CurrentDatePage: React.FC = () => {
                     </Button>
                 </Tooltip>
             </Link>
-        </Dashboard>
+        </>
     );
 };
 

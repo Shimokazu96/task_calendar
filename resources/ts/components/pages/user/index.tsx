@@ -1,5 +1,4 @@
 import React from "react";
-import Dashboard from "@/components/templates/admin/Dashboard";
 import MUIDataTable from "mui-datatables";
 
 const columns = ["Name", "Company", "City", "State"];
@@ -20,14 +19,14 @@ const options = {
 
 const UserPage: React.FC = () => {
     return (
-        <Dashboard title={"ユーザーページ"}>
+        <>
             <MUIDataTable
                 title={"成績"}
                 data={data}
                 columns={columns}
                 options={options}
             />
-        </Dashboard>
+        </>
     );
 };
 export default UserPage;

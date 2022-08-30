@@ -2,7 +2,6 @@ import * as React from "react";
 import { useEffect, useState } from "react";
 import { AxiosError, AxiosResponse } from "axios";
 import { axiosApi } from "@/lib/axios";
-import Dashboard from "@/components/templates/admin/Dashboard";
 import { Link, useParams, useNavigate } from "react-router-dom";
 import {
     Button,
@@ -81,7 +80,7 @@ const EditSectionPage: React.FC = () => {
         return <Loading open={loading} />;
     }
     return (
-        <Dashboard>
+        <>
             <Box
                 sx={{
                     alignItems: "center",
@@ -147,7 +146,7 @@ const EditSectionPage: React.FC = () => {
                     </Grid>
                 </Grid>
             </Paper>
-        </Dashboard>
+        </>
     );
 };
 export default EditSectionPage;

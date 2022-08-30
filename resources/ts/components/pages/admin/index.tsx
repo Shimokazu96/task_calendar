@@ -6,11 +6,7 @@ import { axiosApi } from "@/lib/axios";
 import FullCalendar, {
     DateSelectArg,
     EventInput,
-    EventApi,
-    EventClickArg,
-    EventContentArg,
 } from "@fullcalendar/react";
-import Dashboard from "@/components/templates/admin/Dashboard";
 import Loading from "@/components/parts/Loading";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import allLocales from "@fullcalendar/core/locales-all";
@@ -52,56 +48,54 @@ const TopPage: React.FC = () => {
         return <Loading open={loading} />;
     }
     return (
-        <Dashboard>
-            <div className="calendar">
-                <FullCalendar
-                    ref={calendarRef}
-                    plugins={[
-                        dayGridPlugin,
-                        timeGridPlugin,
-                        interactionPlugin,
-                        listPlugin,
-                        resourceTimeGridPlugin,
-                    ]}
-                    headerToolbar={{
-                        // start: "prev,next today",
-                        // center: "title",
-                        // end: "dayGridMonth,timeGridWeek,resourceTimeGridDay",
-                        end: "prev,next",
-                    }}
-                    height={"88vh"}
-                    eventTimeFormat={{ hour: "2-digit", minute: "2-digit" }}
-                    slotLabelFormat={[{ hour: "2-digit", minute: "2-digit" }]}
-                    // initialView="resourceTimeGridDay"
-                    // eventContent={renderEventContent}
-                    selectable={true}
-                    editable={false}
-                    // showNonCurrentDates={false}
+        <div className="calendar">
+            <FullCalendar
+                ref={calendarRef}
+                plugins={[
+                    dayGridPlugin,
+                    timeGridPlugin,
+                    interactionPlugin,
+                    listPlugin,
+                    resourceTimeGridPlugin,
+                ]}
+                headerToolbar={{
+                    // start: "prev,next today",
+                    // center: "title",
+                    // end: "dayGridMonth,timeGridWeek,resourceTimeGridDay",
+                    end: "prev,next",
+                }}
+                height={"88vh"}
+                eventTimeFormat={{ hour: "2-digit", minute: "2-digit" }}
+                slotLabelFormat={[{ hour: "2-digit", minute: "2-digit" }]}
+                // initialView="resourceTimeGridDay"
+                // eventContent={renderEventContent}
+                selectable={true}
+                editable={false}
+                // showNonCurrentDates={false}
 
-                    // selectMirror={true}
-                    dayMaxEvents={true}
-                    // navLinks={true}
-                    nowIndicator={true}
-                    resources={[
-                        { id: "1", title: "フロント", eventColor: "#5aa7de" },
-                        { id: "2", title: "厨房", eventColor: "#61dd56" },
-                    ]}
-                    events={publicTasks}
-                    aspectRatio={1.5}
-                    locales={allLocales}
-                    locale="ja"
-                    // eventsSet={handleEvents}
-                    select={handleDateSelect}
-                    // eventClick={handleEventClick}
-                    // dayCellContent={(event: DayCellContentArg) =>
-                    //     (event.dayNumberText = event.dayNumberText.replace(
-                    //         "日",
-                    //         ""
-                    //     ))
-                    // }
-                />
-            </div>
-        </Dashboard>
+                // selectMirror={true}
+                dayMaxEvents={true}
+                // navLinks={true}
+                nowIndicator={true}
+                resources={[
+                    { id: "1", title: "フロント", eventColor: "#5aa7de" },
+                    { id: "2", title: "厨房", eventColor: "#61dd56" },
+                ]}
+                events={publicTasks}
+                aspectRatio={1.5}
+                locales={allLocales}
+                locale="ja"
+                // eventsSet={handleEvents}
+                select={handleDateSelect}
+                // eventClick={handleEventClick}
+                // dayCellContent={(event: DayCellContentArg) =>
+                //     (event.dayNumberText = event.dayNumberText.replace(
+                //         "日",
+                //         ""
+                //     ))
+                // }
+            />
+        </div>
     );
 };
 
