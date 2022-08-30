@@ -85,15 +85,6 @@ const Login = () => {
             });
     };
 
-    // SPA認証済みではないとアクセスできないAPI
-    const handleUserClick = () => {
-        axiosApi
-            .get("/api/admin", { withCredentials: true })
-            .then((response: AxiosResponse) => {
-                console.log(response.data);
-            });
-    };
-
     return (
         <ThemeProvider theme={theme}>
             <Container component="main" maxWidth="xs">
@@ -168,30 +159,6 @@ const Login = () => {
                         >
                             Login
                         </Button>
-                        <Button
-                            onClick={handleUserClick}
-                            fullWidth
-                            variant="contained"
-                            sx={{ mt: 3, mb: 2 }}
-                        >
-                            Login Check
-                        </Button>
-                        <Grid container>
-                            <Grid item xs>
-                                <Link href="#" variant="body2">
-                                    Forgot password?
-                                </Link>
-                            </Grid>
-                            <Grid item>
-                                <Link
-                                    component={RouterLink}
-                                    to="/register"
-                                    variant="body2"
-                                >
-                                    {"Don't have an account? Sign Up"}
-                                </Link>
-                            </Grid>
-                        </Grid>
                     </Box>
                 </Box>
             </Container>
