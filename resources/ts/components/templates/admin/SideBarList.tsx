@@ -8,82 +8,111 @@ import DashboardIcon from "@mui/icons-material/Dashboard";
 import PeopleIcon from "@mui/icons-material/People";
 import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 import LayersIcon from "@mui/icons-material/Layers";
-import { Divider } from "@mui/material";
+import { Divider, Tooltip } from "@mui/material";
 
-export default function MainListItems() {
+export default function MainListItems({ open }: { open: boolean }) {
     const resolvedLocation = useResolvedPath("");
     return (
         <React.Fragment>
-            <NavLink
-                className={() =>
-                    resolvedLocation.pathname == "/admin" ||
-                    resolvedLocation.pathname.indexOf("/admin/date") > -1
-                        ? " sidebarActivated"
-                        : ""
-                }
-                to="/admin"
+            <Tooltip
+                disableHoverListener={!open ? false : true}
+                placement="right"
+                title="ダッシュボード"
             >
-                <ListItemButton>
-                    <ListItemIcon>
-                        <DashboardIcon />
-                    </ListItemIcon>
-                    <ListItemText primary="ダッシュボード" />
-                </ListItemButton>
-            </NavLink>
-            <NavLink
-                className={({ isActive }) =>
-                    isActive ? " sidebarActivated" : ""
-                }
-                to="/admin/public_task"
+                <NavLink
+                    className={() =>
+                        resolvedLocation.pathname == "/admin" ||
+                        resolvedLocation.pathname.indexOf("/admin/date") > -1
+                            ? " sidebarActivated"
+                            : ""
+                    }
+                    to="/admin"
+                >
+                    <ListItemButton>
+                        <ListItemIcon>
+                            <DashboardIcon />
+                        </ListItemIcon>
+                        <ListItemText primary="ダッシュボード" />
+                    </ListItemButton>
+                </NavLink>
+            </Tooltip>
+            <Tooltip
+                disableHoverListener={!open ? false : true}
+                placement="right"
+                title="公開タスク"
             >
-                <ListItemButton>
-                    <ListItemIcon>
-                        <CalendarMonthIcon />
-                    </ListItemIcon>
-                    <ListItemText primary="公開タスク" />
-                </ListItemButton>
-            </NavLink>
+                <NavLink
+                    className={({ isActive }) =>
+                        isActive ? " sidebarActivated" : ""
+                    }
+                    to="/admin/public_task"
+                >
+                    <ListItemButton>
+                        <ListItemIcon>
+                            <CalendarMonthIcon />
+                        </ListItemIcon>
+                        <ListItemText primary="公開タスク" />
+                    </ListItemButton>
+                </NavLink>
+            </Tooltip>
             <Divider sx={{ my: 1 }} />
-
-            <NavLink
-                className={({ isActive }) =>
-                    isActive ? " sidebarActivated" : ""
-                }
-                to="/admin/task"
+            <Tooltip
+                disableHoverListener={!open ? false : true}
+                placement="right"
+                title="タスク・マスター"
             >
-                <ListItemButton>
-                    <ListItemIcon>
-                        <TaskIcon />
-                    </ListItemIcon>
-                    <ListItemText primary="タスク・マスター" />
-                </ListItemButton>
-            </NavLink>
-            <NavLink
-                className={({ isActive }) =>
-                    isActive ? " sidebarActivated" : ""
-                }
-                to="/admin/section"
+                <NavLink
+                    className={({ isActive }) =>
+                        isActive ? " sidebarActivated" : ""
+                    }
+                    to="/admin/task"
+                >
+                    <ListItemButton>
+                        <ListItemIcon>
+                            <TaskIcon />
+                        </ListItemIcon>
+                        <ListItemText primary="タスク・マスター" />
+                    </ListItemButton>
+                </NavLink>
+            </Tooltip>
+            <Tooltip
+                disableHoverListener={!open ? false : true}
+                placement="right"
+                title="セクション・マスター"
             >
-                <ListItemButton>
-                    <ListItemIcon>
-                        <LayersIcon />
-                    </ListItemIcon>
-                    <ListItemText primary="セクション・マスター" />
-                </ListItemButton>
-            </NavLink>
-            <NavLink
-                className={({ isActive }) =>
-                    isActive ? " sidebarActivated" : ""
-                }
-                to="/admin/user"
+                <NavLink
+                    className={({ isActive }) =>
+                        isActive ? " sidebarActivated" : ""
+                    }
+                    to="/admin/section"
+                >
+                    <ListItemButton>
+                        <ListItemIcon>
+                            <LayersIcon />
+                        </ListItemIcon>
+                        <ListItemText primary="セクション・マスター" />
+                    </ListItemButton>
+                </NavLink>
+            </Tooltip>
+            <Tooltip
+                disableHoverListener={!open ? false : true}
+                placement="right"
+                title="スタッフ"
             >
-                <ListItemButton>
-                    <ListItemIcon>
-                        <PeopleIcon />
-                    </ListItemIcon>
-                    <ListItemText primary="スタッフ" />
-                </ListItemButton>
-            </NavLink>
+                <NavLink
+                    className={({ isActive }) =>
+                        isActive ? " sidebarActivated" : ""
+                    }
+                    to="/admin/user"
+                >
+                    <ListItemButton>
+                        <ListItemIcon>
+                            <PeopleIcon />
+                        </ListItemIcon>
+                        <ListItemText primary="スタッフ" />
+                    </ListItemButton>
+                </NavLink>
+            </Tooltip>
         </React.Fragment>
     );
 }
