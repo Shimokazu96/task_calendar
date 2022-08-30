@@ -22,6 +22,7 @@ const CurrentDatePage: React.FC = () => {
 
     const calendarRef = useRef<FullCalendar>(null!);
     const [publicTasks, setPublicTasks] = useState<EventInput[]>([]);
+    const [sections, setSections] = useState<EventInput[]>([]);
     const [loading, setLoading] = useState(true);
 
     const getPublicTasks = async () => {
@@ -30,7 +31,16 @@ const CurrentDatePage: React.FC = () => {
             .then((response: AxiosResponse) => {
                 console.log(response.data);
                 setPublicTasks(response.data);
-                setLoading(false);
+            })
+            .catch((err: AxiosError) => console.log(err.response));
+        return publicTasks;
+    };
+    const getSections = async () => {
+        await axiosApi
+            .get(`/api/admin/time_grid/section`)
+            .then((response: AxiosResponse) => {
+                console.log(response.data);
+                setSections(response.data);
             })
             .catch((err: AxiosError) => console.log(err.response));
         return publicTasks;
@@ -38,6 +48,8 @@ const CurrentDatePage: React.FC = () => {
 
     useEffect(() => {
         getPublicTasks();
+        getSections();
+        setLoading(false);
     }, []);
     console.log(calendarRef.current);
 
@@ -77,12 +89,10 @@ const CurrentDatePage: React.FC = () => {
                             },
                         },
                     }}
+                    allDaySlot={false}
                     dayMaxEvents={true}
                     nowIndicator={true}
-                    resources={[
-                        { id: "1", title: "フロント", eventColor: "#5aa7de" },
-                        { id: "2", title: "厨房", eventColor: "#61dd56" },
-                    ]}
+                    resources={sections}
                     events={publicTasks}
                     aspectRatio={1.5}
                     locales={allLocales}

@@ -56,6 +56,7 @@ Route::group([
     Route::get('/public_task/calendar/{this_month}', 'PublicTaskController@getTasksThisMonth');
     Route::get('/task_name', 'TaskController@getTaskName');
     Route::get('/section_name', 'SectionController@getSectionName');
+    Route::get('/time_grid/section', 'SectionController@getResourceTimeGridSection');
     Route::apiResource('/section', SectionController::class);
     Route::put('/password', 'PasswordController@update');
     Route::put('/profile-information', 'ProfileInformationController@update');
