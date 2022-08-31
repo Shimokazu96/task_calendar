@@ -48,7 +48,7 @@ const TopPage: React.FC = () => {
         return <Loading open={loading} />;
     }
     return (
-        <div className="calendar">
+        <div className="adminCalendar">
             <FullCalendar
                 ref={calendarRef}
                 plugins={[

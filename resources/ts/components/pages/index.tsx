@@ -1,86 +1,90 @@
-import { useCallback, useState } from "react";
+import { useCallback, useState, useEffect, useRef } from "react";
 import "@fullcalendar/react/dist/vdom";
+import { AxiosError, AxiosResponse } from "axios";
+import { useNavigate } from "react-router-dom";
+import { axiosApi } from "@/lib/axios";
 import FullCalendar, {
     DateSelectArg,
-    DayCellContentArg,
-    EventApi,
-    EventClickArg,
-    EventContentArg,
+    EventInput,
 } from "@fullcalendar/react";
+import Loading from "@/components/parts/Loading";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import allLocales from "@fullcalendar/core/locales-all";
 import interactionPlugin from "@fullcalendar/interaction";
 import listPlugin from "@fullcalendar/list";
 import timeGridPlugin from "@fullcalendar/timegrid";
-import { INITIAL_EVENTS, createEventId } from "@/lib/event-utils";
+import { Task } from "@/types/Task";
+import { format } from "date-fns";
+import resourceTimeGridPlugin from "@fullcalendar/resource-timegrid";
 
 const TopPage: React.FC = () => {
-    const [currentEvents, setCurrentEvents] = useState<EventApi[]>([]);
-    const handleEvents = useCallback(
-        (events: EventApi[]) => setCurrentEvents(events),
-        []
-    );
-    const handleDateSelect = useCallback((selectInfo: DateSelectArg) => {
-        let title = prompt("イベントのタイトルを入力してください")?.trim();
-        let calendarApi = selectInfo.view.calendar;
-        calendarApi.unselect();
-        if (title) {
-            calendarApi.addEvent({
-                id: createEventId(),
-                title,
-                start: selectInfo.startStr,
-                end: selectInfo.endStr,
-                allDay: selectInfo.allDay,
-            });
-        }
-    }, []);
-    const handleEventClick = useCallback((clickInfo: EventClickArg) => {
-        if (
-            window.confirm(
-                `このイベント「${clickInfo.event.title}」を削除しますか`
-            )
-        ) {
-            clickInfo.event.remove();
-        }
-    }, []);
-    const renderEventContent = (eventContent: EventContentArg) => (
-        <>
-            <b>{eventContent.timeText}</b>
-            <i>{eventContent.event.title}</i>
-        </>
-    );
+    const thisDate = format(new Date(), "yyyy");
+    const navigate = useNavigate();
+    const calendarRef = useRef<FullCalendar>(null!);
 
+    const [publicTasks, setPublicTasks] = useState<EventInput[]>([]);
+    const [loading, setLoading] = useState(true);
+
+    const getPublicTasks = async () => {
+        await axiosApi
+            .get(`/api/public_task/calendar/${thisDate}`)
+            .then((response: AxiosResponse) => {
+                console.log(response.data);
+                setPublicTasks(response.data);
+                setLoading(false);
+            })
+            .catch((err: AxiosError) => console.log(err.response));
+        return publicTasks;
+    };
+
+    useEffect(() => {
+        getPublicTasks();
+    }, []);
+
+    const handleDateSelect = useCallback((selectInfo: DateSelectArg) => {
+        // navigate(`/date/${selectInfo.startStr}`);
+    }, []);
+    if (loading) {
+        return <Loading open={loading} />;
+    }
     return (
-        <div className="calendar">
+        <div className="frontCalendar">
             <FullCalendar
+                ref={calendarRef}
                 plugins={[
                     dayGridPlugin,
                     timeGridPlugin,
                     interactionPlugin,
                     listPlugin,
+                    resourceTimeGridPlugin,
                 ]}
                 headerToolbar={{
-                    start: "prev,next today",
+                    start: "",
                     center: "title",
-                    end: "dayGridMonth,timeGridWeek,timeGridDay,listMonth",
+                    // end: "dayGridMonth,timeGridWeek,resourceTimeGridDay",
+                    end: "",
+                    // end: "prev,next",
                 }}
+                height={"88vh"}
                 eventTimeFormat={{ hour: "2-digit", minute: "2-digit" }}
                 slotLabelFormat={[{ hour: "2-digit", minute: "2-digit" }]}
-                initialView="dayGridMonth"
-                eventContent={renderEventContent}
+                // initialView="resourceTimeGridDay"
+                // eventContent={renderEventContent}
                 selectable={true}
-                editable={true}
-                selectMirror={true}
+                editable={false}
+                // showNonCurrentDates={false}
+
+                // selectMirror={true}
                 dayMaxEvents={true}
-                navLinks={true}
+                // navLinks={true}
                 nowIndicator={true}
-                initialEvents={INITIAL_EVENTS}
+                events={publicTasks}
                 aspectRatio={1.5}
                 locales={allLocales}
                 locale="ja"
-                eventsSet={handleEvents}
+                // eventsSet={handleEvents}
                 select={handleDateSelect}
-                eventClick={handleEventClick}
+                // eventClick={handleEventClick}
                 // dayCellContent={(event: DayCellContentArg) =>
                 //     (event.dayNumberText = event.dayNumberText.replace(
                 //         "日",
