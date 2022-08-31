@@ -39,7 +39,7 @@ a:focus {
     height: 100%;
 }
 .frontCalendar .fc .fc-toolbar.fc-header-toolbar {
-    margin-bottom: 1em;
+    margin-bottom: 0;
     padding: 10px;
 }
 .frontCalendar .fc .fc-toolbar-title {

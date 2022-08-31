@@ -3,10 +3,7 @@ import "@fullcalendar/react/dist/vdom";
 import { AxiosError, AxiosResponse } from "axios";
 import { useNavigate } from "react-router-dom";
 import { axiosApi } from "@/lib/axios";
-import FullCalendar, {
-    DateSelectArg,
-    EventInput,
-} from "@fullcalendar/react";
+import FullCalendar, { DateSelectArg, EventInput } from "@fullcalendar/react";
 import Loading from "@/components/parts/Loading";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import allLocales from "@fullcalendar/core/locales-all";
@@ -16,6 +13,7 @@ import timeGridPlugin from "@fullcalendar/timegrid";
 import { Task } from "@/types/Task";
 import { format } from "date-fns";
 import resourceTimeGridPlugin from "@fullcalendar/resource-timegrid";
+import { useSwipeable } from "react-swipeable";
 
 const TopPage: React.FC = () => {
     const thisDate = format(new Date(), "yyyy");
@@ -36,7 +34,20 @@ const TopPage: React.FC = () => {
             .catch((err: AxiosError) => console.log(err.response));
         return publicTasks;
     };
-
+    const handlers = useSwipeable({
+        onSwiped: (event) => {
+            console.log(event);
+            const calendarApi = calendarRef.current.getApi();
+            if (event.dir == "Left") {
+                calendarApi.next();
+            }
+            if (event.dir == "Right") {
+                calendarApi.prev();
+            }
+            setLoading(false);
+        },
+        trackMouse: true,
+    });
     useEffect(() => {
         getPublicTasks();
     }, []);
@@ -44,11 +55,12 @@ const TopPage: React.FC = () => {
     const handleDateSelect = useCallback((selectInfo: DateSelectArg) => {
         // navigate(`/date/${selectInfo.startStr}`);
     }, []);
+
     if (loading) {
         return <Loading open={loading} />;
     }
     return (
-        <div className="frontCalendar">
+        <div {...handlers} className="frontCalendar">
             <FullCalendar
                 ref={calendarRef}
                 plugins={[
@@ -65,7 +77,7 @@ const TopPage: React.FC = () => {
                     end: "",
                     // end: "prev,next",
                 }}
-                height={"88vh"}
+                height={"85vh"}
                 eventTimeFormat={{ hour: "2-digit", minute: "2-digit" }}
                 slotLabelFormat={[{ hour: "2-digit", minute: "2-digit" }]}
                 // initialView="resourceTimeGridDay"
@@ -79,7 +91,7 @@ const TopPage: React.FC = () => {
                 // navLinks={true}
                 nowIndicator={true}
                 events={publicTasks}
-                aspectRatio={1.5}
+                aspectRatio={1}
                 locales={allLocales}
                 locale="ja"
                 // eventsSet={handleEvents}

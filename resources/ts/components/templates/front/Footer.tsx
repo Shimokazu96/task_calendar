@@ -37,7 +37,7 @@ export default function StickyFooter() {
                 <List
                     sx={{
                         width: "100%",
-                        height: "80px",
+                        height: "10%",
                         display: "flex",
                         p: 0,
                     }}
