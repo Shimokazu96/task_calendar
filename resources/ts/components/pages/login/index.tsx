@@ -28,7 +28,6 @@ type LoginForm = {
     password: string;
 };
 
-
 const theme = createTheme();
 
 const Login = () => {
@@ -145,7 +144,11 @@ const Login = () => {
 
                         <Grid container>
                             <Grid item xs>
-                                <Link href="#" variant="body2">
+                                <Link
+                                    component={RouterLink}
+                                    to="/forgot-password"
+                                    variant="body2"
+                                >
                                     パスワードを忘れた方はこちら
                                 </Link>
                             </Grid>

@@ -65,6 +65,11 @@ export default function AdminProfileInformation() {
                         <TextField
                             {...register("current_password", {
                                 required: "必須入力です。",
+                                pattern: {
+                                    value: /^([a-zA-Z0-9]{8,})$/,
+                                    message:
+                                        "8文字以上の半角英数字で入力してください",
+                                },
                             })}
                             error={"current_password" in errors}
                             sx={{ mb: 2 }}
@@ -78,6 +83,11 @@ export default function AdminProfileInformation() {
                         <TextField
                             {...register("password", {
                                 required: "必須入力です。",
+                                pattern: {
+                                    value: /^([a-zA-Z0-9]{8,})$/,
+                                    message:
+                                        "8文字以上の半角英数字で入力してください",
+                                },
                             })}
                             error={"password" in errors}
                             sx={{ mb: 2 }}
