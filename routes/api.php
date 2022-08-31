@@ -23,3 +23,13 @@ Route::get('/reflesh-token', function (Illuminate\Http\Request $request) {
 
     return response()->json();
 });
+
+// admin ログイン認証後
+Route::group([
+    'namespace' => 'App\Http\Controllers\User',
+    'middleware' => ['auth:sanctum']
+], function () {
+    Route::apiResource('/public_task', PublicTaskController::class);
+    Route::get('/public_task/calendar/{this_month}', 'PublicTaskController@getTasksThisMonth');
+});
+
