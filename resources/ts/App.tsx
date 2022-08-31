@@ -9,6 +9,8 @@ import EmailVerify from "@/components/pages/emailVerify";
 import useAdminAuth from "@/hooks/useAdminAuth";
 import useUserAuth from "@/hooks/useUserAuth";
 import AdminLogin from "@/components/pages/admin/login";
+import ForgotPassword from "@/components/pages/forgotPassword";
+import ResetPassword from "@/components/pages/resetPassword";
 
 // import AdminRoutes from "./route/admin";
 
@@ -70,6 +72,14 @@ const App: React.FC = () => {
             <Route
                 path="/register"
                 element={userStatus() ? <Navigate to="/" /> : <Register />}
+            />
+            <Route
+                path="/forgot-password"
+                element={userStatus() ? <Navigate to="/" /> : <ForgotPassword />}
+            />
+            <Route
+                path="/reset-password/:token"
+                element={userStatus() ? <Navigate to="/" /> : <ResetPassword />}
             />
             <Route
                 path="/email/verify"

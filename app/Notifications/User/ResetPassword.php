@@ -95,11 +95,11 @@ class ResetPassword extends Notification
         if (static::$createUrlCallback) {
             return call_user_func(static::$createUrlCallback, $notifiable, $this->token);
         }
-        // return config('app.url') . '/member/reset-password/' . $this->token . '?email=' .  $notifiable->getEmailForPasswordReset();
-        return url(route('password.reset', [
-            'token' => $this->token,
-            'email' => $notifiable->getEmailForPasswordReset(),
-        ], false));
+        return config('app.url') . '/reset-password/' . $this->token . '?email=' .  $notifiable->getEmailForPasswordReset();
+        // return url(route('password.reset', [
+        //     'token' => $this->token,
+        //     'email' => $notifiable->getEmailForPasswordReset(),
+        // ], false));
     }
 
     /**

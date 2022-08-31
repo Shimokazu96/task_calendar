@@ -6,9 +6,9 @@ const CurrentDatePage = lazy(() => import("@/components/pages/admin/date/Current
 const TaskPage = lazy(() => import("@/components/pages/admin/task"));
 const CreateTaskPage = lazy(() => import("@/components/pages/admin/task/create"));
 const EditTaskPage = lazy(() => import("@/components/pages/admin/task/edit"));
-const PublicTaskPage = lazy(() => import("@/components/pages/admin/public_task"));
-const CreatePublicTaskPage = lazy(() => import("@/components/pages/admin/public_task/create"));
-const EditPublicTaskPage = lazy(() => import("@/components/pages/admin/public_task/edit"));
+const PublicTaskPage = lazy(() => import("@/components/pages/admin/publicTask"));
+const CreatePublicTaskPage = lazy(() => import("@/components/pages/admin/publicTask/create"));
+const EditPublicTaskPage = lazy(() => import("@/components/pages/admin/publicTask/edit"));
 const CreateSectionPage = lazy(() => import("@/components/pages/admin/section/create"));
 const SectionPage = lazy(() => import("@/components/pages/admin/section"));
 const EditSectionPage = lazy(() => import("@/components/pages/admin/section/edit"));
