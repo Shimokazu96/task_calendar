@@ -13,7 +13,7 @@ class PublicTaskController extends Controller
 
     public function index()
     {
-        return PublicTask::orderBy('created_at')->with(['section', 'task'])->get();
+        return PublicTask::orderBy('id')->with(['section', 'task'])->paginate(10);
     }
 
     public function getTasksThisMonth($this_month)
