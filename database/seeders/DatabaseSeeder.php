@@ -19,6 +19,7 @@ class DatabaseSeeder extends Seeder
         $this->call( UserSeeder::class );
         $this->call(TaskSeeder::class);
         $this->call(SectionSeeder::class);
+        $this->call(PublicTaskSeeder::class);
 
         // \App\Models\User::factory()->create([
         //     'name' => 'Test User',

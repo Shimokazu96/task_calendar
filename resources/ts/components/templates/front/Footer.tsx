@@ -85,7 +85,7 @@ export default function StickyFooter() {
                             className={({ isActive }) =>
                                 isActive ? "isActive" : "inactive"
                             }
-                            to="/task"
+                            to="/public_task"
                         >
                             <ListItemButton
                                 sx={{
