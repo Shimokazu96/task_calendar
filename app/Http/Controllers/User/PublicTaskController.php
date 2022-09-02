@@ -11,14 +11,16 @@ use App\Models\User;
 class PublicTaskController extends Controller
 {
 
-    public function index()
+    public function index(Request $request)
     {
-        return PublicTask::orderBy('id')->with(['section', 'task'])->paginate(10);
+        $public_tasks = PublicTask::where("date", "LIKE", "%" . $request->date . "%")->with(['section', 'task'])->orderBy("date", "asc")->paginate(10);
+
+        return response()->json(["public_tasks" => $public_tasks, "date" => $request->date], 200) ?? abort(404);
     }
 
-    public function getTasksThisMonth($this_month)
+    public function getTasksThisMonth($date)
     {
-        $public_tasks = PublicTask::where("date", "LIKE", "%" . $this_month . "%")->with(['section', 'task'])->get();
+        $public_tasks = PublicTask::where("date", "LIKE", "%" . $date . "%")->with(['section', 'task'])->get();
         $public_task = [];
         foreach ($public_tasks as $key => $value) {
             $public_task[] = [
@@ -51,7 +53,7 @@ class PublicTaskController extends Controller
      */
     public function show($id)
     {
-        $public_task = PublicTask::where('id', $id)->with(['section', 'task','applicant_users'])->first();
+        $public_task = PublicTask::where('id', $id)->with(['section', 'task', 'applicant_users'])->first();
         return response()->json(["public_task" => $public_task, "applicant_users" => $public_task->applicant_users], 200) ?? abort(404);
     }
 

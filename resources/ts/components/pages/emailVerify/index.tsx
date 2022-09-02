@@ -6,7 +6,10 @@ import {
     Container,
     createTheme,
     ThemeProvider,
+    Link,
+    Grid,
 } from "@mui/material";
+import { Link as RouterLink } from "react-router-dom";
 import { axiosApi } from "@/lib/axios";
 import { AxiosResponse } from "axios";
 import useNotification from "@/hooks/useNotification";
@@ -66,6 +69,18 @@ const EmailVerify = () => {
                     >
                         メールを再送する
                     </Button>
+                    {/* <Grid
+                        container
+                        sx={{ display: "flex", justifyContent: "flex-end" }}
+                    >
+                        <Link
+                            component={RouterLink}
+                            to="/login"
+                            variant="body2"
+                        >
+                            ログインに戻る
+                        </Link>
+                    </Grid> */}
                 </Box>
             </Container>
         </ThemeProvider>
