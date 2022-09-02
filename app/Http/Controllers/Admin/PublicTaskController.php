@@ -16,9 +16,9 @@ class PublicTaskController extends Controller
         return PublicTask::orderBy('created_at')->with(['section', 'task'])->get();
     }
 
-    public function getTasksThisMonth($this_month)
+    public function getTasksThisMonth($date)
     {
-        $public_tasks = PublicTask::where("date", "LIKE", "%" . $this_month . "%")->with(['section', 'task'])->get();
+        $public_tasks = PublicTask::where("date", "LIKE", "%" . $date . "%")->with(['section', 'task'])->get();
         $public_task = [];
         foreach ($public_tasks as $key => $value) {
             $public_task[] = [

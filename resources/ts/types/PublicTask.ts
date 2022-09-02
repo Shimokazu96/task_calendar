@@ -10,12 +10,13 @@ export type PublicTask = {
     end_time: string;
     created_at: string;
     updated_at: string;
-    task:{
-        task_name:string;
-    }
-    section:{
-        section_name:string;
-    }
+    task: {
+        task_name: string;
+    };
+    section: {
+        section_name: string;
+        color: any;
+    };
 };
 export type Form = {
     task_id: string;
