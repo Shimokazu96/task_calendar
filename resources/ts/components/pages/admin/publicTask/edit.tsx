@@ -40,6 +40,7 @@ const EditPublicTaskPage: React.FC = () => {
         },
         section: {
             section_name: "",
+            color: "",
         },
     });
 

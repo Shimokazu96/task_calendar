@@ -1,6 +1,6 @@
 import React from "react";
 import { useEffect, useState } from "react";
-import { NavLink, useLocation, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { AxiosError, AxiosResponse } from "axios";
 import { axiosApi } from "@/lib/axios";
 import { setYear, setMonth, setDay } from "@/lib/dateFormat";
@@ -261,7 +261,7 @@ const PublicTaskPage: React.FC = () => {
                 }}
             >
                 {linearProgress ? <LinearProgress /> : <></>}
-                {publicTasks.length > 1 ? (
+                {publicTasks.length ? (
                     <InfiniteScroll
                         dataLength={publicTasks.length}
                         next={fetchMoreData}
@@ -277,90 +277,99 @@ const PublicTaskPage: React.FC = () => {
                         // }}
                     >
                         {publicTasks.map((publicTask, index) => (
-                            <StyledPaper
-                                key={index}
-                                sx={{
-                                    my: 1,
-                                    mx: "auto",
-                                    p: 2,
-                                }}
+                            <Link
+                                to={
+                                    "/public_task/" +
+                                    publicTasks[index].id
+                                }
                             >
-                                <Grid
+                                <StyledPaper
+                                    key={index}
                                     sx={{
-                                        width: "auto",
-                                        minWidth: 0,
-                                        flexFlow: "column",
-                                        alignItems: "center",
-                                        justifyContent: "center",
+                                        my: 1,
+                                        mx: "auto",
+                                        p: 2,
                                     }}
-                                    container
-                                    wrap="nowrap"
-                                    spacing={2}
                                 >
                                     <Grid
                                         sx={{
-                                            display: "flex",
-                                            justifyContent: "center",
+                                            width: "auto",
+                                            minWidth: 0,
+                                            flexFlow: "column",
                                             alignItems: "center",
-                                        }}
-                                        item
-                                    >
-                                        <Box
-                                            sx={{
-                                                width: "120px",
-                                                textAlign: "center",
-                                            }}
-                                        >
-                                            {format(
-                                                new Date(publicTask.date),
-                                                "yyyy年M月d日"
-                                            )}
-                                        </Box>
-                                        <Box
-                                            sx={{
-                                                width: "120px",
-                                                textAlign: "center",
-                                            }}
-                                        >
-                                            {publicTask.start_time}~
-                                            {publicTask.end_time}
-                                        </Box>
-                                    </Grid>
-                                    <Grid
-                                        sx={{
-                                            display: "flex",
                                             justifyContent: "center",
                                         }}
-                                        item
+                                        container
+                                        wrap="nowrap"
+                                        spacing={2}
                                     >
-                                        <Box
+                                        <Grid
                                             sx={{
-                                                width: "120px",
-                                                textAlign: "center",
+                                                display: "flex",
+                                                justifyContent: "center",
+                                                alignItems: "center",
                                             }}
+                                            item
                                         >
-                                            <Chip
-                                                size="small"
-                                                sx={{ p: 1 }}
-                                                label={
-                                                    publicTask.section
-                                                        .section_name
-                                                }
-                                                color={publicTask.section.color}
-                                            />
-                                        </Box>
-                                        <Box
+                                            <Box
+                                                sx={{
+                                                    width: "120px",
+                                                    textAlign: "center",
+                                                }}
+                                            >
+                                                {format(
+                                                    new Date(publicTask.date),
+                                                    "yyyy年M月d日"
+                                                )}
+                                            </Box>
+                                            <Box
+                                                sx={{
+                                                    width: "120px",
+                                                    textAlign: "center",
+                                                }}
+                                            >
+                                                {publicTask.start_time}~
+                                                {publicTask.end_time}
+                                            </Box>
+                                        </Grid>
+                                        <Grid
                                             sx={{
-                                                lineHeight: "24px",
-                                                width: "120px",
-                                                textAlign: "center",
+                                                display: "flex",
+                                                justifyContent: "center",
                                             }}
+                                            item
                                         >
-                                            {publicTask.task.task_name}
-                                        </Box>
+                                            <Box
+                                                sx={{
+                                                    width: "120px",
+                                                    textAlign: "center",
+                                                }}
+                                            >
+                                                <Chip
+                                                    size="small"
+                                                    sx={{ p: 1 }}
+                                                    label={
+                                                        publicTask.section
+                                                            .section_name
+                                                    }
+                                                    color={
+                                                        publicTask.section.color
+                                                    }
+                                                />
+                                            </Box>
+                                            <Box
+                                                sx={{
+                                                    lineHeight: "24px",
+                                                    width: "120px",
+                                                    textAlign: "center",
+                                                }}
+                                            >
+                                                {publicTask.task.task_name}
+                                            </Box>
+                                        </Grid>
                                     </Grid>
-                                </Grid>
-                            </StyledPaper>
+                                </StyledPaper>
+                            </Link>
                         ))}
                     </InfiniteScroll>
                 ) : (
