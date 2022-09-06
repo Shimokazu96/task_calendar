@@ -16,7 +16,7 @@ class PublicTaskController extends Controller
         return PublicTask::orderBy('created_at')->with(['section', 'task'])->get();
     }
 
-    public function getTasksThisMonth($date)
+    public function getTasksThisDate($date)
     {
         $public_tasks = PublicTask::where("date", "LIKE", "%" . $date . "%")->with(['section', 'task'])->get();
         $public_task = [];
@@ -51,8 +51,8 @@ class PublicTaskController extends Controller
      */
     public function show($id)
     {
-        $public_task = PublicTask::where('id', $id)->with(['section', 'task','applicant_users'])->first();
-        return response()->json(["public_task" => $public_task, "applicant_users" => $public_task->applicant_users], 200) ?? abort(404);
+        $public_task = PublicTask::where('id', $id)->with(['section', 'task','applicantUsers'])->first();
+        return response()->json(["public_task" => $public_task, "applicantUsers" => $public_task->applicantUsers], 200) ?? abort(404);
     }
 
 
@@ -73,6 +73,7 @@ class PublicTaskController extends Controller
             : response()->json([], 500);
     }
 
+    //タスクの確定
     public function fixPublicTask(Request $request, PublicTask $public_task, $id)
     {
         $user = User::where('id', $id)->first();
@@ -81,16 +82,17 @@ class PublicTaskController extends Controller
         }
         $public_task->determined_personnel = $public_task->determined_personnel + 1;
         $public_task->save();
-        $public_task->applicant_users()->detach($user->id);
-        $public_task->applicant_users()->attach($user->id, ["fixed" => true]);
+        $public_task->applicantUsers()->detach($user->id);
+        $public_task->applicantUsers()->attach($user->id, ["fixed" => true]);
 
         return response()->json(200) ?? response()->json([], 500);
     }
+    // タスクのキャンセル
     public function cancelPublicTask(Request $request, PublicTask $public_task, $id)
     {
         $user = User::where('id', $id)->first();
-        $public_task->applicant_users()->detach($user->id);
-        $public_task->applicant_users()->attach($user->id, ["fixed" => false]);
+        $public_task->applicantUsers()->detach($user->id);
+        $public_task->applicantUsers()->attach($user->id, ["fixed" => false]);
         $public_task->determined_personnel = $public_task->determined_personnel - 1;
         $public_task->save();
 

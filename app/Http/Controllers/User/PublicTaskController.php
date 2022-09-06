@@ -19,7 +19,7 @@ class PublicTaskController extends Controller
         return response()->json(["public_tasks" => $public_tasks, "date" => $request->date], 200) ?? abort(404);
     }
 
-    public function getTasksThisMonth($date)
+    public function getTasksThisDate($date)
     {
         $public_tasks = PublicTask::where("date", "LIKE", "%" . $date . "%")->with(['section', 'task'])->get();
         $public_task = [];
@@ -36,63 +36,28 @@ class PublicTaskController extends Controller
         return response()->json($public_task, 200) ?? abort(404);
     }
 
-
-    public function store(PublicTaskRequest $request, PublicTask $public_task)
-    {
-        $public_task = PublicTask::create($request->all());
-
-        return $public_task
-            ? response()->json($public_task, 201)
-            : response()->json([], 500);
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\PublicTask  $public_task
-     * @return \Illuminate\Http\Response
-     */
     public function show($id)
     {
-        $public_task = PublicTask::where('id', $id)->with(['section', 'task', 'applicant_users'])->first();
-        return response()->json(["public_task" => $public_task, "applicant_users" => $public_task->applicant_users], 200) ?? abort(404);
+        $public_task = PublicTask::where('id', $id)->with(['section', 'task', 'applicantUsers'])->first();
+        return response()->json(["public_task" => $public_task, "applicantUsers" => $public_task->applicantUsers], 200) ?? abort(404);
     }
 
-
-    public function update(PublicTaskRequest $request, PublicTask $public_task)
-    {
-        $public_task->fill($request->all());
-        $public_task->save();
-        return $public_task->update()
-            ? response()->json($public_task)
-            : response()->json([], 500);
-    }
-
-
-    public function destroy(PublicTask $public_task)
-    {
-        return $public_task->delete()
-            ? response()->json($public_task)
-            : response()->json([], 500);
-    }
-
+    //タスク申請
     public function applyPublicTask(Request $request, PublicTask $public_task)
     {
         $user = User::where('id', Auth::guard('web')->user()->id)->first();
-        // if ($public_task->required_personnel <= $public_task->determined_personnel) {
-        //     return response()->json("over_capacity");
-        // }
         $public_task->determined_personnel = $public_task->determined_personnel;
         $public_task->save();
-        $public_task->applicant_users()->detach($user->id);
-        $public_task->applicant_users()->attach($user->id, ["fixed" => false]);
+        $public_task->applicantUsers()->detach($user->id);
+        $public_task->applicantUsers()->attach($user->id, ["fixed" => false]);
 
         return response()->json(200) ?? response()->json([], 500);
     }
+    //タスク申請のキャンセル
     public function cancelPublicTask(Request $request, PublicTask $public_task)
     {
         $user = User::where('id', Auth::guard('web')->user()->id)->first();
-        $public_task->applicant_users()->detach($user->id);
+        $public_task->applicantUsers()->detach($user->id);
         $public_task->save();
 
         return response()->json(200) ?? response()->json([], 500);
