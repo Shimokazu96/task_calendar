@@ -33,3 +33,5 @@ export type Validation = {
     task_name?: string;
     description?: string;
 };
+
+export type AppliedTask = [];
