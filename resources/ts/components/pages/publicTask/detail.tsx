@@ -74,7 +74,7 @@ const DetailPublicTaskPage: React.FC = () => {
             .then((response: AxiosResponse) => {
                 console.log(response.data);
                 setPublicTask(response.data.public_task);
-                setApplicantUsers(response.data.applicant_users);
+                setApplicantUsers(response.data.applicantUsers);
                 setLoading(false);
             })
             .catch((err: AxiosError) => console.log(err.response));
