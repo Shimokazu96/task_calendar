@@ -29,6 +29,7 @@ const EditPublicTaskPage: React.FC = () => {
         section_id: 0,
         required_personnel: 0,
         determined_personnel: 0,
+        applied_public_task: false,
         description: "",
         date: "",
         start_time: "",

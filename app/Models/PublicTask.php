@@ -4,12 +4,17 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Auth;
 
 class PublicTask extends Model
 {
     use HasFactory;
 
     protected $guarded = ['id'];
+    /** JSONに含める属性 */
+    protected $appends = [
+        'applied_public_task'
+    ];
 
     public function task()
     {
@@ -28,5 +33,15 @@ class PublicTask extends Model
     public function task_completion_notifications()
     {
         return $this->belongsToMany(User::class, 'task_completion_notifications', 'public_task_id', 'user_id')->withTimestamps();
+    }
+
+    public function getAppliedPublicTaskAttribute()
+    {
+        if (Auth::guest() || Auth::guard('admin')->user()) {
+            return false;
+        }
+        return $this->applicant_users->contains(function ($user) {
+            return $user->id === Auth::guard('web')->user()->id;
+        });
     }
 }

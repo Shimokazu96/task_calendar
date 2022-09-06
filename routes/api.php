@@ -30,6 +30,10 @@ Route::group([
     'middleware' => ['auth:sanctum']
 ], function () {
     Route::apiResource('/public_task', PublicTaskController::class);
-    Route::get('/public_task/calendar/{this_month}', 'PublicTaskController@getTasksThisMonth');
+    Route::get('/public_task/calendar/{this_date}', 'PublicTaskController@getTasksThisMonth');
+    Route::post('/public_task/apply/{public_task}', 'PublicTaskController@applyPublicTask');
+    Route::post('/public_task/cancel/{public_task}', 'PublicTaskController@cancelPublicTask');
+    Route::get('/time_grid/section', 'SectionController@getResourceTimeGridSection');
+
 });
 

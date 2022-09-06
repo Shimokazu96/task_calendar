@@ -7,6 +7,7 @@ use App\Models\PublicTask;
 use App\Http\Requests\PublicTaskRequest;
 use Illuminate\Http\Request;
 use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 
 class PublicTaskController extends Controller
 {
@@ -29,7 +30,7 @@ class PublicTaskController extends Controller
                 'title' => $value->task->task_name . "(" . $value->determined_personnel . "/" . $value->required_personnel . ")",
                 'start' => $value->date . 'T' . $value->start_time,
                 'end' => $value->date  . 'T' . $value->end_time,
-                'url' => config("app.url") . "/admin/public_task/" . $value->id,
+                'url' => config("app.url") . "/public_task/" . $value->id,
             ];
         }
         return response()->json($public_task, 200) ?? abort(404);
@@ -75,25 +76,23 @@ class PublicTaskController extends Controller
             : response()->json([], 500);
     }
 
-    public function fixPublicTask(Request $request, PublicTask $public_task, $id)
+    public function applyPublicTask(Request $request, PublicTask $public_task)
     {
-        $user = User::where('id', $id)->first();
-        if ($public_task->required_personnel <= $public_task->determined_personnel) {
-            return response()->json("over_capacity");
-        }
-        $public_task->determined_personnel = $public_task->determined_personnel + 1;
+        $user = User::where('id', Auth::guard('web')->user()->id)->first();
+        // if ($public_task->required_personnel <= $public_task->determined_personnel) {
+        //     return response()->json("over_capacity");
+        // }
+        $public_task->determined_personnel = $public_task->determined_personnel;
         $public_task->save();
         $public_task->applicant_users()->detach($user->id);
-        $public_task->applicant_users()->attach($user->id, ["fixed" => true]);
+        $public_task->applicant_users()->attach($user->id, ["fixed" => false]);
 
         return response()->json(200) ?? response()->json([], 500);
     }
-    public function cancelPublicTask(Request $request, PublicTask $public_task, $id)
+    public function cancelPublicTask(Request $request, PublicTask $public_task)
     {
-        $user = User::where('id', $id)->first();
+        $user = User::where('id', Auth::guard('web')->user()->id)->first();
         $public_task->applicant_users()->detach($user->id);
-        $public_task->applicant_users()->attach($user->id, ["fixed" => false]);
-        $public_task->determined_personnel = $public_task->determined_personnel - 1;
         $public_task->save();
 
         return response()->json(200) ?? response()->json([], 500);

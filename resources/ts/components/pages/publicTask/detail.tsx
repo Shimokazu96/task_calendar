@@ -5,6 +5,7 @@ import { AxiosError, AxiosResponse } from "axios";
 import { axiosApi } from "@/lib/axios";
 import { setYear, setMonth, setDay } from "@/lib/dateFormat";
 import { PublicTask } from "@/types/PublicTask";
+import { ApplicantUsers } from "@/types/User";
 import { styled } from "@mui/material/styles";
 import {
     Box,
@@ -15,6 +16,8 @@ import {
     Divider,
     Button,
     Chip,
+    Alert,
+    AlertTitle,
 } from "@mui/material";
 import { format } from "date-fns";
 import InfiniteScroll from "react-infinite-scroll-component";
@@ -47,6 +50,7 @@ const DetailPublicTaskPage: React.FC = () => {
         section_id: 0,
         required_personnel: 0,
         determined_personnel: 0,
+        applied_public_task:false,
         description: "",
         date: "",
         start_time: "",
@@ -66,7 +70,7 @@ const DetailPublicTaskPage: React.FC = () => {
 
     const getPublicTask = async () => {
         await axiosApi
-            .get(`/api/admin/public_task/${params.id}`)
+            .get(`/api/public_task/${params.id}`)
             .then((response: AxiosResponse) => {
                 console.log(response.data);
                 setPublicTask(response.data.public_task);
@@ -75,6 +79,28 @@ const DetailPublicTaskPage: React.FC = () => {
             })
             .catch((err: AxiosError) => console.log(err.response));
         return publicTask;
+    };
+
+    const applyPublicTask = () => {
+        axiosApi
+            .post(`/api/public_task/apply/${params.id}`)
+            .then((response: AxiosResponse) => {
+                console.log(response.data);
+                getPublicTask();
+            })
+            .catch((err: AxiosError) => console.log(err.response));
+        return applicantUsers;
+    };
+    const cancelPublicTask = () => {
+        axiosApi
+            .post(`/api/public_task/cancel/${params.id}`)
+            .then((response: AxiosResponse) => {
+                console.log(response.data);
+
+                getPublicTask();
+            })
+            .catch((err: AxiosError) => console.log(err.response));
+        return applicantUsers;
     };
 
     useEffect(() => {
@@ -92,11 +118,15 @@ const DetailPublicTaskPage: React.FC = () => {
                 p: 2,
                 m: "auto",
                 overflowY: "scroll",
-                height: "35rem",
             }}
         >
             <Card>
                 <CardContent>
+                    {applicantUsers.length ? (
+                        <Alert severity="success">申請済み </Alert>
+                    ) : (
+                        <></>
+                    )}
                     <Grid
                         sx={{
                             p: 2,
@@ -282,15 +312,57 @@ const DetailPublicTaskPage: React.FC = () => {
                         }}
                         item
                     >
-                        <Button
-                            fullWidth
-                            variant="contained"
+                        <Box
+                            color="text.secondary"
                             sx={{
-                                display: "block",
+                                width: "120px",
+                                textAlign: "center",
                             }}
                         >
-                            希望を出す
-                        </Button>
+                            申請人数
+                        </Box>
+                        <Box
+                            sx={{
+                                width: "120px",
+                                fontSize: 24,
+                                textAlign: "center",
+                            }}
+                        >
+                            {applicantUsers.length}
+                        </Box>
+                    </Grid>
+                    <Divider />
+                    <Grid
+                        sx={{
+                            p: 2,
+                            display: "flex",
+                            justifyContent: "center",
+                            alignItems: "center",
+                        }}
+                        item
+                    >
+                        {publicTask.applied_public_task ? (
+                            <Button
+                                size="small"
+                                color="inherit"
+                                variant="contained"
+                                onClick={() => cancelPublicTask()}
+                            >
+                                キャンセルする
+                            </Button>
+                        ) : (
+                            <Button
+                                size="small"
+                                fullWidth
+                                variant="contained"
+                                sx={{
+                                    display: "block",
+                                }}
+                                onClick={() => applyPublicTask()}
+                            >
+                                希望を出す
+                            </Button>
+                        )}
                     </Grid>
                 </CardContent>
             </Card>
