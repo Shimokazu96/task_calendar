@@ -45,10 +45,10 @@ const AppliedTaskPage: React.FC = () => {
     const [loading, setLoading] = useState(true);
     const [linearProgress, setLinearProgress] = useState(false);
     const navigate = useNavigate();
-    const thisDate = format(new Date(), "yyyy-MM-dd");
+    // const thisDate = format(new Date(), "yyyy-MM");
     const thisYear = format(new Date(), "yyyy");
-    const thisMonth = format(new Date(), "M");
-    const thisDay = format(new Date(), "d");
+    // const thisMonth = format(new Date(), "M");
+    // const thisDay = format(new Date(), "d");
     const { saved, error } = useNotification();
 
     const {
@@ -60,8 +60,10 @@ const AppliedTaskPage: React.FC = () => {
     const onSubmit = async (data: Form) => {
         setLinearProgress(true);
         let searchDate = "";
-        let inputDate = new Date(data.year + "-" + data.month + "-" + data.day);
         if (data.day) {
+            let inputDate = new Date(
+                data.year + "-" + data.month + "-" + data.day
+            );
             searchDate =
                 format(inputDate, "yyyy") +
                 "-" +
@@ -69,19 +71,26 @@ const AppliedTaskPage: React.FC = () => {
                 "-" +
                 format(inputDate, "dd");
         }
-        if (!data.day) {
+        if (!data.month) {
+            let inputDate = new Date(data.year);
+            searchDate = format(inputDate, "yyyy");
+        }
+        if (data.month && !data.day) {
+            let inputDate = new Date(data.year + "-" + data.month);
             searchDate =
                 format(inputDate, "yyyy") + "-" + format(inputDate, "MM");
         }
+        console.log(searchDate);
         await axiosApi
-            .get(`/api/public_task?date=${searchDate}&page=1`)
+            .get(`/api/user/applied/public_task?date=${searchDate}&page=1`)
             .then((response: AxiosResponse) => {
                 console.log(response.data);
+                console.log(page);
                 if (page == 1) {
                     setPublicTasks(response.data.public_tasks.data);
                 }
                 if (page > 1) {
-                    setPublicTasks([response.data.public_tasks.data]);
+                    setPublicTasks(response.data.public_tasks.data);
                 }
                 setPage(response.data.public_tasks.current_page);
                 setDate(response.data.date);
@@ -96,7 +105,7 @@ const AppliedTaskPage: React.FC = () => {
                     });
                 }
                 if (err.response?.status === 500) {
-                    error("メールの送信に失敗しました。");
+                    error("データの取得に失敗しました。");
                 }
             });
     };
@@ -110,7 +119,7 @@ const AppliedTaskPage: React.FC = () => {
         console.log(date);
 
         await axiosApi
-            .get(`/api/public_task?date=${date}&page=${page}`)
+            .get(`/api/user/applied/public_task?date=${date}&page=${page}`)
             .then((response: AxiosResponse) => {
                 console.log(response.data);
                 if (page == 1) {
@@ -134,7 +143,7 @@ const AppliedTaskPage: React.FC = () => {
                     });
                 }
                 if (err.response?.status === 500) {
-                    error("メールの送信に失敗しました。");
+                    error("データの取得に失敗しました。");
                 }
             });
         return publicTasks;
@@ -146,7 +155,7 @@ const AppliedTaskPage: React.FC = () => {
         //     search: `?date=${thisDate}&page=${page}`,
         // });
 
-        getPublicTasks(page, thisDate);
+        getPublicTasks(page, thisYear);
     }, []);
 
     if (loading) {
@@ -199,14 +208,13 @@ const AppliedTaskPage: React.FC = () => {
                             月
                         </InputLabel>
                         <Select
-                            {...register("month", {
-                                required: "入力してください。",
-                            })}
-                            defaultValue={thisMonth}
+                            {...register("month")}
+                            defaultValue={""}
                             labelId="demo-simple-select-label"
                             id="demo-simple-select"
                             label="Age"
                         >
+                            <MenuItem value={""}></MenuItem>
                             {setMonth().map((value, index) => (
                                 <MenuItem key={index} value={value}>
                                     {value}
@@ -222,7 +230,7 @@ const AppliedTaskPage: React.FC = () => {
                         </InputLabel>
                         <Select
                             {...register("day")}
-                            defaultValue={thisDay}
+                            defaultValue={""}
                             labelId="demo-simple-select-label"
                             id="demo-simple-select"
                             label="Age"

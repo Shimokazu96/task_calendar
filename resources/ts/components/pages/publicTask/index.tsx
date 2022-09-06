@@ -81,7 +81,7 @@ const PublicTaskPage: React.FC = () => {
                     setPublicTasks(response.data.public_tasks.data);
                 }
                 if (page > 1) {
-                    setPublicTasks([response.data.public_tasks.data]);
+                    setPublicTasks(response.data.public_tasks.data);
                 }
                 setPage(response.data.public_tasks.current_page);
                 setDate(response.data.date);
@@ -96,13 +96,12 @@ const PublicTaskPage: React.FC = () => {
                     });
                 }
                 if (err.response?.status === 500) {
-                    error("メールの送信に失敗しました。");
+                    error("データの取得に失敗しました。");
                 }
             });
     };
 
     const fetchMoreData = () => {
-        console.log(page);
         getPublicTasks(page + 1, date);
     };
     const getPublicTasks = async (page: number, date: string) => {
@@ -134,7 +133,7 @@ const PublicTaskPage: React.FC = () => {
                     });
                 }
                 if (err.response?.status === 500) {
-                    error("メールの送信に失敗しました。");
+                    error("データの取得に失敗しました。");
                 }
             });
         return publicTasks;

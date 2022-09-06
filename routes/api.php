@@ -35,5 +35,7 @@ Route::group([
     Route::post('/public_task/cancel/{public_task}', 'PublicTaskController@cancelPublicTask');
     Route::get('/time_grid/section', 'SectionController@getResourceTimeGridSection');
 
+    Route::get('/user/applied/public_task', 'UserController@appliedPublicTask');
+    Route::get('/user/fixed/public_task', 'UserController@fixedPublicTask');
 });
 

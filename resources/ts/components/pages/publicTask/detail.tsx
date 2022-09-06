@@ -117,6 +117,7 @@ const DetailPublicTaskPage: React.FC = () => {
                 maxWidth: "90%",
                 p: 2,
                 m: "auto",
+                mb: "50px",
                 overflowY: "scroll",
             }}
         >

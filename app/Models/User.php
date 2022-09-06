@@ -40,15 +40,15 @@ class User extends Authenticatable implements MustVerifyEmail {
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
-    //応募したしたユーザー
+    //応募したユーザー
     public function appliedPublicTask()
     {
-        return $this->belongsToMany(User::class, 'applicant_users', 'user_id', 'public_task_id')->withPivot('fixed');
+        return $this->belongsToMany(PublicTask::class, 'applicant_users', 'user_id', 'public_task_id')->withPivot('fixed');
     }
     //タスク完了通知
     public function taskCompletionNotifications()
     {
-        return $this->belongsToMany(User::class, 'task_completion_notifications', 'user_id', 'public_task_id')->withTimestamps();
+        return $this->belongsToMany(PublicTask::class, 'task_completion_notifications', 'user_id', 'public_task_id')->withTimestamps();
     }
     public function sendEmailVerificationNotification()
     {
