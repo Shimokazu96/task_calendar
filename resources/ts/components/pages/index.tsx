@@ -10,7 +10,6 @@ import allLocales from "@fullcalendar/core/locales-all";
 import interactionPlugin from "@fullcalendar/interaction";
 import listPlugin from "@fullcalendar/list";
 import timeGridPlugin from "@fullcalendar/timegrid";
-import { Task } from "@/types/Task";
 import { format } from "date-fns";
 import resourceTimeGridPlugin from "@fullcalendar/resource-timegrid";
 import { useSwipeable } from "react-swipeable";
@@ -52,9 +51,11 @@ const TopPage: React.FC = () => {
         getPublicTasks();
     }, []);
 
-    const handleDateSelect = useCallback((selectInfo: DateSelectArg) => {
-        // navigate(`/date/${selectInfo.startStr}`);
-    }, []);
+    const handleDateSelect = (date: Date) => {
+        console.log(date);
+        const selectDate = format(date, "yyyy-MM-dd");
+        navigate(`/date/${selectDate}`);
+    };
 
     if (loading) {
         return <Loading open={loading} />;
@@ -88,14 +89,15 @@ const TopPage: React.FC = () => {
 
                 // selectMirror={true}
                 dayMaxEvents={true}
-                // navLinks={true}
+                navLinks={true}
                 nowIndicator={true}
                 events={publicTasks}
                 aspectRatio={1}
                 locales={allLocales}
                 locale="ja"
+                navLinkDayClick={handleDateSelect}
                 // eventsSet={handleEvents}
-                select={handleDateSelect}
+                // select={handleDateSelect}
                 // eventClick={handleEventClick}
                 // dayCellContent={(event: DayCellContentArg) =>
                 //     (event.dayNumberText = event.dayNumberText.replace(

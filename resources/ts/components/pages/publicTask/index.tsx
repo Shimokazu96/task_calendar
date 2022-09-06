@@ -157,22 +157,18 @@ const PublicTaskPage: React.FC = () => {
         <Box sx={{ flexGrow: 1, p: 2 }}>
             <Grid
                 container
-                spacing={1}
                 sx={{
                     width: "100%",
-                    height: "50px",
+                    height: "9%",
                     flexShrink: 0,
-                    mt: 1,
-                    p: 0,
+                    p: 1,
+                    pt: 2,
                     position: "fixed",
                     top: 0,
                     right: 0,
                     zIndex: 1000,
-                    justifyContent: "center",
-                    // backgroundColor: (theme) =>
-                    //     theme.palette.mode === "light"
-                    //         ? theme.palette.grey[800]
-                    //         : theme.palette.grey[800],
+                    justifyContent: "space-evenly",
+                    backgroundColor: "white",
                 }}
             >
                 <Grid item xs={3} md={4}>
@@ -254,10 +250,11 @@ const PublicTaskPage: React.FC = () => {
             </Grid>
             <Box
                 sx={{
-                    mt: "50px",
+                    mt: "9%",
                     flexGrow: 1,
                     overflowY: "scroll",
-                    height: "33rem",
+                    minHeight: "33rem",
+                    mb: "50px",
                 }}
             >
                 {linearProgress ? <LinearProgress /> : <></>}
@@ -267,7 +264,7 @@ const PublicTaskPage: React.FC = () => {
                         next={fetchMoreData}
                         hasMore={true}
                         loader={<></>}
-                        height={"33rem"}
+                        // height={"33rem"}
                         // pullDownToRefresh={true}
                         // pullDownToRefreshContent={<>Pulling</>}
                         // refreshFunction={() => {
@@ -278,13 +275,10 @@ const PublicTaskPage: React.FC = () => {
                     >
                         {publicTasks.map((publicTask, index) => (
                             <Link
-                                to={
-                                    "/public_task/" +
-                                    publicTasks[index].id
-                                }
+                                key={index}
+                                to={"/public_task/" + publicTasks[index].id}
                             >
                                 <StyledPaper
-                                    key={index}
                                     sx={{
                                         my: 1,
                                         mx: "auto",

@@ -14,6 +14,7 @@ import { format } from "date-fns";
 import resourceTimeGridPlugin from "@fullcalendar/resource-timegrid";
 import { Button, Tooltip } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
+import { useSwipeable } from "react-swipeable";
 
 const CurrentDatePage: React.FC = () => {
     const navigate = useNavigate();
@@ -27,7 +28,7 @@ const CurrentDatePage: React.FC = () => {
 
     const getPublicTasks = async () => {
         await axiosApi
-            .get(`/api/admin/public_task/calendar/${thisDate}`)
+            .get(`/api/public_task/calendar/${thisDate}`)
             .then((response: AxiosResponse) => {
                 console.log(response.data);
                 setPublicTasks(response.data);
@@ -37,7 +38,7 @@ const CurrentDatePage: React.FC = () => {
     };
     const getSections = async () => {
         await axiosApi
-            .get(`/api/admin/time_grid/section`)
+            .get(`/api/time_grid/section`)
             .then((response: AxiosResponse) => {
                 console.log(response.data);
                 setSections(response.data);
@@ -45,6 +46,21 @@ const CurrentDatePage: React.FC = () => {
             .catch((err: AxiosError) => console.log(err.response));
         return publicTasks;
     };
+
+    const handlers = useSwipeable({
+        onSwiped: (event) => {
+            console.log(event);
+            const calendarApi = calendarRef.current.getApi();
+            if (event.dir == "Left") {
+                calendarApi.next();
+            }
+            if (event.dir == "Right") {
+                calendarApi.prev();
+            }
+            setLoading(false);
+        },
+        trackMouse: true,
+    });
 
     useEffect(() => {
         getPublicTasks();
@@ -62,7 +78,7 @@ const CurrentDatePage: React.FC = () => {
     }
     return (
         <>
-            <div className="adminCalendar">
+            <div {...handlers} className="frontCalendar">
                 <FullCalendar
                     ref={calendarRef}
                     plugins={[
@@ -73,7 +89,11 @@ const CurrentDatePage: React.FC = () => {
                         resourceTimeGridPlugin,
                     ]}
                     headerToolbar={{
-                        end: "prev,next Month",
+                        start: "",
+                        center: "title",
+                        // end: "dayGridMonth,timeGridWeek,resourceTimeGridDay",
+                        end: "",
+                        // end: "prev,next",
                     }}
                     height={"88vh"}
                     eventTimeFormat={{ hour: "2-digit", minute: "2-digit" }}
@@ -81,14 +101,6 @@ const CurrentDatePage: React.FC = () => {
                     initialView="resourceTimeGridDay"
                     initialDate={params.date}
                     droppable={false}
-                    customButtons={{
-                        Month: {
-                            text: "月",
-                            click: () => {
-                                navigate(`/admin`);
-                            },
-                        },
-                    }}
                     allDaySlot={false}
                     dayMaxEvents={true}
                     nowIndicator={true}
@@ -100,23 +112,6 @@ const CurrentDatePage: React.FC = () => {
                     select={handleDateSelect}
                 />
             </div>
-            <Link to={`/admin/public_task/create?date=${params.date}`}>
-                <Tooltip placement="top" title="公開タスクを追加">
-                    <Button
-                        variant="contained"
-                        color="primary"
-                        role="presentation"
-                        sx={{
-                            position: "fixed",
-                            bottom: 50,
-                            right: 30,
-                            zIndex: 1000,
-                        }}
-                    >
-                        <AddIcon color="inherit" fontSize="large"></AddIcon>
-                    </Button>
-                </Tooltip>
-            </Link>
         </>
     );
 };

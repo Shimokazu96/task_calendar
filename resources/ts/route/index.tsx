@@ -5,7 +5,7 @@ const TopPage = lazy(() => import("@/components/pages/index"));
 const CurrentDatePage = lazy(() => import("@/components/pages/date/CurrentDate"));
 const PublicTaskPage = lazy(() => import("@/components/pages/publicTask"));
 const DetailPublicTaskPage = lazy(() => import("@/components/pages/publicTask/detail"));
-const UserPage = lazy(() => import("@/components/pages/user"));
+const MyPage = lazy(() => import("@/components/pages/user"));
 
 export const MasterRoutes = (
     <>
@@ -14,7 +14,7 @@ export const MasterRoutes = (
             <Route path="/date/:date" element={<CurrentDatePage />} />
             <Route path="/public_task" element={<PublicTaskPage />} />
             <Route path="/public_task/:id" element={<DetailPublicTaskPage />} />
-            <Route path="/mypage" element={<UserPage />} />
+            <Route path="/mypage" element={<MyPage />} />
         </Route>
     </>
 );

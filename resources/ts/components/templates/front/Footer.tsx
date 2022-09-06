@@ -73,8 +73,14 @@ export default function StickyFooter() {
                                     <ListItemText
                                         sx={{
                                             display: "block",
+                                            m: 0,
                                         }}
                                         primary="HOME"
+                                        primaryTypographyProps={{
+                                            color: "inherit",
+                                            fontWeight: "medium",
+                                            variant: "body2",
+                                        }}
                                     />
                                 </ListItemIcon>
                             </ListItemButton>
@@ -111,8 +117,14 @@ export default function StickyFooter() {
                                     <ListItemText
                                         sx={{
                                             display: "block",
+                                            m: 0,
                                         }}
                                         primary="公開タスク"
+                                        primaryTypographyProps={{
+                                            color: "inherit",
+                                            fontWeight: "medium",
+                                            variant: "body2",
+                                        }}
                                     />
                                 </ListItemIcon>
                             </ListItemButton>
@@ -149,6 +161,12 @@ export default function StickyFooter() {
                                     <ListItemText
                                         sx={{
                                             display: "block",
+                                            m: 0,
+                                        }}
+                                        primaryTypographyProps={{
+                                            color: "inherit",
+                                            fontWeight: "medium",
+                                            variant: "body2",
                                         }}
                                         primary="マイページ"
                                     />

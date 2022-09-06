@@ -10,6 +10,7 @@ export type PublicTask = {
     end_time: string;
     created_at: string;
     updated_at: string;
+    applied_public_task: boolean;
     task: {
         task_name: string;
     };
