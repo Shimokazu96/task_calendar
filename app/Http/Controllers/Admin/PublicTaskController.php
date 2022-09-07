@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\PublicTask;
+use App\Models\TotalDailyTaskHour;
 use App\Http\Requests\PublicTaskRequest;
 use Illuminate\Http\Request;
 use App\Models\User;
@@ -13,12 +14,12 @@ class PublicTaskController extends Controller
 
     public function index()
     {
-        return PublicTask::orderBy('created_at')->with(['section', 'task'])->get();
+        return PublicTask::orderBy('created_at')->with(['section', 'task', 'applicantUsers'])->get();
     }
 
-    public function getTasksThisDate($date)
+    public function getTasksThisDate($_this_total_daily_task_hour)
     {
-        $public_tasks = PublicTask::where("date", "LIKE", "%" . $date . "%")->with(['section', 'task'])->get();
+        $public_tasks = PublicTask::where("date", "LIKE", "%" . $_this_total_daily_task_hour . "%")->with(['section', 'task'])->get();
         $public_task = [];
         foreach ($public_tasks as $key => $value) {
             $public_task[] = [
@@ -51,7 +52,7 @@ class PublicTaskController extends Controller
      */
     public function show($id)
     {
-        $public_task = PublicTask::where('id', $id)->with(['section', 'task','applicantUsers'])->first();
+        $public_task = PublicTask::where('id', $id)->with(['section', 'task', 'applicantUsers'])->first();
         return response()->json(["public_task" => $public_task, "applicantUsers" => $public_task->applicantUsers], 200) ?? abort(404);
     }
 
@@ -74,12 +75,36 @@ class PublicTaskController extends Controller
     }
 
     //タスクの確定
-    public function fixPublicTask(Request $request, PublicTask $public_task, $id)
+    public function fixPublicTask(Request $request, PublicTask $public_task, TotalDailyTaskHour $total_daily_task_hour, $id)
     {
         $user = User::where('id', $id)->first();
+        $_this_total_daily_task_hour = $total_daily_task_hour->where("user_id", $user->id)->where("date", $public_task->date)->first();
+        $working_hours = $public_task->calculateTime();
         if ($public_task->required_personnel <= $public_task->determined_personnel) {
             return response()->json("over_capacity");
         }
+
+        if ($_this_total_daily_task_hour && !$_this_total_daily_task_hour->canAddTasks($working_hours)) {
+            return response()->json("over_hours");
+        }
+
+        if (!$_this_total_daily_task_hour) {
+            $total_daily_task_hour->fill([
+                "user_id" => $user->id,
+                "date" => $public_task->date,
+                "total_daily_task_hours" => $working_hours,
+            ]);
+            $total_daily_task_hour->save();
+        }
+
+        if ($_this_total_daily_task_hour && $_this_total_daily_task_hour->canAddTasks($working_hours)) {
+            $_this_total_daily_task_hour->fill([
+                "total_daily_task_hours" => $_this_total_daily_task_hour->total_daily_task_hours + $working_hours,
+            ]);
+            $_this_total_daily_task_hour->save();
+        }
+
+
         $public_task->determined_personnel = $public_task->determined_personnel + 1;
         $public_task->save();
         $public_task->applicantUsers()->detach($user->id);
@@ -88,9 +113,24 @@ class PublicTaskController extends Controller
         return response()->json(200) ?? response()->json([], 500);
     }
     // タスクのキャンセル
-    public function cancelPublicTask(Request $request, PublicTask $public_task, $id)
+    public function cancelPublicTask(Request $request, PublicTask $public_task, TotalDailyTaskHour $total_daily_task_hour, $id)
     {
         $user = User::where('id', $id)->first();
+        $_this_total_daily_task_hour = $total_daily_task_hour->where("user_id", $user->id)->where("date", $public_task->date)->first();
+        $working_hours = $public_task->calculateTime();
+
+        if (!$_this_total_daily_task_hour->canAddTasks($working_hours)) {
+            $_this_total_daily_task_hour->fill([
+                "total_daily_task_hours" => 0,
+            ]);
+            $_this_total_daily_task_hour->save();
+        }
+        if ($_this_total_daily_task_hour->canAddTasks($working_hours)) {
+            $_this_total_daily_task_hour->fill([
+                "total_daily_task_hours" => $_this_total_daily_task_hour->total_daily_task_hours - $working_hours,
+            ]);
+            $_this_total_daily_task_hour->save();
+        }
         $public_task->applicantUsers()->detach($user->id);
         $public_task->applicantUsers()->attach($user->id, ["fixed" => false]);
         $public_task->determined_personnel = $public_task->determined_personnel - 1;

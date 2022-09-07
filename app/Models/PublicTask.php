@@ -28,7 +28,7 @@ class PublicTask extends Model
     //応募したしたユーザー
     public function applicantUsers()
     {
-        return $this->belongsToMany(User::class, 'applicant_users', 'public_task_id', 'user_id')->withPivot('fixed','task_completion_notification');
+        return $this->belongsToMany(User::class, 'applicant_users', 'public_task_id', 'user_id')->withPivot('fixed', 'task_completion_notification');
     }
 
     public function getAppliedPublicTaskAttribute()
@@ -48,5 +48,14 @@ class PublicTask extends Model
         return $this->applicantUsers->contains(function ($user) {
             return $user->id === Auth::guard('web')->user()->id && $user->pivot->task_completion_notification === 1;
         });
+    }
+
+    //タスク合計時間
+    public function calculateTime()
+    {
+        $start_time = $this->date . " " . $this->start_time;
+        $end_time = $this->date . " " . $this->end_time;
+
+        return number_format((strtotime($end_time) - strtotime($start_time)) / 3600, 1);
     }
 }

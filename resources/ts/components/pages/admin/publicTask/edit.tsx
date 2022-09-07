@@ -111,6 +111,9 @@ const EditPublicTaskPage: React.FC = () => {
                                 if (response.data == "over_capacity") {
                                     error("これ以上人数を増やせません。");
                                 }
+                                if (response.data == "over_hours") {
+                                    error("8時間を超えています。");
+                                }
 
                                 getPublicTask();
                             })

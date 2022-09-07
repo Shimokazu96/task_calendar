@@ -17,6 +17,7 @@ import {
     FormControl,
     LinearProgress,
     Chip,
+    Alert,
 } from "@mui/material";
 import { format } from "date-fns";
 import InfiniteScroll from "react-infinite-scroll-component";
@@ -155,7 +156,7 @@ const PublicTaskPage: React.FC = () => {
 
     return (
         <Box sx={{ flexGrow: 1 }}>
-            <Header title={"公開タスク"}/>
+            <Header title={"公開タスク"} />
             <Box sx={{ p: 2 }}>
                 <Grid
                     container
@@ -269,14 +270,6 @@ const PublicTaskPage: React.FC = () => {
                             next={fetchMoreData}
                             hasMore={true}
                             loader={<></>}
-                            // height={"33rem"}
-                            // pullDownToRefresh={true}
-                            // pullDownToRefreshContent={<>Pulling</>}
-                            // refreshFunction={() => {
-                            //     setTimeout(() => {
-                            //         setPublicTasks(Array.from({ length: 40 }));
-                            //     }, 1500);
-                            // }}
                         >
                             {publicTasks.map((publicTask, index) => (
                                 <Link
@@ -290,6 +283,18 @@ const PublicTaskPage: React.FC = () => {
                                             p: 2,
                                         }}
                                     >
+                                        {publicTasks[index]
+                                            .applied_public_task ? (
+                                            <Alert sx={{
+                                                mb: 0.5,
+                                                p: 0.5,
+                                            }} severity="success">
+                                                申請済み
+                                            </Alert>
+                                        ) : (
+                                            <></>
+                                        )}
+
                                         <Grid
                                             sx={{
                                                 width: "auto",
