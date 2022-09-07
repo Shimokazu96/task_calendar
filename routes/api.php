@@ -33,6 +33,7 @@ Route::group([
     Route::get('/public_task/calendar/{this_date}', 'PublicTaskController@getTasksThisDate');
     Route::post('/public_task/apply/{public_task}', 'PublicTaskController@applyPublicTask');
     Route::post('/public_task/cancel/{public_task}', 'PublicTaskController@cancelPublicTask');
+    Route::post('/public_task/complete/{public_task}', 'PublicTaskController@completePublicTask');
     Route::get('/time_grid/section', 'SectionController@getResourceTimeGridSection');
 
     Route::get('/user/applied/public_task', 'UserController@appliedPublicTask');

@@ -31,6 +31,6 @@ export type ApplicantUsers = {
     updated_at: string
     pivot: {
         fixed:boolean
-        task_completion_notifications:boolean
+        task_completion_notification:boolean
     }
 }

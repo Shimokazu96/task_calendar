@@ -11,6 +11,7 @@ export type PublicTask = {
     created_at: string;
     updated_at: string;
     applied_public_task: boolean;
+    task_completion_notification: boolean;
     task: {
         task_name: string;
     };

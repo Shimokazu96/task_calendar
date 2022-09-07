@@ -39,7 +39,7 @@ type Form = {
     day: string;
 };
 
-const DetailPublicTaskPage: React.FC = () => {
+const DetailFixedTaskPage: React.FC = () => {
     const params = useParams();
     const { error } = useNotification();
     const [applicantUsers, setApplicantUsers] = useState<ApplicantUsers[]>([]);
@@ -82,9 +82,9 @@ const DetailPublicTaskPage: React.FC = () => {
         return publicTask;
     };
 
-    const applyPublicTask = () => {
+    const completePublicTask = () => {
         axiosApi
-            .post(`/api/public_task/apply/${params.id}`)
+            .post(`/api/public_task/complete/${params.id}`)
             .then((response: AxiosResponse) => {
                 console.log(response.data);
                 getPublicTask();
@@ -125,8 +125,8 @@ const DetailPublicTaskPage: React.FC = () => {
         >
             <Card>
                 <CardContent>
-                    {applicantUsers.length ? (
-                        <Alert severity="success">申請済み </Alert>
+                    {publicTask.task_completion_notification == true ? (
+                        <Alert severity="success">報告済み </Alert>
                     ) : (
                         <></>
                     )}
@@ -306,6 +306,7 @@ const DetailPublicTaskPage: React.FC = () => {
                         </Box>
                     </Grid>
                     <Divider />
+
                     <Grid
                         sx={{
                             p: 2,
@@ -315,43 +316,13 @@ const DetailPublicTaskPage: React.FC = () => {
                         }}
                         item
                     >
-                        <Box
-                            color="text.secondary"
-                            sx={{
-                                width: "120px",
-                                textAlign: "center",
-                            }}
-                        >
-                            申請人数
-                        </Box>
-                        <Box
-                            sx={{
-                                width: "120px",
-                                fontSize: 24,
-                                textAlign: "center",
-                            }}
-                        >
-                            {applicantUsers.length}
-                        </Box>
-                    </Grid>
-                    <Divider />
-                    <Grid
-                        sx={{
-                            p: 2,
-                            display: "flex",
-                            justifyContent: "center",
-                            alignItems: "center",
-                        }}
-                        item
-                    >
-                        {publicTask.applied_public_task ? (
+                        {publicTask.task_completion_notification == true ? (
                             <Button
                                 size="small"
                                 color="inherit"
                                 variant="contained"
-                                onClick={() => cancelPublicTask()}
                             >
-                                キャンセルする
+                                報告済み
                             </Button>
                         ) : (
                             <Button
@@ -361,9 +332,9 @@ const DetailPublicTaskPage: React.FC = () => {
                                 sx={{
                                     display: "block",
                                 }}
-                                onClick={() => applyPublicTask()}
+                                onClick={() => completePublicTask()}
                             >
-                                希望を出す
+                                完了報告をする
                             </Button>
                         )}
                     </Grid>
@@ -372,4 +343,4 @@ const DetailPublicTaskPage: React.FC = () => {
         </Box>
     );
 };
-export default DetailPublicTaskPage;
+export default DetailFixedTaskPage;

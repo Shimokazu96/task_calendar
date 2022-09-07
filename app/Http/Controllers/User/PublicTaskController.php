@@ -46,8 +46,6 @@ class PublicTaskController extends Controller
     public function applyPublicTask(Request $request, PublicTask $public_task)
     {
         $user = User::where('id', Auth::guard('web')->user()->id)->first();
-        $public_task->determined_personnel = $public_task->determined_personnel;
-        $public_task->save();
         $public_task->applicantUsers()->detach($user->id);
         $public_task->applicantUsers()->attach($user->id, ["fixed" => false]);
 
@@ -58,7 +56,15 @@ class PublicTaskController extends Controller
     {
         $user = User::where('id', Auth::guard('web')->user()->id)->first();
         $public_task->applicantUsers()->detach($user->id);
-        $public_task->save();
+
+        return response()->json(200) ?? response()->json([], 500);
+    }
+    //タスク完了
+    public function completePublicTask(Request $request, PublicTask $public_task)
+    {
+        $user = User::where('id', Auth::guard('web')->user()->id)->first();
+        $public_task->applicantUsers()->detach($user->id);
+        $public_task->applicantUsers()->attach($user->id, ["fixed" => true, "task_completion_notification" => true]);
 
         return response()->json(200) ?? response()->json([], 500);
     }

@@ -13,7 +13,8 @@ class PublicTask extends Model
     protected $guarded = ['id'];
     /** JSONに含める属性 */
     protected $appends = [
-        'applied_public_task'
+        'applied_public_task',
+        'task_completion_notification'
     ];
 
     public function task()
@@ -27,12 +28,7 @@ class PublicTask extends Model
     //応募したしたユーザー
     public function applicantUsers()
     {
-        return $this->belongsToMany(User::class, 'applicant_users', 'public_task_id', 'user_id')->withPivot('fixed');
-    }
-    //タスク完了通知
-    public function taskCompletionNotifications()
-    {
-        return $this->belongsToMany(User::class, 'task_completion_notifications', 'public_task_id', 'user_id')->withTimestamps();
+        return $this->belongsToMany(User::class, 'applicant_users', 'public_task_id', 'user_id')->withPivot('fixed','task_completion_notification');
     }
 
     public function getAppliedPublicTaskAttribute()
@@ -42,6 +38,15 @@ class PublicTask extends Model
         }
         return $this->applicantUsers->contains(function ($user) {
             return $user->id === Auth::guard('web')->user()->id;
+        });
+    }
+    public function getTaskCompletionNotificationAttribute()
+    {
+        if (Auth::guest() || Auth::guard('admin')->user()) {
+            return false;
+        }
+        return $this->applicantUsers->contains(function ($user) {
+            return $user->id === Auth::guard('web')->user()->id && $user->pivot->task_completion_notification === 1;
         });
     }
 }
