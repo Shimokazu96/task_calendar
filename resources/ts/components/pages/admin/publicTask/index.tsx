@@ -60,7 +60,7 @@ const PublicTaskPage: React.FC = () => {
             name: "start_time",
             label: "作業時間",
             options: {
-                filter: true,
+                filter: false,
                 customBodyRenderLite: (dataIndex: number) => {
                     return (
                         <>
@@ -75,7 +75,7 @@ const PublicTaskPage: React.FC = () => {
             name: "task_id",
             label: "タスク名",
             options: {
-                filter: true,
+                filter: false,
                 customBodyRenderLite: (dataIndex: number) => {
                     return <>{publicTasks[dataIndex].task.task_name}</>;
                 },
@@ -85,7 +85,7 @@ const PublicTaskPage: React.FC = () => {
             name: "section_id",
             label: "セクション名",
             options: {
-                filter: true,
+                filter: false,
                 customBodyRenderLite: (dataIndex: number) => {
                     return <>{publicTasks[dataIndex].section.section_name}</>;
                 },
@@ -94,12 +94,12 @@ const PublicTaskPage: React.FC = () => {
         {
             name: "required_personnel",
             label: "必要人数",
-            options: { filter: true },
+            options: { filter: false },
         },
         {
             name: "determined_personnel",
             label: "確定人数",
-            options: { filter: true },
+            options: { filter: false },
         },
         // 編集アイコンを表示
         {
