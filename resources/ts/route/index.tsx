@@ -7,7 +7,8 @@ const PublicTaskPage = lazy(() => import("@/components/pages/publicTask"));
 const DetailPublicTaskPage = lazy(() => import("@/components/pages/publicTask/detail"));
 const MyPage = lazy(() => import("@/components/pages/mypage"));
 const AppliedTaskPage = lazy(() => import("@/components/pages/mypage/applied_task"));
-const FixedTaskPage = lazy(() => import("@/components/pages/mypage/fixed_task"));
+const FixedTaskPage = lazy(() => import("@/components/pages/mypage/fixedTask"));
+const DetailFixedTaskPage = lazy(() => import("@/components/pages/mypage/fixedTask/detail"));
 
 export const MasterRoutes = (
     <>
@@ -19,6 +20,7 @@ export const MasterRoutes = (
             <Route path="/mypage" element={<MyPage />} />
             <Route path="/mypage/applied_task" element={<AppliedTaskPage />} />
             <Route path="/mypage/fixed_task" element={<FixedTaskPage />} />
+            <Route path="/mypage/fixed_task/:id" element={<DetailFixedTaskPage />} />
         </Route>
     </>
 );

@@ -39,7 +39,7 @@ type Form = {
     day: string;
 };
 
-const AppliedTaskPage: React.FC = () => {
+const FixedTaskPage: React.FC = () => {
     const [publicTasks, setPublicTasks] = useState<PublicTask[]>([]);
     const [date, setDate] = useState("");
     const [page, setPage] = useState(1);
@@ -83,7 +83,7 @@ const AppliedTaskPage: React.FC = () => {
         }
         console.log(searchDate);
         await axiosApi
-            .get(`/api/user/applied/public_task?date=${searchDate}&page=1`)
+            .get(`/api/user/fixed/public_task?date=${searchDate}&page=1`)
             .then((response: AxiosResponse) => {
                 console.log(response.data);
                 console.log(page);
@@ -120,7 +120,7 @@ const AppliedTaskPage: React.FC = () => {
         console.log(date);
 
         await axiosApi
-            .get(`/api/user/applied/public_task?date=${date}&page=${page}`)
+            .get(`/api/user/fixed/public_task?date=${date}&page=${page}`)
             .then((response: AxiosResponse) => {
                 console.log(response.data);
                 if (page == 1) {
@@ -165,7 +165,7 @@ const AppliedTaskPage: React.FC = () => {
 
     return (
         <Box sx={{ flexGrow: 1 }}>
-            <Header title={"希望を出しているタスク"}/>
+            <Header title={"確定しているタスク"} />
             <Box sx={{ p: 2 }}>
                 <Grid
                     container
@@ -280,19 +280,11 @@ const AppliedTaskPage: React.FC = () => {
                             next={fetchMoreData}
                             hasMore={true}
                             loader={<></>}
-                            // height={"33rem"}
-                            // pullDownToRefresh={true}
-                            // pullDownToRefreshContent={<>Pulling</>}
-                            // refreshFunction={() => {
-                            //     setTimeout(() => {
-                            //         setPublicTasks(Array.from({ length: 40 }));
-                            //     }, 1500);
-                            // }}
                         >
                             {publicTasks.map((publicTask, index) => (
                                 <Link
                                     key={index}
-                                    to={"/public_task/" + publicTasks[index].id}
+                                    to={"/mypage/fixed_task/" + publicTasks[index].id}
                                 >
                                     <StyledPaper
                                         sx={{
@@ -392,7 +384,7 @@ const AppliedTaskPage: React.FC = () => {
                                 textAlign: "center",
                             }}
                         >
-                            申請しているタスクはありません。
+                            確定しているタスクはありません。
                         </Box>
                     )}
                 </Box>
@@ -400,4 +392,4 @@ const AppliedTaskPage: React.FC = () => {
         </Box>
     );
 };
-export default AppliedTaskPage;
+export default FixedTaskPage;

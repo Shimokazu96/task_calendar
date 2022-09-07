@@ -30,6 +30,7 @@ const EditPublicTaskPage: React.FC = () => {
         required_personnel: 0,
         determined_personnel: 0,
         applied_public_task: false,
+        task_completion_notification: false,
         description: "",
         date: "",
         start_time: "",
@@ -168,7 +169,28 @@ const EditPublicTaskPage: React.FC = () => {
         },
         {
             name: "タスク完了報告",
-            options: { filter: true },
+            options: {
+                filter: true,
+                customBodyRenderLite: (dataIndex: number) => {
+                    return (
+                        <>
+                            {applicantUsers[dataIndex].pivot.task_completion_notification ? (
+                                <Chip
+                                    sx={{ p: 1 }}
+                                    label="完了済み"
+                                    color="success"
+                                />
+                            ) : (
+                                <Chip
+                                    sx={{ p: 1 }}
+                                    label="未完了"
+                                    color="default"
+                                />
+                            )}
+                        </>
+                    );
+                },
+            },
         },
     ];
 

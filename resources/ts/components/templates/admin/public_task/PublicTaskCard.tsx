@@ -6,7 +6,6 @@ export default function PublicTaskCard({
 }: {
     publicTask: PublicTask;
 }) {
-    console.log(publicTask);
     return (
         <Card>
             <CardContent>
