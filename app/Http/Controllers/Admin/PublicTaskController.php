@@ -29,6 +29,7 @@ class PublicTaskController extends Controller
                 'start' => $value->date . 'T' . $value->start_time,
                 'end' => $value->date  . 'T' . $value->end_time,
                 'url' => config("app.url") . "/admin/public_task/" . $value->id,
+                'color' => PublicTask::color($value->task->color),
             ];
         }
         return response()->json($public_task, 200) ?? abort(404);

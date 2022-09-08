@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('task_name');
             $table->string('description');
             $table->boolean('display_flag')->default(false);
+            $table->string('color')->nullable();
             $table->timestamps();
         });
     }
