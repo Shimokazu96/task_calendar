@@ -30,7 +30,7 @@ class PublicTask extends Model
     {
         return $this->belongsToMany(User::class, 'applicant_users', 'public_task_id', 'user_id')->withPivot('fixed', 'task_completion_notification');
     }
-
+    //申請済みか判定
     public function getAppliedPublicTaskAttribute()
     {
         if (Auth::guest() || Auth::guard('admin')->user()) {
@@ -40,6 +40,7 @@ class PublicTask extends Model
             return $user->id === Auth::guard('web')->user()->id;
         });
     }
+    //タスク完了済みか判定
     public function getTaskCompletionNotificationAttribute()
     {
         if (Auth::guest() || Auth::guard('admin')->user()) {
@@ -57,5 +58,10 @@ class PublicTask extends Model
         $end_time = $this->date . " " . $this->end_time;
 
         return number_format((strtotime($end_time) - strtotime($start_time)) / 3600, 1);
+    }
+    //月に変換
+    public function formatMonth()
+    {
+        return date('Y-m', strtotime($this->date));
     }
 }

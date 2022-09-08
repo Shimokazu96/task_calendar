@@ -63,15 +63,10 @@ const UserPage: React.FC = () => {
             options: { filter: true },
         },
         {
-            name: "email",
-            label: "メールアドレス",
-            options: { filter: true },
-        },
-        {
             name: "email_verified_at",
             label: "メールアドレス認証",
             options: {
-                filter: true,
+                filter: false,
                 customBodyRenderLite: (dataIndex: number) => {
                     return (
                         <>
@@ -92,6 +87,16 @@ const UserPage: React.FC = () => {
                     );
                 },
             },
+        },
+        {
+            name: "last_month_total_task_hour",
+            label: "先月の労働時間",
+            options: { filter: false },
+        },
+        {
+            name: "this_month_total_task_hour",
+            label: "当月の労働時間",
+            options: { filter: false },
         },
         // 編集アイコンを表示
         {

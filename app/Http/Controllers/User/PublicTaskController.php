@@ -4,7 +4,7 @@ namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
 use App\Models\PublicTask;
-use App\Http\Requests\PublicTaskRequest;
+use App\Models\TotalMonthlyTaskHour;
 use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
@@ -60,9 +60,29 @@ class PublicTaskController extends Controller
         return response()->json(200) ?? response()->json([], 500);
     }
     //タスク完了
-    public function completePublicTask(Request $request, PublicTask $public_task)
+    public function completePublicTask(Request $request, PublicTask $public_task, TotalMonthlyTaskHour $total_monthly_task_hour)
     {
         $user = User::where('id', Auth::guard('web')->user()->id)->first();
+        $month = $public_task->formatMonth();
+        $working_hours = $public_task->calculateTime();
+        $_this_total_monthly_task_hour = $total_monthly_task_hour->where("user_id", $user->id)->where("month", $month)->first();
+
+        if (!$_this_total_monthly_task_hour) {
+            $total_monthly_task_hour->fill([
+                "user_id" => $user->id,
+                "month" => $month,
+                "total_monthly_task_hours" => $working_hours,
+            ]);
+            $total_monthly_task_hour->save();
+        }
+        if ($_this_total_monthly_task_hour) {
+            $_this_total_monthly_task_hour->fill([
+                "user_id" => $user->id,
+                "month" => $month,
+                "total_monthly_task_hours" => $working_hours,
+            ]);
+            $_this_total_monthly_task_hour->save();
+        }
         $public_task->applicantUsers()->detach($user->id);
         $public_task->applicantUsers()->attach($user->id, ["fixed" => true, "task_completion_notification" => true]);
 
