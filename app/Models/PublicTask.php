@@ -64,4 +64,20 @@ class PublicTask extends Model
     {
         return date('Y-m', strtotime($this->date));
     }
+    public static function color($color)
+    {
+        $result = "";
+        switch ($color) {
+            case "primary":
+                $result = "#1976d2";
+                break;
+            case "secondary":
+                $result = "#9c27b0";
+                break;
+            case "warning":
+                $result = "#ed6c02";
+                break;
+        }
+        return $result;
+    }
 }
