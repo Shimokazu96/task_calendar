@@ -19,7 +19,7 @@ import App from "./App";
 ReactDOM.render(
     <RecoilRoot>
         <ToastContainer />
-        <BrowserRouter>
+        <BrowserRouter basename={import.meta.env.VITE_BASENAME}>
             <App />
         </BrowserRouter>
     </RecoilRoot>,

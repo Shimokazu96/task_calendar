@@ -11,6 +11,7 @@ import useUserAuth from "@/hooks/useUserAuth";
 import AdminLogin from "@/components/pages/admin/login";
 import ForgotPassword from "@/components/pages/forgotPassword";
 import ResetPassword from "@/components/pages/resetPassword";
+import NotFound  from '@/components/pages/notFound';
 
 // import AdminRoutes from "./route/admin";
 
@@ -75,7 +76,9 @@ const App: React.FC = () => {
             />
             <Route
                 path="/forgot-password"
-                element={userStatus() ? <Navigate to="/" /> : <ForgotPassword />}
+                element={
+                    userStatus() ? <Navigate to="/" /> : <ForgotPassword />
+                }
             />
             <Route
                 path="/reset-password/:token"
@@ -99,6 +102,7 @@ const App: React.FC = () => {
                     adminStatus() ? <Navigate to="/admin" /> : <AdminLogin />
                 }
             />
+            <Route path="*" element={<NotFound />} />
         </Routes>
     );
 };

@@ -43,7 +43,8 @@ Route::middleware('auth:sanctum')->get('/', function (Request $request) {
 // admin ログイン認証後
 Route::group([
     'namespace' => 'App\Http\Controllers\Admin',
-    'middleware' => ['auth:sanctum']
+    'middleware' => ['auth:sanctum'],
+    'as' => 'admin.',
 ], function () {
     Route::post('/logout', 'LoginController@destroy');
     Route::apiResource('/user', UserController::class);
