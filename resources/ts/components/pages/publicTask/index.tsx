@@ -229,7 +229,7 @@ const PublicTaskPage: React.FC = () => {
                                 id="demo-simple-select"
                                 label="Age"
                             >
-                                <MenuItem value={""}></MenuItem>
+                                <MenuItem value={""}>　</MenuItem>
                                 {setDay().map((value, index) => (
                                     <MenuItem key={index} value={value}>
                                         {value}

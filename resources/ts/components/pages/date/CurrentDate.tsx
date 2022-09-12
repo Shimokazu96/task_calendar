@@ -32,6 +32,7 @@ const CurrentDatePage: React.FC = () => {
             .then((response: AxiosResponse) => {
                 console.log(response.data);
                 setPublicTasks(response.data);
+                setLoading(false);
             })
             .catch((err: AxiosError) => console.log(err.response));
         return publicTasks;
@@ -57,7 +58,6 @@ const CurrentDatePage: React.FC = () => {
             if (event.dir == "Right") {
                 calendarApi.prev();
             }
-            setLoading(false);
         },
         trackMouse: true,
     });
@@ -65,7 +65,6 @@ const CurrentDatePage: React.FC = () => {
     useEffect(() => {
         getPublicTasks();
         getSections();
-        setLoading(false);
     }, []);
     console.log(calendarRef.current);
 
