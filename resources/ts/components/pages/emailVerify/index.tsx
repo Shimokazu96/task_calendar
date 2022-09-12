@@ -13,11 +13,13 @@ import { Link as RouterLink } from "react-router-dom";
 import { axiosApi } from "@/lib/axios";
 import { AxiosResponse } from "axios";
 import useNotification from "@/hooks/useNotification";
+import useUserAuth from "@/hooks/useUserAuth";
 
 const theme = createTheme();
 
 const EmailVerify = () => {
     const { error, success } = useNotification();
+    const { logout } = useUserAuth();
 
     const onSubmit = async () => {
         await axiosApi
@@ -69,7 +71,7 @@ const EmailVerify = () => {
                     >
                         メールを再送する
                     </Button>
-                    {/* <Grid
+                    <Grid
                         container
                         sx={{ display: "flex", justifyContent: "flex-end" }}
                     >
@@ -77,10 +79,11 @@ const EmailVerify = () => {
                             component={RouterLink}
                             to="/login"
                             variant="body2"
+                            onClick={logout}
                         >
                             ログインに戻る
                         </Link>
-                    </Grid> */}
+                    </Grid>
                 </Box>
             </Container>
         </ThemeProvider>
