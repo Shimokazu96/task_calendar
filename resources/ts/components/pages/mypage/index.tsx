@@ -40,14 +40,16 @@ export default function MyPageList() {
                         </ListItemButton>
                     </ListItem>
                 </Link>
-                <ListItem disablePadding>
-                    <ListItemButton>
-                        <ListItemIcon>
-                            <PersonIcon />
-                        </ListItemIcon>
-                        <ListItemText primary="アカウント設定" />
-                    </ListItemButton>
-                </ListItem>
+                <Link to="/mypage/setting">
+                    <ListItem disablePadding>
+                        <ListItemButton>
+                            <ListItemIcon>
+                                <PersonIcon />
+                            </ListItemIcon>
+                            <ListItemText primary="アカウント設定" />
+                        </ListItemButton>
+                    </ListItem>
+                </Link>
                 <ListItem onClick={logout} disablePadding>
                     <ListItemButton>
                         <ListItemIcon>

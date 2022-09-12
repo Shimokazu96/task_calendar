@@ -9,6 +9,7 @@ const MyPage = lazy(() => import("@/components/pages/mypage"));
 const AppliedTaskPage = lazy(() => import("@/components/pages/mypage/applied_task"));
 const FixedTaskPage = lazy(() => import("@/components/pages/mypage/fixedTask"));
 const DetailFixedTaskPage = lazy(() => import("@/components/pages/mypage/fixedTask/detail"));
+const SettingMyPage = lazy(() => import("@/components/pages/mypage/setting"));
 
 export const MasterRoutes = (
     <>
@@ -21,6 +22,7 @@ export const MasterRoutes = (
             <Route path="/mypage/applied_task" element={<AppliedTaskPage />} />
             <Route path="/mypage/fixed_task" element={<FixedTaskPage />} />
             <Route path="/mypage/fixed_task/:id" element={<DetailFixedTaskPage />} />
+            <Route path="/mypage/setting" element={<SettingMyPage />} />
         </Route>
     </>
 );
