@@ -14,7 +14,7 @@ class PublicTaskController extends Controller
 
     public function index()
     {
-        return PublicTask::orderBy('created_at')->with(['section', 'task', 'applicantUsers'])->get();
+        return PublicTask::orderByDesc('id')->with(['section', 'task', 'applicantUsers'])->get();
     }
 
     public function getTasksThisDate($_this_total_daily_task_hour)

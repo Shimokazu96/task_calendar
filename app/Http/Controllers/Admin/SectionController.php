@@ -12,7 +12,7 @@ class SectionController extends Controller
 
     public function index()
     {
-        return Section::orderByDEsc('id')->get();
+        return Section::orderByDesc('id')->get();
     }
 
 

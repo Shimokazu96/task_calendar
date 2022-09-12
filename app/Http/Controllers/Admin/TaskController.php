@@ -14,7 +14,7 @@ class TaskController extends Controller
     {
         // abort(500);
         // return [];
-        return Task::orderByDEsc('id')->get();
+        return Task::orderByDesc('id')->get();
     }
 
 
