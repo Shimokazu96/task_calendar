@@ -1,6 +1,6 @@
 @component('mail::message')
 {{-- Greeting --}}
-@if (! empty($greeting))
+{{-- @if (! empty($greeting))
 # {{ $greeting }}
 @else
 @if ($level === 'error')
@@ -8,7 +8,7 @@
 @else
 # @lang('こんにちは！')
 @endif
-@endif
+@endif --}}
 
 {{-- Intro Lines --}}
 @foreach ($introLines as $line)
@@ -36,12 +36,12 @@
 @endforeach
 
 {{-- Salutation --}}
-@if (! empty($salutation))
+{{-- @if (! empty($salutation))
 {{ $salutation }}
 @else
 @lang('Regards'),<br>
 {{ config('app.name') }}
-@endif
+@endif --}}
 
 {{-- Subcopy --}}
 @isset($actionText)
