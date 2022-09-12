@@ -16,7 +16,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return Auth::guard('web')
-            ->user();
+        ->user();
 });
 Route::get('/reflesh-token', function (Illuminate\Http\Request $request) {
     $request->session()->regenerateToken();
@@ -29,6 +29,7 @@ Route::group([
     'namespace' => 'App\Http\Controllers\User',
     'middleware' => ['auth:sanctum']
 ], function () {
+    Route::put('/user/profile-information', 'ProfileInformationController@update')->name('user-profile-information.update');
     Route::apiResource('/public_task', PublicTaskController::class);
     Route::get('/public_task/calendar/{this_date}', 'PublicTaskController@getTasksThisDate');
     Route::post('/public_task/apply/{public_task}', 'PublicTaskController@applyPublicTask');
