@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { AxiosError, AxiosResponse } from "axios";
 import { axiosApi } from "@/lib/axios";
-import { setYear, setMonth, setDay } from "@/lib/dateFormat";
+import { setYear, setMonth, setDay, searchDate } from "@/lib/dateFormat";
 import { PublicTask } from "@/types/PublicTask";
 import { styled } from "@mui/material/styles";
 import {
@@ -60,28 +60,11 @@ const AppliedTaskPage: React.FC = () => {
 
     const onSubmit = async (data: Form) => {
         setLinearProgress(true);
-        let searchDate = "";
-        if (data.day) {
-            let inputDate = new Date(
-                data.year + "-" + data.month + "-" + data.day
-            );
-            searchDate =
-                format(inputDate, "yyyy") +
-                "-" +
-                format(inputDate, "MM") +
-                "-" +
-                format(inputDate, "dd");
+        let date = searchDate(data.year, data.month, data.day);
+        if (date == "Invalid Date") {
+            setLinearProgress(false);
+            return error("無効な日付です。");
         }
-        if (!data.month) {
-            let inputDate = new Date(data.year);
-            searchDate = format(inputDate, "yyyy");
-        }
-        if (data.month && !data.day) {
-            let inputDate = new Date(data.year + "-" + data.month);
-            searchDate =
-                format(inputDate, "yyyy") + "-" + format(inputDate, "MM");
-        }
-        console.log(searchDate);
         await axiosApi
             .get(`/api/user/applied/public_task?date=${searchDate}&page=1`)
             .then((response: AxiosResponse) => {

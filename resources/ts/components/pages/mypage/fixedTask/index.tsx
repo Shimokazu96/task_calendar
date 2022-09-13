@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { AxiosError, AxiosResponse } from "axios";
 import { axiosApi } from "@/lib/axios";
-import { setYear, setMonth, setDay } from "@/lib/dateFormat";
+import { setYear, setMonth, setDay, searchDate } from "@/lib/dateFormat";
 import { PublicTask } from "@/types/PublicTask";
 import { styled } from "@mui/material/styles";
 import {
@@ -60,30 +60,13 @@ const FixedTaskPage: React.FC = () => {
 
     const onSubmit = async (data: Form) => {
         setLinearProgress(true);
-        let searchDate = "";
-        if (data.day) {
-            let inputDate = new Date(
-                data.year + "-" + data.month + "-" + data.day
-            );
-            searchDate =
-                format(inputDate, "yyyy") +
-                "-" +
-                format(inputDate, "MM") +
-                "-" +
-                format(inputDate, "dd");
+        let date = searchDate(data.year, data.month, data.day);
+        if (date == "Invalid Date") {
+            setLinearProgress(false);
+            return error("無効な日付です。");
         }
-        if (!data.month) {
-            let inputDate = new Date(data.year);
-            searchDate = format(inputDate, "yyyy");
-        }
-        if (data.month && !data.day) {
-            let inputDate = new Date(data.year + "-" + data.month);
-            searchDate =
-                format(inputDate, "yyyy") + "-" + format(inputDate, "MM");
-        }
-        console.log(searchDate);
         await axiosApi
-            .get(`/api/user/fixed/public_task?date=${searchDate}&page=1`)
+            .get(`/api/user/fixed/public_task?date=${date}&page=1`)
             .then((response: AxiosResponse) => {
                 console.log(response.data);
                 console.log(page);
@@ -284,7 +267,10 @@ const FixedTaskPage: React.FC = () => {
                             {publicTasks.map((publicTask, index) => (
                                 <Link
                                     key={index}
-                                    to={"/mypage/fixed_task/" + publicTasks[index].id}
+                                    to={
+                                        "/mypage/fixed_task/" +
+                                        publicTasks[index].id
+                                    }
                                 >
                                     <StyledPaper
                                         sx={{

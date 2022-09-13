@@ -1,4 +1,4 @@
-import { getDate, getMonth, getYear, format } from "date-fns";
+import { getDate, getMonth, getYear, format, parse } from "date-fns";
 
 export const setYear = () => {
     const year = Array();
@@ -24,4 +24,42 @@ export const setDay = () => {
         day.push(i);
     }
     return day;
+};
+export const isInvalidDate = (date: Date) => Number.isNaN(date.getTime());
+
+export const searchDate = (
+    year: string,
+    month: string | null,
+    day: string | null
+): string => {
+    let searchDate = "";
+    if (year && month && day) {
+        if (
+            isInvalidDate(
+                parse(year + "-" + month + "-" + day, "yyyy-MM-dd", new Date())
+            )
+        ) {
+            return "Invalid Date";
+        }
+        let inputDate = parse(
+            year + "-" + month + "-" + day,
+            "yyyy-MM-dd",
+            new Date()
+        );
+        searchDate =
+            format(inputDate, "yyyy") +
+            "-" +
+            format(inputDate, "MM") +
+            "-" +
+            format(inputDate, "dd");
+    }
+    if (!month && !day) {
+        let inputDate = parse(year, "yyyy", new Date());
+        searchDate = format(inputDate, "yyyy");
+    }
+    if (year && month && !day) {
+        let inputDate = parse(year + "-" + month, "yyyy-MM", new Date());
+        searchDate = format(inputDate, "yyyy") + "-" + format(inputDate, "MM");
+    }
+    return searchDate;
 };
