@@ -3,7 +3,12 @@ import { useEffect, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { AxiosError, AxiosResponse } from "axios";
 import { axiosApi } from "@/lib/axios";
-import { setYear, setMonth, setDay } from "@/lib/dateFormat";
+import {
+    setYear,
+    setMonth,
+    setDay,
+    searchDate,
+} from "@/lib/dateFormat";
 import { PublicTask } from "@/types/PublicTask";
 import { styled } from "@mui/material/styles";
 import {
@@ -19,7 +24,7 @@ import {
     Chip,
     Alert,
 } from "@mui/material";
-import { format } from "date-fns";
+import { format, parse } from "date-fns";
 import InfiniteScroll from "react-infinite-scroll-component";
 import useNotification from "@/hooks/useNotification";
 import { useForm } from "react-hook-form";
@@ -61,22 +66,13 @@ const PublicTaskPage: React.FC = () => {
 
     const onSubmit = async (data: Form) => {
         setLinearProgress(true);
-        let searchDate = "";
-        let inputDate = new Date(data.year + "-" + data.month + "-" + data.day);
-        if (data.day) {
-            searchDate =
-                format(inputDate, "yyyy") +
-                "-" +
-                format(inputDate, "MM") +
-                "-" +
-                format(inputDate, "dd");
-        }
-        if (!data.day) {
-            searchDate =
-                format(inputDate, "yyyy") + "-" + format(inputDate, "MM");
+        let date = searchDate(data.year, data.month, data.day);
+        if (date == "Invalid Date") {
+            setLinearProgress(false);
+            return error("無効な日付です。");
         }
         await axiosApi
-            .get(`/api/public_task?date=${searchDate}&page=1`)
+            .get(`/api/public_task?date=${date}&page=1`)
             .then((response: AxiosResponse) => {
                 console.log(response.data);
                 if (page == 1) {
@@ -142,11 +138,6 @@ const PublicTaskPage: React.FC = () => {
     };
 
     useEffect(() => {
-        // navigate({
-        //     pathname: "/public_task",
-        //     search: `?date=${thisDate}&page=${page}`,
-        // });
-
         getPublicTasks(page, thisDate);
     }, []);
 
@@ -285,10 +276,13 @@ const PublicTaskPage: React.FC = () => {
                                     >
                                         {publicTasks[index]
                                             .applied_public_task ? (
-                                            <Alert sx={{
-                                                mb: 0.5,
-                                                p: 0.5,
-                                            }} severity="success">
+                                            <Alert
+                                                sx={{
+                                                    mb: 0.5,
+                                                    p: 0.5,
+                                                }}
+                                                severity="success"
+                                            >
                                                 申請済み
                                             </Alert>
                                         ) : (
