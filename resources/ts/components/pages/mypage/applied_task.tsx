@@ -61,7 +61,7 @@ const AppliedTaskPage: React.FC = () => {
     const onSubmit = async (data: Form) => {
         setLinearProgress(true);
         let date = searchDate(data.year, data.month, data.day);
-        if (date == "Invalid Date") {
+        if (date == "Invalid_Date") {
             setLinearProgress(false);
             return error("無効な日付です。");
         }
