@@ -39,7 +39,7 @@ export const searchDate = (
                 parse(year + "-" + month + "-" + day, "yyyy-MM-dd", new Date())
             )
         ) {
-            return "Invalid Date";
+            return "Invalid_Date";
         }
         let inputDate = parse(
             year + "-" + month + "-" + day,
