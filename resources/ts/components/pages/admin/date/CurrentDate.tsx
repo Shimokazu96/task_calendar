@@ -14,11 +14,23 @@ import { format } from "date-fns";
 import resourceTimeGridPlugin from "@fullcalendar/resource-timegrid";
 import { Button, Tooltip } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
+import CreatePublicTaskDialog from "@/components/templates/admin/public_task/CreatePublicTaskDialog";
 
 const CurrentDatePage: React.FC = () => {
     const navigate = useNavigate();
     const params = useParams();
     const thisDate = format(new Date(), "yyyy");
+    const [dialogOpen, setDialogOpen] = useState(false);
+    const [date, setDate] = useState("");
+    const [startTime, setStartTime] = useState("");
+    const [endTime, setEndTime] = useState("");
+
+    const handleDialogClose = () => {
+        setDialogOpen(false);
+        setDate("");
+        setStartTime("");
+        setEndTime("");
+    };
 
     const calendarRef = useRef<FullCalendar>(null!);
     const [publicTasks, setPublicTasks] = useState<EventInput[]>([]);
@@ -29,7 +41,6 @@ const CurrentDatePage: React.FC = () => {
         await axiosApi
             .get(`/api/admin/public_task/calendar/${thisDate}`)
             .then((response: AxiosResponse) => {
-                console.log(response.data);
                 setPublicTasks(response.data);
             })
             .catch((err: AxiosError) => console.log(err.response));
@@ -39,7 +50,6 @@ const CurrentDatePage: React.FC = () => {
         await axiosApi
             .get(`/api/admin/time_grid/section`)
             .then((response: AxiosResponse) => {
-                console.log(response.data);
                 setSections(response.data);
             })
             .catch((err: AxiosError) => console.log(err.response));
@@ -51,10 +61,12 @@ const CurrentDatePage: React.FC = () => {
         getSections();
         setLoading(false);
     }, []);
-    console.log(calendarRef.current);
 
     const handleDateSelect = useCallback((selectInfo: DateSelectArg) => {
-        navigate(`/admin/date/${selectInfo.startStr}`);
+        setDate(format(selectInfo.start, "yyyy-MM-dd"));
+        setStartTime(selectInfo.startStr);
+        setEndTime(selectInfo.endStr);
+        setDialogOpen(true);
     }, []);
 
     if (loading) {
@@ -81,6 +93,7 @@ const CurrentDatePage: React.FC = () => {
                     initialView="resourceTimeGridDay"
                     initialDate={params.date}
                     droppable={false}
+                    selectable={true}
                     customButtons={{
                         Month: {
                             text: "月",
@@ -98,6 +111,7 @@ const CurrentDatePage: React.FC = () => {
                     locales={allLocales}
                     locale="ja"
                     select={handleDateSelect}
+                    selectMirror={true}
                 />
             </div>
             <Link to={`/admin/public_task/create?date=${params.date}`}>
@@ -117,6 +131,13 @@ const CurrentDatePage: React.FC = () => {
                     </Button>
                 </Tooltip>
             </Link>
+            <CreatePublicTaskDialog
+                open={dialogOpen}
+                date={date}
+                startTime={startTime}
+                endTime={endTime}
+                close={() => handleDialogClose()}
+            />
         </>
     );
 };

@@ -14,7 +14,8 @@ class PublicTask extends Model
     /** JSONに含める属性 */
     protected $appends = [
         'applied_public_task',
-        'task_completion_notification'
+        'task_completion_notification',
+        'fixed_applied_public_task'
     ];
 
     public function task()
@@ -38,6 +39,16 @@ class PublicTask extends Model
         }
         return $this->applicantUsers->contains(function ($user) {
             return $user->id === Auth::guard('web')->user()->id;
+        });
+    }
+    //タスク完了済みか判定
+    public function getFixedAppliedPublicTaskAttribute()
+    {
+        if (Auth::guest() || Auth::guard('admin')->user()) {
+            return false;
+        }
+        return $this->applicantUsers->contains(function ($user) {
+            return $user->id === Auth::guard('web')->user()->id && $user->pivot->fixed === 1;
         });
     }
     //タスク完了済みか判定
