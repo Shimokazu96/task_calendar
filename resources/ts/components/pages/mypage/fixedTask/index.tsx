@@ -134,11 +134,6 @@ const FixedTaskPage: React.FC = () => {
     };
 
     useEffect(() => {
-        // navigate({
-        //     pathname: "/public_task",
-        //     search: `?date=${thisDate}&page=${page}`,
-        // });
-
         getPublicTasks(page, thisYear);
     }, []);
 

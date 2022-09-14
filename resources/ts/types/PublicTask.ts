@@ -12,6 +12,7 @@ export type PublicTask = {
     updated_at: string;
     applied_public_task: boolean;
     task_completion_notification: boolean;
+    fixed_applied_public_task: boolean;
     task: {
         task_name: string;
     };
@@ -25,9 +26,9 @@ export type Form = {
     section_id: string;
     required_personnel: string;
     description: string;
-    date: Date;
-    start_time: Date;
-    end_time: Date;
+    date: Date | null;
+    start_time: Date | null;
+    end_time: Date | null;
 };
 
 export type Validation = {

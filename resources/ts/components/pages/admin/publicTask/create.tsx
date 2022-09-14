@@ -89,9 +89,9 @@ const CreatePublicTaskPage: React.FC = () => {
         data.description
             ? formData.append("description", data.description)
             : formData.append("description", "");
-        formData.append("date", format(data.date, "yyyy-MM-dd"));
-        formData.append("start_time", format(data.start_time, "HH:mm"));
-        formData.append("end_time", format(data.end_time, "HH:mm"));
+        formData.append("date", format(Number(data.date), "yyyy-MM-dd"));
+        formData.append("start_time", format(Number(data.start_time), "HH:mm"));
+        formData.append("end_time", format(Number(data.end_time), "HH:mm"));
         for (let value of formData.entries()) {
             console.log(value);
         }
@@ -165,6 +165,7 @@ const CreatePublicTaskPage: React.FC = () => {
                                 label="日付"
                             />
                             <CustomTimePicker
+                                defaultValue={""}
                                 valueName="start_time"
                                 control={control}
                                 required
@@ -172,6 +173,7 @@ const CreatePublicTaskPage: React.FC = () => {
                                 label="開始時間"
                             />
                             <CustomTimePicker
+                                defaultValue={""}
                                 valueName="end_time"
                                 control={control}
                                 required

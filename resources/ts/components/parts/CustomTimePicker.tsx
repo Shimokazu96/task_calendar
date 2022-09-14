@@ -13,6 +13,7 @@ type Props = {
     valueName: Path<Form>;
     control: Control<Form>;
     required: boolean;
+    defaultValue: string;
 };
 
 const CustomTimePicker: React.FC<Props> = (props) => {
@@ -20,7 +21,7 @@ const CustomTimePicker: React.FC<Props> = (props) => {
         <Controller
             control={props.control}
             name={props.valueName}
-            defaultValue={""}
+            defaultValue={props.defaultValue}
             rules={{ required: { value: true, message: "入力必須です。" } }}
             render={({ field, fieldState }) => (
                 <LocalizationProvider
