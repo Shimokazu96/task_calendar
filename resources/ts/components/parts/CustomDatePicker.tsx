@@ -1,6 +1,6 @@
 import * as React from "react";
 import { TextField } from "@mui/material";
-import { LocalizationProvider, DatePicker } from "@mui/x-date-pickers-pro";
+import { LocalizationProvider, DatePicker } from "@mui/x-date-pickers";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import ja from "date-fns/locale/ja";
 import { Path, Control, Controller } from "react-hook-form";
