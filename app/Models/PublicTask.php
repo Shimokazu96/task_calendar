@@ -88,6 +88,15 @@ class PublicTask extends Model
             case "warning":
                 $result = "#ed6c02";
                 break;
+            case "info":
+                $result = "#0288d1";
+                break;
+            case "success":
+                $result = "#2e7d32";
+                break;
+            case "error":
+                $result = "#d32f2f";
+                break;
         }
         return $result;
     }

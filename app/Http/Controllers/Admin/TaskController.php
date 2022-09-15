@@ -20,7 +20,9 @@ class TaskController extends Controller
 
     public function store(TaskRequest $request, Task $task)
     {
-        $task = Task::create($request->all());
+        $task->fill($request->all());
+        $task->color = Task::color();
+        $task->save();
 
         return $task
             ? response()->json($task, 201)

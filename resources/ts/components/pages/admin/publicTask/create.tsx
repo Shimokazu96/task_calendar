@@ -2,13 +2,14 @@ import * as React from "react";
 import { useEffect, useState } from "react";
 import { AxiosError, AxiosResponse } from "axios";
 import { axiosApi } from "@/lib/axios";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Link as RouterLink, useLocation, useNavigate } from "react-router-dom";
 import {
     Button,
     TextField,
     Grid,
     Box,
     Typography,
+    Link,
     Paper,
     InputLabel,
     MenuItem,
@@ -23,6 +24,7 @@ import useNotification from "@/hooks/useNotification";
 import Loading from "@/components/parts/Loading";
 import CustomDatePicker from "@/components/parts/CustomDatePicker";
 import CustomTimePicker from "@/components/parts/CustomTimePicker";
+import CreateTaskDialog from "@/components/templates/admin/public_task/CreateTaskDialog";
 
 type Task = {
     id: number;
@@ -40,10 +42,16 @@ const CreatePublicTaskPage: React.FC = () => {
 
     const { saved, error } = useNotification();
     const [loading, setLoading] = useState(true);
-
     const [tasks, setTasks] = useState([]);
     const [sections, setSections] = useState([]);
 
+    const [dialogOpen, setDialogOpen] = useState(false);
+    const handleDialogOpen = () => {
+        setDialogOpen(true);
+    };
+    const handleDialogClose = () => {
+        setDialogOpen(false);
+    };
     // React-Hook-Form
     const {
         control,
@@ -216,6 +224,14 @@ const CreatePublicTaskPage: React.FC = () => {
                             <FormHelperText sx={{ color: "error.main" }}>
                                 {errors.task_id?.message}
                             </FormHelperText>
+                            <Link
+                                component="button"
+                                sx={{ mt: 1, display: "inherit" }}
+                                variant="body2"
+                                onClick={() => handleDialogOpen()}
+                            >
+                                タスクを追加する
+                            </Link>
                         </FormControl>
                         <FormControl
                             variant="standard"
@@ -276,27 +292,6 @@ const CreatePublicTaskPage: React.FC = () => {
                                 variant="standard"
                             />
                         </Grid>
-                        {/* <Grid item xs={12} md={12}>
-                                <TextField
-                                    {...register("determined_personnel", {
-                                        required: "必須入力です。",
-                                    })}
-                                    error={"determined_personnel" in errors}
-                                    helperText={
-                                        errors.determined_personnel?.message
-                                    }
-                                    id="determined_personnel"
-                                    label="確定人数"
-                                    type="number"
-                                    sx={{ mb: 2 }}
-                                    InputProps={{ inputProps: { min: 1 } }}
-                                    InputLabelProps={{
-                                        shrink: true,
-                                    }}
-                                    variant="standard"
-                                    required
-                                />
-                            </Grid> */}
                         <TextField
                             {...register("description")}
                             multiline
@@ -315,9 +310,9 @@ const CreatePublicTaskPage: React.FC = () => {
                         style={{ padding: 16 }}
                     >
                         <Grid>
-                            <Link to="/admin/public_task">
+                            <RouterLink to="/admin/public_task">
                                 <Button>キャンセル</Button>
-                            </Link>
+                            </RouterLink>
 
                             <Button
                                 onClick={handleSubmit(onSubmit)}
@@ -331,6 +326,10 @@ const CreatePublicTaskPage: React.FC = () => {
                         </Grid>
                     </Grid>
                 </Grid>
+                <CreateTaskDialog
+                    open={dialogOpen}
+                    close={() => handleDialogClose()}
+                />
             </Paper>
         </>
     );
