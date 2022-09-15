@@ -13,11 +13,14 @@ import timeGridPlugin from "@fullcalendar/timegrid";
 import { format } from "date-fns";
 import resourceTimeGridPlugin from "@fullcalendar/resource-timegrid";
 import { useSwipeable } from "react-swipeable";
+import useWindowSize from "@/hooks/useWindowSize";
 
 const TopPage: React.FC = () => {
     const thisDate = format(new Date(), "yyyy");
     const navigate = useNavigate();
     const calendarRef = useRef<FullCalendar>(null!);
+    const [width, height] = useWindowSize();
+    const calendarHeight = height - 60;
 
     const [publicTasks, setPublicTasks] = useState<EventInput[]>([]);
     const [loading, setLoading] = useState(true);
@@ -26,16 +29,13 @@ const TopPage: React.FC = () => {
         await axiosApi
             .get(`/api/public_task/calendar/${thisDate}`)
             .then((response: AxiosResponse) => {
-                console.log(response.data);
                 setPublicTasks(response.data);
-                setLoading(false);
             })
             .catch((err: AxiosError) => console.log(err.response));
         return publicTasks;
     };
     const handlers = useSwipeable({
         onSwiped: (event) => {
-            console.log(event);
             const calendarApi = calendarRef.current.getApi();
             if (event.dir == "Left") {
                 calendarApi.next();
@@ -43,16 +43,15 @@ const TopPage: React.FC = () => {
             if (event.dir == "Right") {
                 calendarApi.prev();
             }
-            setLoading(false);
         },
         trackMouse: true,
     });
     useEffect(() => {
         getPublicTasks();
+        setLoading(false);
     }, []);
 
     const handleDateSelect = (date: Date) => {
-        console.log(date);
         const selectDate = format(date, "yyyy-MM-dd");
         navigate(`/date/${selectDate}`);
     };
@@ -78,7 +77,7 @@ const TopPage: React.FC = () => {
                     end: "",
                     // end: "prev,next",
                 }}
-                height={"85vh"}
+                height={calendarHeight}
                 eventTimeFormat={{ hour: "2-digit", minute: "2-digit" }}
                 slotLabelFormat={[{ hour: "2-digit", minute: "2-digit" }]}
                 // initialView="resourceTimeGridDay"
