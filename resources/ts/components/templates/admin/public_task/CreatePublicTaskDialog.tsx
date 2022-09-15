@@ -119,9 +119,9 @@ export default function CreatePublicTaskDialog(props: Props) {
         formData.append("date", format(Number(data.date), "yyyy-MM-dd"));
         formData.append("start_time", format(Number(data.start_time), "HH:mm"));
         formData.append("end_time", format(Number(data.end_time), "HH:mm"));
-        for (let value of formData.entries()) {
-            console.log(value);
-        }
+        // for (let value of formData.entries()) {
+        //     console.log(value);
+        // }
         await axiosApi
             .post(`/api/admin/public_task`, formData, config)
             .then((response: AxiosResponse) => {

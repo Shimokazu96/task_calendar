@@ -35,8 +35,8 @@ const App: React.FC = () => {
         };
         init();
     }, []);
-    console.log("email:" + emailVerified());
-    console.log("user:" + userStatus());
+    // console.log("email:" + emailVerified());
+    // console.log("user:" + userStatus());
     const RouteUserAuthGuard = () => {
         if (authChecked) {
             if (userStatus() && emailVerified()) {
