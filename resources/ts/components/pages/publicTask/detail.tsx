@@ -50,8 +50,9 @@ const DetailPublicTaskPage: React.FC = () => {
         section_id: 0,
         required_personnel: 0,
         determined_personnel: 0,
-        applied_public_task:false,
-        task_completion_notification:false,
+        applied_public_task: false,
+        task_completion_notification: false,
+        fixed_applied_public_task: false,
         description: "",
         date: "",
         start_time: "",
@@ -93,6 +94,9 @@ const DetailPublicTaskPage: React.FC = () => {
         return applicantUsers;
     };
     const cancelPublicTask = () => {
+        if(publicTask.fixed_applied_public_task) {
+            return error("確定済みですのでキャンセルできません。")
+        }
         axiosApi
             .post(`/api/public_task/cancel/${params.id}`)
             .then((response: AxiosResponse) => {
@@ -115,7 +119,7 @@ const DetailPublicTaskPage: React.FC = () => {
     return (
         <Box
             sx={{
-                width:"100%",
+                width: "100%",
                 maxWidth: "100%",
                 p: 2,
                 m: "auto",
@@ -125,7 +129,7 @@ const DetailPublicTaskPage: React.FC = () => {
         >
             <Card>
                 <CardContent>
-                    {applicantUsers.length ? (
+                    {publicTask.applied_public_task ? (
                         <Alert severity="success">申請済み </Alert>
                     ) : (
                         <></>
