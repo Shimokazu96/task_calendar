@@ -24,6 +24,7 @@ const CurrentDatePage: React.FC = () => {
     const [date, setDate] = useState("");
     const [startTime, setStartTime] = useState("");
     const [endTime, setEndTime] = useState("");
+    const [sectionId, setSectionId] = useState<any>("");
 
     const handleDialogClose = () => {
         setDialogOpen(false);
@@ -63,6 +64,9 @@ const CurrentDatePage: React.FC = () => {
     }, []);
 
     const handleDateSelect = useCallback((selectInfo: DateSelectArg) => {
+        console.log(selectInfo);
+        console.log(selectInfo.resource?.id);
+        setSectionId(selectInfo.resource?.id);
         setDate(format(selectInfo.start, "yyyy-MM-dd"));
         setStartTime(selectInfo.startStr);
         setEndTime(selectInfo.endStr);
@@ -134,6 +138,7 @@ const CurrentDatePage: React.FC = () => {
             <CreatePublicTaskDialog
                 open={dialogOpen}
                 date={date}
+                sectionId={sectionId}
                 startTime={startTime}
                 endTime={endTime}
                 close={() => handleDialogClose()}

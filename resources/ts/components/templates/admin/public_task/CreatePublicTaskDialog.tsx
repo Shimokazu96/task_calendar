@@ -9,13 +9,9 @@ import { useParams, useNavigate } from "react-router-dom";
 import {
     Button,
     Dialog,
-    DialogTitle,
     DialogContent,
-    DialogActions,
-    Typography,
     TextField,
     Grid,
-    Box,
     Select,
     InputLabel,
     MenuItem,
@@ -32,6 +28,7 @@ type Props = {
     date: string;
     startTime: string;
     endTime: string;
+    sectionId: string;
     close: VoidFunction;
 };
 
@@ -49,30 +46,44 @@ export default function CreatePublicTaskDialog(props: Props) {
     const params = useParams();
     const [tasks, setTasks] = useState([]);
     const [sections, setSections] = useState([]);
-    const [loading, setLoading] = useState(true);
+    // const [loading, setLoading] = useState(true);
+    const [rendering, setRendering] = useState(false);
     const { saved, error } = useNotification();
-    console.log(props);
 
+    useEffect(() => {
+        if (props.open) {
+            setValue("date", new Date(props.date));
+            setValue("start_time", new Date(props.startTime));
+            setValue("end_time", new Date(props.endTime));
+            setValue("section_id", props.sectionId);
+
+            setRendering(true);
+            return;
+        }
+        if (!props.open) {
+            setRendering(false);
+            return;
+        }
+        return setRendering(false);
+    }, [props.open]);
     // React-Hook-Form
     const {
         control,
         register,
         handleSubmit,
         reset,
+        setValue,
         formState: { errors },
-    } = useForm<Form>({
-        defaultValues: {
-            task_id: "",
-            section_id: "",
-            required_personnel: "",
-            description: "",
-            date: null,
-            start_time: null,
-            end_time: null,
-        },
-    });
+    } = useForm<Form>();
+
     const dialogClose = async () => {
-        reset();
+        setValue("date", null);
+        setValue("start_time", null);
+        setValue("end_time", null);
+        setValue("description", "");
+        setValue("required_personnel", "");
+        setValue("task_id", "");
+        setValue("section_id", "");
         props.close();
     };
     const getTask = async () => {
@@ -80,7 +91,6 @@ export default function CreatePublicTaskDialog(props: Props) {
             .get(`/api/admin/task_name`)
             .then((response: AxiosResponse) => {
                 setTasks(response.data);
-                setLoading(false);
             })
             .catch((err: AxiosError) => console.log(err.response));
         return tasks;
@@ -90,7 +100,6 @@ export default function CreatePublicTaskDialog(props: Props) {
             .get(`/api/admin/section_name`)
             .then((response: AxiosResponse) => {
                 setSections(response.data);
-                setLoading(false);
             })
             .catch((err: AxiosError) => console.log(err.response));
         return sections;
@@ -140,9 +149,13 @@ export default function CreatePublicTaskDialog(props: Props) {
     useEffect(() => {
         getTask();
         getSection();
+        // setLoading(false);
     }, []);
-    if (loading) {
-        return <Loading open={loading} />;
+    // if (loading) {
+    //     return <Loading open={loading} />;
+    // }
+    if (!rendering) {
+        return <></>;
     }
     return (
         <React.Fragment>
@@ -243,7 +256,7 @@ export default function CreatePublicTaskDialog(props: Props) {
                                     セクション選択
                                 </InputLabel>
                                 <Select
-                                    defaultValue=""
+                                    defaultValue={props.sectionId || ""}
                                     {...register("section_id", {
                                         required: "必須入力です。",
                                     })}
@@ -301,7 +314,10 @@ export default function CreatePublicTaskDialog(props: Props) {
 
                         <Grid
                             container
-                            sx={{ display: "flex", justifyContent: "flex-end" }}
+                            sx={{
+                                display: "flex",
+                                justifyContent: "flex-end",
+                            }}
                             alignItems="center"
                             style={{ padding: 16 }}
                         >
@@ -323,21 +339,6 @@ export default function CreatePublicTaskDialog(props: Props) {
                         </Grid>
                     </Grid>
                 </DialogContent>
-                {/* <DialogActions>
-                    <Button
-                        sx={{ color: "text.primary" }}
-                        onClick={() => props.dialogClose()}
-                    >
-                        No
-                    </Button>
-                    <Button
-                        onClick={() => props.onSubmit()}
-                        color="error"
-                        variant="contained"
-                    >
-                        Yes
-                    </Button>
-                </DialogActions> */}
             </Dialog>
         </React.Fragment>
     );
