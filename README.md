@@ -76,9 +76,38 @@ npm run build
 ### ER図
 https://app.diagrams.net/#G1bUoP5ILj568NSyxWM-RVY5XzQHmHdRzL
 
-### フロントエンドライブラリ
-- FullCalendar：https://fullcalendar.io/
-- MUI：https://mui.com/
-- mui-datatables：https://github.com/gregnb/mui-datatables
-- react-hook-form：https://github.com/react-hook-form/react-hook-form
-- Recoil：https://recoiljs.org/
+## フロントエンドライブラリ
+
+
+### 状態管理ライブラリ
+
+Recoil：https://recoiljs.org/
+
+### カレンダー機能に使用
+
+FullCalendar：https://fullcalendar.io/
+
+### UIライブラリ
+
+MUI：https://mui.com/
+
+### MUI専用のテーブルライブラリ
+
+mui-datatables：https://github.com/gregnb/mui-datatables
+
+### フォームバリデーションライブラリ
+
+react-hook-form：https://github.com/react-hook-form/react-hook-form
+
+### 無限スクロール
+
+react-infinite-scroll-component：https://github.com/ankeetmaini/react-infinite-scroll-component
+
+### スマホ時のスワイプに対応
+
+react-swipeable：https://github.com/FormidableLabs/react-swipeable
+
+### アラート機能
+
+react-toastify：https://github.com/fkhadra/react-toastify
+
