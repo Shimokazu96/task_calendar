@@ -47,7 +47,7 @@ a:focus {
     font-size: 1.2em;
 }
 .frontCalendar .fc .fc-button {
-    padding: 0.2em 0.2em;
+    padding: 0.3rem 1rem;
 }
 .frontCalendar .fc .fc-button-primary {
     background-color: #424242;
