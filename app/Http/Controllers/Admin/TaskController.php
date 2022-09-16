@@ -60,6 +60,6 @@ class TaskController extends Controller
 
     public function getTaskName()
     {
-        return Task::get(['id','task_name']);
+        return Task::where('display_flag', true)->get(['id', 'task_name']);
     }
 }

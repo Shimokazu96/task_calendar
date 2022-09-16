@@ -12,7 +12,7 @@ class SectionController extends Controller
     public function getResourceTimeGridSection()
     {
         $resources = [];
-        $sections = Section::get(['id', 'section_name']);
+        $sections = Section::where('display_flag', true)->get(['id', 'section_name']);
         foreach($sections as $key=> $section) {
             $resources[] = ["id" => $section->id, "title" => $section->section_name];
         }

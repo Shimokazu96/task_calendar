@@ -57,7 +57,7 @@ class SectionController extends Controller
     }
     public function getSectionName()
     {
-        return Section::get(['id', 'section_name']);
+        return Section::where('display_flag', true)->get(['id', 'section_name']);
     }
     public function getResourceTimeGridSection()
     {

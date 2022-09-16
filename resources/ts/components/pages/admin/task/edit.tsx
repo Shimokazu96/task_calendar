@@ -3,7 +3,16 @@ import { useEffect, useState } from "react";
 import { AxiosError, AxiosResponse } from "axios";
 import { axiosApi } from "@/lib/axios";
 import { Link, useParams, useNavigate } from "react-router-dom";
-import { Button, TextField, Grid, Box, Typography, Paper } from "@mui/material";
+import {
+    Button,
+    TextField,
+    Grid,
+    Box,
+    Typography,
+    Paper,
+    Switch,
+    FormControlLabel,
+} from "@mui/material";
 import { useForm } from "react-hook-form";
 import { Task, Validation, Form } from "@/types/Task";
 import useNotification from "@/hooks/useNotification";
@@ -17,10 +26,12 @@ const EditTaskPage: React.FC = () => {
     const [task, setTask] = useState<Task>({
         id: 0,
         task_name: "",
+        display_flag: false,
         description: "",
         created_at: "",
         updated_at: "",
     });
+
     const [loading, setLoading] = useState(true);
 
     // React-Hook-Form
@@ -100,6 +111,20 @@ const EditTaskPage: React.FC = () => {
                 sx={{ my: { xs: 3, md: 6 }, p: { xs: 2, md: 3 } }}
             >
                 <Grid container spacing={3}>
+                    <Grid item xs={12} md={12}>
+                        <FormControlLabel
+                            sx={{ ml: 0 }}
+                            control={
+                                <Switch
+                                    {...register("display_flag")}
+                                    defaultChecked={task.display_flag}
+                                    color="primary"
+                                />
+                            }
+                            label="表示・非表示"
+                            labelPlacement="start"
+                        />
+                    </Grid>
                     <Grid item xs={12} md={12}>
                         <TextField
                             {...register("task_name", {

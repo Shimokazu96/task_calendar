@@ -64,8 +64,8 @@ const CurrentDatePage: React.FC = () => {
     }, []);
 
     const handleDateSelect = useCallback((selectInfo: DateSelectArg) => {
-        console.log(selectInfo);
-        console.log(selectInfo.resource?.id);
+        // console.log(selectInfo);
+        // console.log(selectInfo.resource?.id);
         setSectionId(selectInfo.resource?.id);
         setDate(format(selectInfo.start, "yyyy-MM-dd"));
         setStartTime(selectInfo.startStr);

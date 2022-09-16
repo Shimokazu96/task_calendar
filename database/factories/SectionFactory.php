@@ -23,8 +23,9 @@ class SectionFactory extends Factory
     {
         return [
             'section_name' => $this->faker->realText(rand(15,40)),
-            'created_at' => now(),
-            'updated_at' => now()
+            'display_flag' => true,
+            'created_at'   => now(),
+            'updated_at'   => now()
         ];
     }
 }
