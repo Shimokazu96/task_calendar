@@ -18,18 +18,21 @@ class SectionSeeder extends Seeder
             [
                 'section_name' => 'フロント',
                 'color' => 'primary',
+                'display_flag' => true,
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
             [
                 'section_name' => '厨房',
                 'color' => 'secondary',
+                'display_flag' => true,
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
             [
                 'section_name' => 'レストラン',
                 'color' => 'warning',
+                'display_flag' => true,
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
