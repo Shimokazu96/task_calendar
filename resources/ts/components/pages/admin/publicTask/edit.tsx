@@ -45,6 +45,9 @@ const EditPublicTaskPage: React.FC = () => {
             section_name: "",
             color: "",
         },
+        applicant_users: {
+            length: 0,
+        },
     });
 
     const [loading, setLoading] = useState(true);
