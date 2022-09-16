@@ -46,3 +46,10 @@ a:focus {
 .frontCalendar .fc .fc-toolbar-title {
     font-size: 1.2em;
 }
+.frontCalendar .fc .fc-button {
+    padding: 0.2em 0.2em;
+}
+.frontCalendar .fc .fc-button-primary {
+    background-color: #424242;
+    border: none;
+}
