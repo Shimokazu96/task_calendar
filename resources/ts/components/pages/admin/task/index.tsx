@@ -11,6 +11,7 @@ import {
     Button,
     Typography,
     ListItemIcon,
+    Chip
 } from "@mui/material";
 import MenuItem from "@mui/material/MenuItem";
 import Menu from "@mui/material/Menu";
@@ -50,6 +51,32 @@ const TaskPage: React.FC = () => {
             name: "id",
             label: "ID",
             options: { filter: true },
+        },
+        {
+            name: "display_flag",
+            label: "表示・非表示",
+            options: {
+                filter: true,
+                customBodyRenderLite: (dataIndex: number) => {
+                    return (
+                        <>
+                            {tasks[dataIndex].display_flag ? (
+                                <Chip
+                                    sx={{ p: 1 }}
+                                    label="表示"
+                                    color="info"
+                                />
+                            ) : (
+                                <Chip
+                                    sx={{ p: 1 }}
+                                    label="非表示"
+                                    color="default"
+                                />
+                            )}
+                        </>
+                    );
+                },
+            },
         },
         {
             name: "task_name",

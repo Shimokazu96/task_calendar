@@ -24,6 +24,7 @@ import useAdminAuth from "@/hooks/useAdminAuth";
 import useWindowSize from "@/hooks/useWindowSize";
 import SettingsIcon from "@mui/icons-material/Settings";
 import LogoutIcon from "@mui/icons-material/Logout";
+import Loading from "@/components/parts/Loading";
 
 const drawerWidth: number = 240;
 
@@ -216,7 +217,7 @@ const Dashboard: React.FC = () => {
                 >
                     <Toolbar />
                     <Container maxWidth={false} sx={{ mt: 2, mb: 2 }}>
-                        <Suspense fallback={<div>Loading...</div>}>
+                        <Suspense fallback={<Loading open={open} />}>
                             <Outlet />
                         </Suspense>
                     </Container>
