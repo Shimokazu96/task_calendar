@@ -66,6 +66,9 @@ const DetailPublicTaskPage: React.FC = () => {
             section_name: "",
             color: "",
         },
+        applicant_users: {
+            length: 0,
+        },
     });
 
     const [loading, setLoading] = useState(true);
@@ -101,7 +104,9 @@ const DetailPublicTaskPage: React.FC = () => {
             .post(`/api/public_task/cancel/${params.id}`)
             .then((response: AxiosResponse) => {
                 console.log(response.data);
-
+                if (response.data == "fixed_task") {
+                    error("確定済みですのでキャンセルできません。");
+                }
                 getPublicTask();
             })
             .catch((err: AxiosError) => console.log(err.response));
@@ -134,6 +139,34 @@ const DetailPublicTaskPage: React.FC = () => {
                     ) : (
                         <></>
                     )}
+                    <Grid
+                        sx={{
+                            p: 2,
+                            display: "flex",
+                            justifyContent: "center",
+                            alignItems: "center",
+                        }}
+                        item
+                    >
+                        <Box
+                            color="text.secondary"
+                            sx={{
+                                width: "120px",
+                                textAlign: "center",
+                            }}
+                        >
+                            ID
+                        </Box>
+                        <Box
+                            sx={{
+                                width: "120px",
+                                textAlign: "center",
+                            }}
+                        >
+                            {publicTask.id}
+                        </Box>
+                    </Grid>
+                    <Divider />
                     <Grid
                         sx={{
                             p: 2,

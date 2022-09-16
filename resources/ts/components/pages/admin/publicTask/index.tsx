@@ -97,6 +97,20 @@ const PublicTaskPage: React.FC = () => {
             options: { filter: false },
         },
         {
+            name: "applicant_users.length",
+            label: "申請人数",
+            options: {
+                filter: false,
+                customBodyRenderLite: (dataIndex: number) => {
+                    return (
+                        <>
+                            {publicTasks[dataIndex].applicant_users.length}
+                        </>
+                    );
+                },
+            },
+        },
+        {
             name: "determined_personnel",
             label: "確定人数",
             options: { filter: false },

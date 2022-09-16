@@ -66,6 +66,9 @@ const DetailFixedTaskPage: React.FC = () => {
             section_name: "",
             color: "",
         },
+        applicant_users: {
+            length: 0,
+        },
     });
 
     const [loading, setLoading] = useState(true);
@@ -116,7 +119,7 @@ const DetailFixedTaskPage: React.FC = () => {
     return (
         <Box
             sx={{
-                width:"100%",
+                width: "100%",
                 maxWidth: "100%",
                 p: 2,
                 m: "auto",
@@ -131,6 +134,34 @@ const DetailFixedTaskPage: React.FC = () => {
                     ) : (
                         <></>
                     )}
+                    <Grid
+                        sx={{
+                            p: 2,
+                            display: "flex",
+                            justifyContent: "center",
+                            alignItems: "center",
+                        }}
+                        item
+                    >
+                        <Box
+                            color="text.secondary"
+                            sx={{
+                                width: "120px",
+                                textAlign: "center",
+                            }}
+                        >
+                            ID
+                        </Box>
+                        <Box
+                            sx={{
+                                width: "120px",
+                                textAlign: "center",
+                            }}
+                        >
+                            {publicTask.id}
+                        </Box>
+                    </Grid>
+                    <Divider />
                     <Grid
                         sx={{
                             p: 2,

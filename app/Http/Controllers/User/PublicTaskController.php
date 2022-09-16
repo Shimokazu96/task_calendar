@@ -56,6 +56,9 @@ class PublicTaskController extends Controller
     public function cancelPublicTask(Request $request, PublicTask $public_task)
     {
         $user = User::where('id', Auth::guard('web')->user()->id)->first();
+        if ($public_task->fixed_applied_public_task) {
+            return response()->json("fixed_task");
+        }
         $public_task->applicantUsers()->detach($user->id);
 
         return response()->json(200) ?? response()->json([], 500);

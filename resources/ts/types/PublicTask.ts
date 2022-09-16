@@ -20,6 +20,9 @@ export type PublicTask = {
         section_name: string;
         color: any;
     };
+    applicant_users: {
+        length: number;
+    };
 };
 export type Form = {
     task_id: string;
