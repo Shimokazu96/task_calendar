@@ -1,9 +1,9 @@
-import { useCallback, useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef } from "react";
 import "@fullcalendar/react/dist/vdom";
 import { AxiosError, AxiosResponse } from "axios";
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { axiosApi } from "@/lib/axios";
-import FullCalendar, { DateSelectArg, EventInput } from "@fullcalendar/react";
+import FullCalendar, { EventInput } from "@fullcalendar/react";
 import Loading from "@/components/parts/Loading";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import allLocales from "@fullcalendar/core/locales-all";
@@ -13,11 +13,9 @@ import timeGridPlugin from "@fullcalendar/timegrid";
 import { format } from "date-fns";
 import resourceTimeGridPlugin from "@fullcalendar/resource-timegrid";
 import scrollGridPlugin from "@fullcalendar/scrollgrid";
-import { useSwipeable } from "react-swipeable";
 import useWindowSize from "@/hooks/useWindowSize";
 
 const CurrentDatePage: React.FC = () => {
-    const navigate = useNavigate();
     const params = useParams();
     const thisDate = format(new Date(), "yyyy");
 
@@ -27,7 +25,8 @@ const CurrentDatePage: React.FC = () => {
     const [loading, setLoading] = useState(true);
     const [width, height] = useWindowSize();
     const calendarHeight = height - 60;
-    const dayMinWidth = sections.length > 3 ? 120 : undefined;
+    // const dayMinWidth = sections.length > 3 ? 200 : undefined;
+    const dayMinWidth = 200;
 
     const getPublicTasks = async () => {
         await axiosApi
@@ -49,26 +48,9 @@ const CurrentDatePage: React.FC = () => {
         return publicTasks;
     };
 
-    const handlers = useSwipeable({
-        // onSwiped: (event) => {
-        //     const calendarApi = calendarRef.current.getApi();
-        //     if (event.dir == "Left") {
-        //         calendarApi.next();
-        //     }
-        //     if (event.dir == "Right") {
-        //         calendarApi.prev();
-        //     }
-        // },
-        trackMouse: true,
-    });
-
     useEffect(() => {
         getPublicTasks();
         getSections();
-    }, []);
-
-    const handleDateSelect = useCallback((selectInfo: DateSelectArg) => {
-        navigate(`/admin/date/${selectInfo.startStr}`);
     }, []);
 
     if (loading) {
@@ -76,7 +58,7 @@ const CurrentDatePage: React.FC = () => {
     }
     return (
         <>
-            <div {...handlers} className="frontCalendar">
+            <div className="frontCalendar">
                 <FullCalendar
                     ref={calendarRef}
                     plugins={[
@@ -85,7 +67,7 @@ const CurrentDatePage: React.FC = () => {
                         interactionPlugin,
                         listPlugin,
                         resourceTimeGridPlugin,
-                        scrollGridPlugin
+                        scrollGridPlugin,
                     ]}
                     headerToolbar={{
                         start: "title",
@@ -109,7 +91,6 @@ const CurrentDatePage: React.FC = () => {
                     aspectRatio={1.5}
                     locales={allLocales}
                     locale="ja"
-                    select={handleDateSelect}
                 />
             </div>
         </>
