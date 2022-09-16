@@ -43,6 +43,7 @@ const CurrentDatePage: React.FC = () => {
             .get(`/api/time_grid/section`)
             .then((response: AxiosResponse) => {
                 setSections(response.data);
+                setLoading(false);
             })
             .catch((err: AxiosError) => console.log(err.response));
         return publicTasks;
@@ -64,7 +65,6 @@ const CurrentDatePage: React.FC = () => {
     useEffect(() => {
         getPublicTasks();
         getSections();
-        setLoading(false);
     }, []);
 
     const handleDateSelect = useCallback((selectInfo: DateSelectArg) => {
