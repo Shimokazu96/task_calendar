@@ -19,6 +19,7 @@ class SectionController extends Controller
     public function store(SectionRequest $request, Section $section)
     {
         $section->fill($request->all());
+        $section->color = Section::color();
         $section->save();
 
         return $section
