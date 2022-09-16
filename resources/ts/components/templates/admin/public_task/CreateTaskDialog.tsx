@@ -1,21 +1,19 @@
 import React from "react";
 import { useEffect, useState } from "react";
-import { AxiosError, AxiosResponse } from "axios";
+import { AxiosResponse } from "axios";
 import { axiosApi } from "@/lib/axios";
 import { useForm } from "react-hook-form";
-import { format } from "date-fns";
-import { Link, useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import {
     Button,
     Dialog,
     DialogContent,
     TextField,
     Grid,
-    Box,
-    Typography,
-    Paper,
+    Switch,
+    FormControlLabel,
 } from "@mui/material";
-import { Task, Validation, Form } from "@/types/Task";
+import { Task, Form } from "@/types/Task";
 import useNotification from "@/hooks/useNotification";
 // import Loading from "@/components/parts/Loading";
 
@@ -36,6 +34,7 @@ export default function CreateTaskDialog(props: Props) {
     const [task, setTask] = useState<Task>({
         id: 0,
         task_name: "",
+        display_flag: false,
         description: "",
         created_at: "",
         updated_at: "",
@@ -105,6 +104,20 @@ export default function CreateTaskDialog(props: Props) {
             >
                 <DialogContent>
                     <Grid container spacing={3}>
+                        <Grid item xs={12} md={12}>
+                            <FormControlLabel
+                                sx={{ ml: 0 }}
+                                control={
+                                    <Switch
+                                        {...register("display_flag")}
+                                        defaultChecked={task.display_flag}
+                                        color="primary"
+                                    />
+                                }
+                                label="表示・非表示"
+                                labelPlacement="start"
+                            />
+                        </Grid>
                         <Grid item xs={12} md={12}>
                             <TextField
                                 {...register("task_name", {

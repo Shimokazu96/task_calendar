@@ -10,6 +10,8 @@ import {
     Box,
     Typography,
     Paper,
+    Switch,
+    FormControlLabel,
 } from "@mui/material";
 import { useForm } from "react-hook-form";
 import { Section, Validation, Form } from "@/types/Section";
@@ -23,10 +25,12 @@ const EditSectionPage: React.FC = () => {
 
     const [section, setSection] = useState<Section>({
         id: 0,
+        display_flag: false,
         section_name: "",
         created_at: "",
         updated_at: "",
     });
+
     const [loading, setLoading] = useState(true);
 
     // React-Hook-Form
@@ -106,6 +110,20 @@ const EditSectionPage: React.FC = () => {
                 sx={{ my: { xs: 3, md: 6 }, p: { xs: 2, md: 3 } }}
             >
                 <Grid container spacing={3}>
+                    <Grid item xs={12} md={12}>
+                        <FormControlLabel
+                            sx={{ ml: 0 }}
+                            control={
+                                <Switch
+                                    {...register("display_flag")}
+                                    defaultChecked={section.display_flag}
+                                    color="primary"
+                                />
+                            }
+                            label="表示・非表示"
+                            labelPlacement="start"
+                        />
+                    </Grid>
                     <Grid item xs={12} md={12}>
                         <TextField
                             {...register("section_name", {

@@ -1,8 +1,8 @@
 import * as React from "react";
-import { useEffect, useState } from "react";
-import { AxiosError, AxiosResponse } from "axios";
+import { useState } from "react";
+import { AxiosResponse } from "axios";
 import { axiosApi } from "@/lib/axios";
-import { Link, useParams, useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import {
     Button,
     TextField,
@@ -10,9 +10,11 @@ import {
     Box,
     Typography,
     Paper,
+    Switch,
+    FormControlLabel,
 } from "@mui/material";
 import { useForm } from "react-hook-form";
-import { Section, Validation, Form } from "@/types/Section";
+import { Section, Form } from "@/types/Section";
 import useNotification from "@/hooks/useNotification";
 
 const CreateSectionPage: React.FC = () => {
@@ -21,6 +23,7 @@ const CreateSectionPage: React.FC = () => {
 
     const [section, setSection] = useState<Section>({
         id: 0,
+        display_flag: false,
         section_name: "",
         created_at: "",
         updated_at: "",
@@ -83,6 +86,20 @@ const CreateSectionPage: React.FC = () => {
                 sx={{ my: { xs: 3, md: 6 }, p: { xs: 2, md: 3 } }}
             >
                 <Grid container spacing={3}>
+                    <Grid item xs={12} md={12}>
+                        <FormControlLabel
+                            sx={{ ml: 0 }}
+                            control={
+                                <Switch
+                                    {...register("display_flag")}
+                                    defaultChecked={section.display_flag}
+                                    color="primary"
+                                />
+                            }
+                            label="表示・非表示"
+                            labelPlacement="start"
+                        />
+                    </Grid>
                     <Grid item xs={12} md={12}>
                         <TextField
                             {...register("section_name", {
