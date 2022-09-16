@@ -61,7 +61,7 @@ const AdminSettingPage: React.FC = () => {
                         component="h2"
                         variant="h5"
                     >
-                        スタッフ編集
+                        管理者編集
                     </Typography>
                 </Box>
             </Box>

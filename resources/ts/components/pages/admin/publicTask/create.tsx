@@ -25,6 +25,7 @@ import Loading from "@/components/parts/Loading";
 import CustomDatePicker from "@/components/parts/CustomDatePicker";
 import CustomTimePicker from "@/components/parts/CustomTimePicker";
 import CreateTaskDialog from "@/components/templates/admin/public_task/CreateTaskDialog";
+import CreateSectionDialog from "@/components/templates/admin/public_task/CreateSectionDialog";
 
 type Task = {
     id: number;
@@ -45,12 +46,19 @@ const CreatePublicTaskPage: React.FC = () => {
     const [tasks, setTasks] = useState([]);
     const [sections, setSections] = useState([]);
 
-    const [dialogOpen, setDialogOpen] = useState(false);
-    const handleDialogOpen = () => {
-        setDialogOpen(true);
+    const [createTaskDialogOpen, setCreateTaskDialogOpen] = useState(false);
+    const handleCreateTaskDialogOpen = () => {
+        setCreateTaskDialogOpen(true);
     };
-    const handleDialogClose = () => {
-        setDialogOpen(false);
+    const handleCreateTaskDialogClose = () => {
+        setCreateTaskDialogOpen(false);
+    };
+    const [createSectionDialogOpen, setCreateSectionDialogOpen] = useState(false);
+    const handleCreateSectionDialogOpen = () => {
+        setCreateSectionDialogOpen(true);
+    };
+    const handleCreateSectionDialogClose = () => {
+        setCreateSectionDialogOpen(false);
     };
     // React-Hook-Form
     const {
@@ -228,7 +236,7 @@ const CreatePublicTaskPage: React.FC = () => {
                                 component="button"
                                 sx={{ mt: 1, display: "inherit" }}
                                 variant="body2"
-                                onClick={() => handleDialogOpen()}
+                                onClick={() => handleCreateTaskDialogOpen()}
                             >
                                 タスクを追加する
                             </Link>
@@ -272,6 +280,14 @@ const CreatePublicTaskPage: React.FC = () => {
                             <FormHelperText sx={{ color: "error.main" }}>
                                 {errors.section_id?.message}
                             </FormHelperText>
+                            <Link
+                                component="button"
+                                sx={{ mt: 1, display: "inherit" }}
+                                variant="body2"
+                                onClick={() => handleCreateSectionDialogOpen()}
+                            >
+                                セクションを追加する
+                            </Link>
                         </FormControl>
                         <Grid item xs={12} md={12}>
                             <TextField
@@ -327,8 +343,12 @@ const CreatePublicTaskPage: React.FC = () => {
                     </Grid>
                 </Grid>
                 <CreateTaskDialog
-                    open={dialogOpen}
-                    close={() => handleDialogClose()}
+                    open={createTaskDialogOpen}
+                    close={() => handleCreateTaskDialogClose()}
+                />
+                <CreateSectionDialog
+                    open={createSectionDialogOpen}
+                    close={() => handleCreateSectionDialogClose()}
                 />
             </Paper>
         </>
