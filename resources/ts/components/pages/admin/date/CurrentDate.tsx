@@ -15,6 +15,7 @@ import resourceTimeGridPlugin from "@fullcalendar/resource-timegrid";
 import { Button, Tooltip } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import CreatePublicTaskDialog from "@/components/templates/admin/public_task/CreatePublicTaskDialog";
+import scrollGridPlugin from "@fullcalendar/scrollgrid";
 
 const CurrentDatePage: React.FC = () => {
     const navigate = useNavigate();
@@ -37,6 +38,7 @@ const CurrentDatePage: React.FC = () => {
     const [publicTasks, setPublicTasks] = useState<EventInput[]>([]);
     const [sections, setSections] = useState<EventInput[]>([]);
     const [loading, setLoading] = useState(true);
+    const dayMinWidth = 200;
 
     const getPublicTasks = async () => {
         await axiosApi
@@ -87,11 +89,13 @@ const CurrentDatePage: React.FC = () => {
                         interactionPlugin,
                         listPlugin,
                         resourceTimeGridPlugin,
+                        scrollGridPlugin
                     ]}
                     headerToolbar={{
                         end: "prev,next Month",
                     }}
                     height={"88vh"}
+                    dayMinWidth={dayMinWidth}
                     eventTimeFormat={{ hour: "2-digit", minute: "2-digit" }}
                     slotLabelFormat={[{ hour: "2-digit", minute: "2-digit" }]}
                     initialView="resourceTimeGridDay"

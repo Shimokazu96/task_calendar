@@ -12,6 +12,7 @@ import listPlugin from "@fullcalendar/list";
 import timeGridPlugin from "@fullcalendar/timegrid";
 import { format } from "date-fns";
 import resourceTimeGridPlugin from "@fullcalendar/resource-timegrid";
+import scrollGridPlugin from "@fullcalendar/scrollgrid";
 import { useSwipeable } from "react-swipeable";
 import useWindowSize from "@/hooks/useWindowSize";
 
@@ -26,6 +27,7 @@ const CurrentDatePage: React.FC = () => {
     const [loading, setLoading] = useState(true);
     const [width, height] = useWindowSize();
     const calendarHeight = height - 60;
+    const dayMinWidth = sections.length > 3 ? 120 : undefined;
 
     const getPublicTasks = async () => {
         await axiosApi
@@ -47,15 +49,15 @@ const CurrentDatePage: React.FC = () => {
     };
 
     const handlers = useSwipeable({
-        onSwiped: (event) => {
-            const calendarApi = calendarRef.current.getApi();
-            if (event.dir == "Left") {
-                calendarApi.next();
-            }
-            if (event.dir == "Right") {
-                calendarApi.prev();
-            }
-        },
+        // onSwiped: (event) => {
+        //     const calendarApi = calendarRef.current.getApi();
+        //     if (event.dir == "Left") {
+        //         calendarApi.next();
+        //     }
+        //     if (event.dir == "Right") {
+        //         calendarApi.prev();
+        //     }
+        // },
         trackMouse: true,
     });
 
@@ -83,15 +85,17 @@ const CurrentDatePage: React.FC = () => {
                         interactionPlugin,
                         listPlugin,
                         resourceTimeGridPlugin,
+                        scrollGridPlugin
                     ]}
                     headerToolbar={{
-                        start: "",
-                        center: "title",
+                        start: "title",
+                        center: "",
                         // end: "dayGridMonth,timeGridWeek,resourceTimeGridDay",
-                        end: "",
-                        // end: "prev,next",
+                        // end: "",
+                        end: "today,prev,next",
                     }}
                     height={calendarHeight}
+                    dayMinWidth={dayMinWidth}
                     eventTimeFormat={{ hour: "2-digit", minute: "2-digit" }}
                     slotLabelFormat={[{ hour: "2-digit", minute: "2-digit" }]}
                     initialView="resourceTimeGridDay"
