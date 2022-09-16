@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { AxiosResponse } from "axios";
 import { axiosApi } from "@/lib/axios";
 import { useForm } from "react-hook-form";
-import { useNavigate } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import {
     Button,
     Dialog,
@@ -13,7 +13,7 @@ import {
     Switch,
     FormControlLabel,
 } from "@mui/material";
-import { Task, Form } from "@/types/Task";
+import { Section, Form } from "@/types/Section";
 import useNotification from "@/hooks/useNotification";
 // import Loading from "@/components/parts/Loading";
 
@@ -22,17 +22,16 @@ type Props = {
     close: VoidFunction;
 };
 
-export default function CreateTaskDialog(props: Props) {
+export default function CreateSectionDialog(props: Props) {
     const navigate = useNavigate();
     // const [loading, setLoading] = useState(true);
     const [rendering, setRendering] = useState(false);
     const { saved, error } = useNotification();
 
-    const [task, setTask] = useState<Task>({
+    const [section, setSection] = useState<Section>({
         id: 0,
-        task_name: "",
+        section_name: "",
         display_flag: false,
-        description: "",
         created_at: "",
         updated_at: "",
     });
@@ -57,14 +56,13 @@ export default function CreateTaskDialog(props: Props) {
     } = useForm<Form>();
 
     const dialogClose = async () => {
-        setValue("task_name", "");
-        setValue("description", "");
+        setValue("section_name", "");
         props.close();
     };
 
     const onSubmit = async (data: Form) => {
         await axiosApi
-            .post(`/api/admin/task`, data)
+            .post(`/api/admin/section`, data)
             .then((response: AxiosResponse) => {
                 console.log(response.data);
                 saved();
@@ -107,7 +105,7 @@ export default function CreateTaskDialog(props: Props) {
                                 control={
                                     <Switch
                                         {...register("display_flag")}
-                                        defaultChecked={task.display_flag}
+                                        defaultChecked={section.display_flag}
                                         color="primary"
                                     />
                                 }
@@ -117,31 +115,16 @@ export default function CreateTaskDialog(props: Props) {
                         </Grid>
                         <Grid item xs={12} md={12}>
                             <TextField
-                                {...register("task_name", {
+                                {...register("section_name", {
                                     required: "必須入力です。",
                                 })}
-                                error={"task_name" in errors}
+                                error={"section_name" in errors}
                                 sx={{ mb: 2 }}
-                                helperText={errors.task_name?.message}
-                                defaultValue={task.task_name}
+                                helperText={errors.section_name?.message}
+                                defaultValue={section.section_name}
                                 required
-                                id="task_name"
-                                label="タスク名"
-                                fullWidth
-                                variant="standard"
-                            ></TextField>
-                            <TextField
-                                {...register("description", {
-                                    required: "必須入力です。",
-                                })}
-                                error={"description" in errors}
-                                helperText={errors.description?.message}
-                                defaultValue={task.description}
-                                multiline
-                                rows={4}
-                                required
-                                id="description"
-                                label="タスク概要"
+                                id="section_name"
+                                label="セクション名"
                                 fullWidth
                                 variant="standard"
                             ></TextField>
