@@ -11,10 +11,10 @@ import {
     Button,
     Typography,
     ListItemIcon,
-    Chip
+    Chip,
+    MenuItem,
+    Menu,
 } from "@mui/material";
-import MenuItem from "@mui/material/MenuItem";
-import Menu from "@mui/material/Menu";
 import MoreVertOutlinedIcon from "@mui/icons-material/MoreVertOutlined";
 import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 import DeleteOutlineOutlinedIcon from "@mui/icons-material/DeleteOutlineOutlined";
@@ -61,11 +61,7 @@ const SectionPage: React.FC = () => {
                     return (
                         <>
                             {sections[dataIndex].display_flag ? (
-                                <Chip
-                                    sx={{ p: 1 }}
-                                    label="表示"
-                                    color="info"
-                                />
+                                <Chip sx={{ p: 1 }} label="表示" color="info" />
                             ) : (
                                 <Chip
                                     sx={{ p: 1 }}
