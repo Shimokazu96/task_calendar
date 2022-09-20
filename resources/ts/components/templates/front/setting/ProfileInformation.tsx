@@ -57,7 +57,7 @@ export default function ProfileInformation({ user }: { user: User }) {
                         component="h3"
                         variant="subtitle1"
                     >
-                        アカウント編集
+                        名前・メールアドレス編集
                     </Typography>
                     <Typography
                         sx={{ mb: 1 }}

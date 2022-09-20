@@ -143,7 +143,7 @@ const FixedTaskPage: React.FC = () => {
 
     return (
         <Box sx={{ flexGrow: 1 }}>
-            <Header title={"確定しているタスク"} />
+            <Header title={"確定しているタスク"} link={"/mypage"}/>
             <Box sx={{ p: 2 }}>
                 <Grid
                     container

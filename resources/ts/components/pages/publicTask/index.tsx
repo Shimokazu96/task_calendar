@@ -147,7 +147,7 @@ const PublicTaskPage: React.FC = () => {
 
     return (
         <Box sx={{ flexGrow: 1 }}>
-            <Header title={"公開タスク"} />
+            <Header title={"公開タスク"} link={""}/>
             <Box sx={{ p: 2 }}>
                 <Grid
                     container

@@ -8,6 +8,7 @@ import { User } from "@/types/User";
 import Loading from "@/components/parts/Loading";
 import ProfileInformation from "@/components/templates/front/setting/ProfileInformation";
 import PasswordUpdate from "@/components/templates/front/setting/PasswordUpdate";
+import Header from "@/components/templates/front/Header";
 
 const SettingMyPage: React.FC = () => {
     const params = useParams();
@@ -45,6 +46,7 @@ const SettingMyPage: React.FC = () => {
     }
     return (
         <>
+            <Header title={"アカウント設定"} link={"/mypage"} />
             <Box
                 sx={{
                     alignItems: "center",
@@ -53,6 +55,7 @@ const SettingMyPage: React.FC = () => {
                     justifyContent: "space-between",
                     flexWrap: "wrap",
                     mb: 2,
+                    mt: "12%",
                 }}
             >
                 <ProfileInformation user={user} />

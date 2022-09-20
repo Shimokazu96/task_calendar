@@ -148,7 +148,7 @@ const AppliedTaskPage: React.FC = () => {
 
     return (
         <Box sx={{ flexGrow: 1 }}>
-            <Header title={"希望を出しているタスク"}/>
+            <Header title={"希望を出しているタスク"} link={"/mypage"}/>
             <Box sx={{ p: 2 }}>
                 <Grid
                     container

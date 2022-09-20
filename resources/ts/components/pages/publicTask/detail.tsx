@@ -24,6 +24,7 @@ import InfiniteScroll from "react-infinite-scroll-component";
 import useNotification from "@/hooks/useNotification";
 import { useForm } from "react-hook-form";
 import Loading from "@/components/parts/Loading";
+import Header from "@/components/templates/front/Header";
 
 const StyledPaper = styled(Paper)(({ theme }) => ({
     backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
@@ -97,8 +98,8 @@ const DetailPublicTaskPage: React.FC = () => {
         return applicantUsers;
     };
     const cancelPublicTask = () => {
-        if(publicTask.fixed_applied_public_task) {
-            return error("確定済みですのでキャンセルできません。")
+        if (publicTask.fixed_applied_public_task) {
+            return error("確定済みですのでキャンセルできません。");
         }
         axiosApi
             .post(`/api/public_task/cancel/${params.id}`)
@@ -132,7 +133,12 @@ const DetailPublicTaskPage: React.FC = () => {
                 overflowY: "scroll",
             }}
         >
-            <Card>
+            <Header title={"公開タスク"} link={"/public_task"}/>
+            <Card
+                sx={{
+                    mt: "12%",
+                }}
+            >
                 <CardContent>
                     {publicTask.applied_public_task ? (
                         <Alert severity="success">申請済み </Alert>
