@@ -3,12 +3,7 @@ import { useEffect, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { AxiosError, AxiosResponse } from "axios";
 import { axiosApi } from "@/lib/axios";
-import {
-    setYear,
-    setMonth,
-    setDay,
-    searchDate,
-} from "@/lib/dateFormat";
+import { setYear, setMonth, setDay, searchDate } from "@/lib/dateFormat";
 import { PublicTask } from "@/types/PublicTask";
 import { styled } from "@mui/material/styles";
 import {
@@ -30,6 +25,9 @@ import useNotification from "@/hooks/useNotification";
 import { useForm } from "react-hook-form";
 import Loading from "@/components/parts/Loading";
 import Header from "@/components/templates/front/Header";
+import useWindowSize, {
+    InfiniteScrollDifferenceHeight,
+} from "@/hooks/useWindowSize";
 
 const StyledPaper = styled(Paper)(({ theme }) => ({
     backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
@@ -57,6 +55,8 @@ const PublicTaskPage: React.FC = () => {
     const thisMonth = format(new Date(), "M");
     const thisDay = format(new Date(), "d");
     const { saved, error } = useNotification();
+    const [width, height] = useWindowSize();
+    const InfiniteScrollHeight = height - InfiniteScrollDifferenceHeight;
 
     const {
         register,
@@ -147,12 +147,12 @@ const PublicTaskPage: React.FC = () => {
 
     return (
         <Box sx={{ flexGrow: 1 }}>
-            <Header title={"公開タスク"} link={""}/>
+            <Header title={"公開タスク"} link={""} />
             <Box sx={{ p: 2 }}>
                 <Grid
                     container
                     sx={{
-                        mt: "12%",
+                        mt: { xs: "12%", md: "64px" },
                         width: "100%",
                         height: "12%",
                         flexShrink: 0,
@@ -238,7 +238,7 @@ const PublicTaskPage: React.FC = () => {
                             sx={{
                                 minWidth: 0,
                                 display: "block",
-                                height: "80%",
+                                height: { xs: "80%", md: "50%" },
                             }}
                         >
                             検索
@@ -247,11 +247,12 @@ const PublicTaskPage: React.FC = () => {
                 </Grid>
                 <Box
                     sx={{
-                        mt: "30%",
+                        mt: { xs: "12%", md: "150px" },
                         flexGrow: 1,
                         overflowY: "scroll",
                         minHeight: "33rem",
-                        mb: "50px",
+                        mb: "60px",
+                        height: { md: InfiniteScrollHeight },
                     }}
                 >
                     {linearProgress ? <LinearProgress /> : <></>}

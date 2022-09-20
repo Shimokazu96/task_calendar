@@ -13,14 +13,14 @@ import timeGridPlugin from "@fullcalendar/timegrid";
 import { format } from "date-fns";
 import resourceTimeGridPlugin from "@fullcalendar/resource-timegrid";
 import { useSwipeable } from "react-swipeable";
-import useWindowSize from "@/hooks/useWindowSize";
+import useWindowSize, { CalendarDifferenceHeight } from "@/hooks/useWindowSize";
 
 const TopPage: React.FC = () => {
     const thisDate = format(new Date(), "yyyy");
     const navigate = useNavigate();
     const calendarRef = useRef<FullCalendar>(null!);
     const [width, height] = useWindowSize();
-    const calendarHeight = height - 60;
+    const calendarHeight = height - CalendarDifferenceHeight;
 
     const [publicTasks, setPublicTasks] = useState<EventInput[]>([]);
     const [loading, setLoading] = useState(true);
