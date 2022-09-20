@@ -54,7 +54,11 @@ export default function DateSearchForm(props: Props) {
             <Grid item xs={3} md={4}>
                 <FormControl size="small" fullWidth>
                     <InputLabel id="demo-simple-select-label">年</InputLabel>
-                    <Select {...props.year} defaultValue={props.defaultYear} label="Age">
+                    <Select
+                        {...props.year}
+                        defaultValue={props.defaultYear}
+                        label="Age"
+                    >
                         {setYear().map((value, index) => (
                             <MenuItem key={index} value={value}>
                                 {value}
@@ -66,7 +70,11 @@ export default function DateSearchForm(props: Props) {
             <Grid item xs={2.5} md={2}>
                 <FormControl size="small" fullWidth>
                     <InputLabel id="demo-simple-select-label">月</InputLabel>
-                    <Select {...props.month} defaultValue={props.defaultMonth} label="Age">
+                    <Select
+                        {...props.month}
+                        defaultValue={props.defaultMonth}
+                        label="Age"
+                    >
                         <MenuItem value={""}>　</MenuItem>
                         {setMonth().map((value, index) => (
                             <MenuItem key={index} value={value}>
@@ -79,7 +87,11 @@ export default function DateSearchForm(props: Props) {
             <Grid item xs={2.5} md={2}>
                 <FormControl size="small" fullWidth>
                     <InputLabel id="demo-simple-select-label">日</InputLabel>
-                    <Select {...props.day} defaultValue={props.defaultDay} label="Age">
+                    <Select
+                        {...props.day}
+                        defaultValue={props.defaultDay}
+                        label="Age"
+                    >
                         <MenuItem value={""}>　</MenuItem>
                         {setDay().map((value, index) => (
                             <MenuItem key={index} value={value}>
@@ -91,7 +103,7 @@ export default function DateSearchForm(props: Props) {
             </Grid>
             <Grid item xs={2} md={2}>
                 <Button
-                    onClick={props.onSubmit}
+                    onClick={() => props.onSubmit()}
                     fullWidth
                     variant="contained"
                     size="small"

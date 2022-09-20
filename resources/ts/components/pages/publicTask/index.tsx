@@ -1,14 +1,11 @@
 import React from "react";
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
 import { AxiosResponse } from "axios";
 import { axiosApi } from "@/lib/axios";
 import { searchDate } from "@/lib/dateFormat";
 import { PublicTask } from "@/types/PublicTask";
-import { styled } from "@mui/material/styles";
-import { Box, Paper, Grid, LinearProgress, Chip, Alert } from "@mui/material";
+import { Box, LinearProgress } from "@mui/material";
 import { format } from "date-fns";
-import InfiniteScroll from "react-infinite-scroll-component";
 import useNotification from "@/hooks/useNotification";
 import { useForm } from "react-hook-form";
 import Loading from "@/components/parts/Loading";
@@ -17,14 +14,7 @@ import useWindowSize, {
     InfiniteScrollDifferenceHeight,
 } from "@/hooks/useWindowSize";
 import DateSearchForm from "@/components/templates/front/DateSearchForm";
-
-const StyledPaper = styled(Paper)(({ theme }) => ({
-    backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
-    ...theme.typography.body2,
-    padding: theme.spacing(2),
-    maxWidth: 400,
-    color: theme.palette.text.primary,
-}));
+import InfiniteScroll from "@/components/templates/front/InfiniteScroll";
 
 type Form = {
     year: string;
@@ -163,123 +153,10 @@ const PublicTaskPage: React.FC = () => {
                     {linearProgress ? <LinearProgress /> : <></>}
                     {publicTasks.length ? (
                         <InfiniteScroll
-                            dataLength={publicTasks.length}
-                            next={fetchMoreData}
-                            hasMore={true}
-                            loader={<></>}
-                        >
-                            {publicTasks.map((publicTask, index) => (
-                                <Link
-                                    key={index}
-                                    to={"/public_task/" + publicTasks[index].id}
-                                >
-                                    <StyledPaper
-                                        sx={{
-                                            my: 1,
-                                            mx: "auto",
-                                            p: 2,
-                                            maxWidth: { md: "80%" },
-                                        }}
-                                    >
-                                        {publicTasks[index]
-                                            .applied_public_task ? (
-                                            <Alert
-                                                sx={{
-                                                    mb: 0.5,
-                                                    p: 0.5,
-                                                }}
-                                                severity="success"
-                                            >
-                                                申請済み
-                                            </Alert>
-                                        ) : (
-                                            <></>
-                                        )}
-
-                                        <Grid
-                                            sx={{
-                                                width: "auto",
-                                                minWidth: 0,
-                                                flexFlow: "column",
-                                                alignItems: "center",
-                                                justifyContent: "center",
-                                            }}
-                                            container
-                                            wrap="nowrap"
-                                            spacing={2}
-                                        >
-                                            <Grid
-                                                sx={{
-                                                    display: "flex",
-                                                    justifyContent: "center",
-                                                    alignItems: "center",
-                                                }}
-                                                item
-                                            >
-                                                <Box
-                                                    sx={{
-                                                        width: "120px",
-                                                        textAlign: "center",
-                                                    }}
-                                                >
-                                                    {format(
-                                                        new Date(
-                                                            publicTask.date
-                                                        ),
-                                                        "yyyy年M月d日"
-                                                    )}
-                                                </Box>
-                                                <Box
-                                                    sx={{
-                                                        width: "120px",
-                                                        textAlign: "center",
-                                                    }}
-                                                >
-                                                    {publicTask.start_time}~
-                                                    {publicTask.end_time}
-                                                </Box>
-                                            </Grid>
-                                            <Grid
-                                                sx={{
-                                                    display: "flex",
-                                                    justifyContent: "center",
-                                                }}
-                                                item
-                                            >
-                                                <Box
-                                                    sx={{
-                                                        width: "120px",
-                                                        textAlign: "center",
-                                                    }}
-                                                >
-                                                    <Chip
-                                                        size="small"
-                                                        sx={{ p: 1 }}
-                                                        label={
-                                                            publicTask.section
-                                                                .section_name
-                                                        }
-                                                        color={
-                                                            publicTask.section
-                                                                .color
-                                                        }
-                                                    />
-                                                </Box>
-                                                <Box
-                                                    sx={{
-                                                        lineHeight: "24px",
-                                                        width: "120px",
-                                                        textAlign: "center",
-                                                    }}
-                                                >
-                                                    {publicTask.task.task_name}
-                                                </Box>
-                                            </Grid>
-                                        </Grid>
-                                    </StyledPaper>
-                                </Link>
-                            ))}
-                        </InfiniteScroll>
+                            publicTasks={publicTasks}
+                            fetchMoreData={fetchMoreData}
+                            alertMessage={"申請済み"}
+                        />
                     ) : (
                         <Box
                             sx={{
