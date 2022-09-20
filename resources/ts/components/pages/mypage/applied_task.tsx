@@ -251,7 +251,7 @@ const AppliedTaskPage: React.FC = () => {
                 </Grid>
                 <Box
                     sx={{
-                        mt: { xs: "12%", md: "150px" },
+                        mt: { xs: "95px", md: "150px" },
                         flexGrow: 1,
                         overflowY: "scroll",
                         minHeight: "33rem",
@@ -285,6 +285,7 @@ const AppliedTaskPage: React.FC = () => {
                                             my: 1,
                                             mx: "auto",
                                             p: 2,
+                                            maxWidth: { md: "80%" },
                                         }}
                                     >
                                         <Grid
