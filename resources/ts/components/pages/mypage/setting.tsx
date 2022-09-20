@@ -54,8 +54,8 @@ const SettingMyPage: React.FC = () => {
                     width: "100%",
                     justifyContent: "space-between",
                     flexWrap: "wrap",
-                    mb: 2,
                     mt: "12%",
+                    mb: "60px"
                 }}
             >
                 <ProfileInformation user={user} />
