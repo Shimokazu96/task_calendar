@@ -13,7 +13,7 @@ import timeGridPlugin from "@fullcalendar/timegrid";
 import { format } from "date-fns";
 import resourceTimeGridPlugin from "@fullcalendar/resource-timegrid";
 import scrollGridPlugin from "@fullcalendar/scrollgrid";
-import useWindowSize from "@/hooks/useWindowSize";
+import useWindowSize, { CalendarDifferenceHeight } from "@/hooks/useWindowSize";
 
 const CurrentDatePage: React.FC = () => {
     const params = useParams();
@@ -24,7 +24,7 @@ const CurrentDatePage: React.FC = () => {
     const [sections, setSections] = useState<EventInput[]>([]);
     const [loading, setLoading] = useState(true);
     const [width, height] = useWindowSize();
-    const calendarHeight = height - 60;
+    const calendarHeight = height - CalendarDifferenceHeight;
     // const dayMinWidth = sections.length > 3 ? 200 : undefined;
     const dayMinWidth = 200;
 

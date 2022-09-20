@@ -136,7 +136,7 @@ const DetailPublicTaskPage: React.FC = () => {
             <Header title={"公開タスク"} link={"/public_task"}/>
             <Card
                 sx={{
-                    mt: "12%",
+                    mt: { xs: "12%", md: "64px" },
                 }}
             >
                 <CardContent>

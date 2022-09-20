@@ -54,7 +54,7 @@ const SettingMyPage: React.FC = () => {
                     width: "100%",
                     justifyContent: "space-between",
                     flexWrap: "wrap",
-                    mt: "12%",
+                    mt: { xs: "12%", md: "64px" },
                     mb: "60px"
                 }}
             >

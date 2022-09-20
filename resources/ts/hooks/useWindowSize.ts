@@ -15,3 +15,6 @@ const useWindowSize = (): number[] => {
     return size;
 };
 export default useWindowSize;
+
+export const InfiniteScrollDifferenceHeight = 150 + 60 + 16 + 16;
+export const CalendarDifferenceHeight = 60;

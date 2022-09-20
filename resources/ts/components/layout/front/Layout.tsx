@@ -34,6 +34,8 @@ const Layout: React.FC = () => {
             <Box
                 sx={{
                     display: "flex",
+                    width: { xs: "100%", md: "1024px" },
+                    m:"auto"
                 }}
             >
                 <Suspense fallback={<Loading open={open} />}>
