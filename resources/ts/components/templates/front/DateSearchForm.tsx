@@ -38,14 +38,13 @@ export default function DateSearchForm(props: Props) {
             container
             sx={{
                 mt: { xs: "12%", md: "64px" },
-                width: "100%",
+                width: { xs: "100%", md: "1024px" },
                 height: "12%",
-                flexShrink: 0,
                 p: 1,
                 pt: 3,
                 position: "fixed",
                 top: 0,
-                right: 0,
+                right: { xs: 0, md: "inherit" },
                 zIndex: 1000,
                 justifyContent: "space-evenly",
                 backgroundColor: "white",
