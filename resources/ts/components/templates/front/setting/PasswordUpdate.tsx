@@ -14,8 +14,29 @@ export default function UserProfileInformation() {
     const { user, setUser } = useUserState();
     const [dialogOpen, setDialogOpen] = useState(false);
 
+    // React-Hook-Form
+    const {
+        register,
+        trigger,
+        handleSubmit,
+        formState: { isDirty, errors },
+    } = useForm<PasswordUpdateForm>({
+        mode: "onChange",
+        criteriaMode: "all",
+    });
+
     const handleDialogOpen = () => {
-        setDialogOpen(true);
+        trigger();
+        function isEmpty(obj: object) {
+            return !Object.keys(obj).length;
+        }
+        if (!isEmpty(errors)) {
+            return setDialogOpen(false);
+        }
+        if (isDirty) {
+            return setDialogOpen(true);
+        }
+        setDialogOpen(false);
     };
 
     const handleDialogClose = () => {
@@ -23,12 +44,6 @@ export default function UserProfileInformation() {
     };
 
     const { updated, error } = useNotification();
-    // React-Hook-Form
-    const {
-        register,
-        handleSubmit,
-        formState: { errors },
-    } = useForm<PasswordUpdateForm>();
 
     const onSubmit = async (data: PasswordUpdateForm) => {
         await axiosApi
@@ -72,11 +87,6 @@ export default function UserProfileInformation() {
                     <TextField
                         {...register("current_password", {
                             required: "必須入力です。",
-                            pattern: {
-                                value: /^([a-zA-Z0-9]{8,})$/,
-                                message:
-                                    "8文字以上の半角英数字で入力してください",
-                            },
                         })}
                         error={"current_password" in errors}
                         sx={{ mb: 1 }}
@@ -86,6 +96,7 @@ export default function UserProfileInformation() {
                         label="現在のパスワード"
                         fullWidth
                         variant="standard"
+                        type="password"
                     ></TextField>
                     <TextField
                         {...register("password", {
@@ -109,6 +120,11 @@ export default function UserProfileInformation() {
                     <TextField
                         {...register("password_confirmation", {
                             required: "必須入力です。",
+                            pattern: {
+                                value: /^([a-zA-Z0-9]{8,})$/,
+                                message:
+                                    "8文字以上の半角英数字で入力してください",
+                            },
                         })}
                         error={"password_confirmation" in errors}
                         helperText={errors.password_confirmation?.message}
