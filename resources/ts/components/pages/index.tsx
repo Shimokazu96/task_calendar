@@ -71,11 +71,11 @@ const TopPage: React.FC = () => {
                     resourceTimeGridPlugin,
                 ]}
                 headerToolbar={{
-                    start: "",
-                    center: "title",
+                    start: "title",
+                    center: "",
                     // end: "dayGridMonth,timeGridWeek,resourceTimeGridDay",
-                    end: "",
-                    // end: "prev,next",
+                    // end: "",
+                    end: "today,prev,next",
                 }}
                 height={calendarHeight}
                 eventTimeFormat={{ hour: "2-digit", minute: "2-digit" }}
