@@ -1,23 +1,12 @@
 import React from "react";
 import { useEffect, useState } from "react";
-import { Link, useLocation, useNavigate } from "react-router-dom";
-import { AxiosError, AxiosResponse } from "axios";
+import { Link } from "react-router-dom";
+import { AxiosResponse } from "axios";
 import { axiosApi } from "@/lib/axios";
-import { setYear, setMonth, setDay, searchDate } from "@/lib/dateFormat";
+import { searchDate } from "@/lib/dateFormat";
 import { PublicTask } from "@/types/PublicTask";
 import { styled } from "@mui/material/styles";
-import {
-    Box,
-    Paper,
-    Grid,
-    Button,
-    Select,
-    InputLabel,
-    MenuItem,
-    FormControl,
-    LinearProgress,
-    Chip,
-} from "@mui/material";
+import { Box, Paper, Grid, LinearProgress, Chip } from "@mui/material";
 import { format } from "date-fns";
 import InfiniteScroll from "react-infinite-scroll-component";
 import useNotification from "@/hooks/useNotification";
@@ -27,6 +16,7 @@ import Header from "@/components/templates/front/Header";
 import useWindowSize, {
     InfiniteScrollDifferenceHeight,
 } from "@/hooks/useWindowSize";
+import DateSearchForm from "@/components/templates/front/DateSearchForm";
 
 const StyledPaper = styled(Paper)(({ theme }) => ({
     backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
@@ -48,7 +38,6 @@ const AppliedTaskPage: React.FC = () => {
     const [page, setPage] = useState(1);
     const [loading, setLoading] = useState(true);
     const [linearProgress, setLinearProgress] = useState(false);
-    const navigate = useNavigate();
     const thisYear = format(new Date(), "yyyy");
     const { saved, error } = useNotification();
     const [width, height] = useWindowSize();
@@ -136,11 +125,6 @@ const AppliedTaskPage: React.FC = () => {
     };
 
     useEffect(() => {
-        // navigate({
-        //     pathname: "/public_task",
-        //     search: `?date=${thisDate}&page=${page}`,
-        // });
-
         getPublicTasks(page, thisYear);
     }, []);
 
@@ -152,103 +136,19 @@ const AppliedTaskPage: React.FC = () => {
         <Box sx={{ flexGrow: 1 }}>
             <Header title={"希望を出しているタスク"} link={"/mypage"} />
             <Box sx={{ p: 2 }}>
-                <Grid
-                    container
-                    sx={{
-                        mt: { xs: "12%", md: "64px" },
-                        width: "100%",
-                        height: "12%",
-                        flexShrink: 0,
-                        p: 1,
-                        pt: 3,
-                        position: "fixed",
-                        top: 0,
-                        right: 0,
-                        zIndex: 1000,
-                        justifyContent: "space-evenly",
-                        backgroundColor: "white",
+                <DateSearchForm
+                    onSubmit={handleSubmit(onSubmit)}
+                    year={{
+                        ...register("year", {
+                            required: "入力してください。",
+                        }),
                     }}
-                >
-                    <Grid item xs={3} md={4}>
-                        <FormControl size="small" fullWidth>
-                            <InputLabel id="demo-simple-select-label">
-                                年
-                            </InputLabel>
-                            <Select
-                                {...register("year", {
-                                    required: "入力してください。",
-                                })}
-                                defaultValue={thisYear}
-                                labelId="demo-simple-select-label"
-                                id="demo-simple-select"
-                                label="Age"
-                            >
-                                {setYear().map((value, index) => (
-                                    <MenuItem key={index} value={value}>
-                                        {value}
-                                    </MenuItem>
-                                ))}
-                            </Select>
-                        </FormControl>
-                    </Grid>
-                    <Grid item xs={2.5} md={2}>
-                        <FormControl size="small" fullWidth>
-                            <InputLabel id="demo-simple-select-label">
-                                月
-                            </InputLabel>
-                            <Select
-                                {...register("month")}
-                                defaultValue={""}
-                                labelId="demo-simple-select-label"
-                                id="demo-simple-select"
-                                label="Age"
-                            >
-                                <MenuItem value={""}>　</MenuItem>
-                                {setMonth().map((value, index) => (
-                                    <MenuItem key={index} value={value}>
-                                        {value}
-                                    </MenuItem>
-                                ))}
-                            </Select>
-                        </FormControl>
-                    </Grid>
-                    <Grid item xs={2.5} md={2}>
-                        <FormControl size="small" fullWidth>
-                            <InputLabel id="demo-simple-select-label">
-                                日
-                            </InputLabel>
-                            <Select
-                                {...register("day")}
-                                defaultValue={""}
-                                labelId="demo-simple-select-label"
-                                id="demo-simple-select"
-                                label="Age"
-                            >
-                                <MenuItem value={""}>　</MenuItem>
-                                {setDay().map((value, index) => (
-                                    <MenuItem key={index} value={value}>
-                                        {value}
-                                    </MenuItem>
-                                ))}
-                            </Select>
-                        </FormControl>
-                    </Grid>
-                    <Grid item xs={2} md={2}>
-                        <Button
-                            onClick={handleSubmit(onSubmit)}
-                            fullWidth
-                            variant="contained"
-                            size="small"
-                            sx={{
-                                minWidth: 0,
-                                display: "block",
-                                height: { xs: "80%", md: "50%" },
-                            }}
-                        >
-                            検索
-                        </Button>
-                    </Grid>
-                </Grid>
+                    month={{ ...register("month") }}
+                    day={{ ...register("day") }}
+                    defaultYear={thisYear}
+                    defaultMonth={""}
+                    defaultDay={""}
+                />
                 <Box
                     sx={{
                         mt: { xs: "95px", md: "150px" },
