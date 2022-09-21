@@ -20,7 +20,7 @@ class UserController extends Controller
     public function appliedPublicTask(Request $request, User $user, PublicTask $public_task)
     {
         $user = User::where('id', Auth::guard('web')->user()->id)->first();
-        $query = $user->appliedPublicTask()->where("date", "LIKE", "%" . $request->date . "%")->with(['section', 'task']);
+        $query = $user->appliedPublicTask()->where("date", "LIKE", "%" . $request->date . "%")->orderBy("date", "asc")->with(['section', 'task']);
         $public_tasks = $query->whereHas('applicantUsers', function ($q) {
             return $q->where('fixed', false);
         })->paginate(10);
@@ -30,7 +30,7 @@ class UserController extends Controller
     public function fixedPublicTask(Request $request, User $user, PublicTask $public_task)
     {
         $user = User::where('id', Auth::guard('web')->user()->id)->first();
-        $query = $user->appliedPublicTask()->where("date", "LIKE", "%" . $request->date . "%")->with(['section', 'task']);
+        $query = $user->appliedPublicTask()->where("date", "LIKE", "%" . $request->date . "%")->orderBy("date", "asc")->with(['section', 'task']);
         $public_tasks = $query->whereHas('applicantUsers', function ($q) {
             return $q->where('fixed', true);
         })->paginate(10);
