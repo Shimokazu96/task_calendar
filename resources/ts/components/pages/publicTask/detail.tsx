@@ -129,16 +129,14 @@ const DetailPublicTaskPage: React.FC = () => {
                 maxWidth: "100%",
                 p: 2,
                 m: "auto",
-                mb: "50px",
-                overflowY: "scroll",
+                mt: { xs: "12%", md: "64px" },
+                mb: { xs: "50px" },
+                // mb: "50px",
+                // overflowY: "scroll",
             }}
         >
-            <Header title={"公開タスク"} link={"/public_task"}/>
-            <Card
-                sx={{
-                    mt: { xs: "12%", md: "64px" },
-                }}
-            >
+            <Header title={"公開タスク"} link={"/public_task"} />
+            <Card>
                 <CardContent>
                     {publicTask.applied_public_task ? (
                         <Alert severity="success">申請済み </Alert>
