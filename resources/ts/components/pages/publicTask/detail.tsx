@@ -68,6 +68,15 @@ const DetailPublicTaskPage: React.FC = () => {
             color: "",
         },
         applicant_users: {
+            id: 0,
+            name: "",
+            email: "",
+            created_at: "",
+            updated_at: "",
+            pivot: {
+                fixed: false,
+                task_completion_notification: false,
+            },
             length: 0,
         },
     });
@@ -345,6 +354,35 @@ const DetailPublicTaskPage: React.FC = () => {
                         >
                             {publicTask.determined_personnel}
                         </Box>
+                    </Grid>
+                    <Grid
+                        sx={{
+                            pb: 1,
+                            display: "flex",
+                            alignItems: "center",
+                            justifyContent:"center"
+                        }}
+                        item
+                    >
+                        {applicantUsers.map((user, index) =>
+                            user.pivot.fixed == true ? (
+                                <Box
+                                    color="text.secondary"
+                                    sx={{
+                                        textAlign: "center",
+                                    }}
+                                >
+                                    <Chip
+                                        size="small"
+                                        sx={{ p: 0.5 }}
+                                        label={user.name}
+                                        color="default"
+                                    />
+                                </Box>
+                            ) : (
+                                ""
+                            )
+                        )}
                     </Grid>
                     <Divider />
                     <Grid
