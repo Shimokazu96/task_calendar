@@ -159,7 +159,7 @@ const FixedTaskPage: React.FC = () => {
                     ) : (
                         <Box
                             sx={{
-                                mt: 2,
+                                mt: { xs: "95px", md: "150px" },
                                 textAlign: "center",
                             }}
                         >
