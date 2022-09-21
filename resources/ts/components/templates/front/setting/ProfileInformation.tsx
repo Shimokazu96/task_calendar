@@ -64,7 +64,7 @@ export default function ProfileInformation({ user }: { user: User }) {
                         component="h3"
                         variant="subtitle2"
                     >
-                        ※メールアドレスを変更すると認証メールが送付されます。
+                        {/* ※メールアドレスを変更すると認証メールが送付されます。 */}
                     </Typography>
                     <TextField
                         {...register("name", {

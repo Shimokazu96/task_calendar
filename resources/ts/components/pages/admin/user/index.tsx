@@ -11,7 +11,6 @@ import {
     Button,
     Typography,
     ListItemIcon,
-    Chip,
 } from "@mui/material";
 import MenuItem from "@mui/material/MenuItem";
 import Menu from "@mui/material/Menu";
@@ -62,32 +61,32 @@ const UserPage: React.FC = () => {
             label: "メールアドレス",
             options: { filter: true },
         },
-        {
-            name: "email_verified_at",
-            label: "メールアドレス認証",
-            options: {
-                filter: false,
-                customBodyRenderLite: (dataIndex: number) => {
-                    return (
-                        <>
-                            {users[dataIndex].email_verified_at ? (
-                                <Chip
-                                    sx={{ p: 1 }}
-                                    label="認証済み"
-                                    color="success"
-                                />
-                            ) : (
-                                <Chip
-                                    sx={{ p: 1 }}
-                                    label="認証前"
-                                    color="default"
-                                />
-                            )}
-                        </>
-                    );
-                },
-            },
-        },
+        // {
+        //     name: "email_verified_at",
+        //     label: "メールアドレス認証",
+        //     options: {
+        //         filter: false,
+        //         customBodyRenderLite: (dataIndex: number) => {
+        //             return (
+        //                 <>
+        //                     {users[dataIndex].email_verified_at ? (
+        //                         <Chip
+        //                             sx={{ p: 1 }}
+        //                             label="認証済み"
+        //                             color="success"
+        //                         />
+        //                     ) : (
+        //                         <Chip
+        //                             sx={{ p: 1 }}
+        //                             label="認証前"
+        //                             color="default"
+        //                         />
+        //                     )}
+        //                 </>
+        //             );
+        //         },
+        //     },
+        // },
         {
             name: "last_month_total_task_hour",
             label: "先月の労働時間",
