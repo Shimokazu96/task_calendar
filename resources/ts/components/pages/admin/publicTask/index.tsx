@@ -94,26 +94,23 @@ const PublicTaskPage: React.FC = () => {
         {
             name: "required_personnel",
             label: "必要人数",
-            options: { filter: false },
+            options: { filter: false, sort: false },
         },
         {
             name: "applicant_users.length",
             label: "申請人数",
             options: {
                 filter: false,
+                sort: false,
                 customBodyRenderLite: (dataIndex: number) => {
-                    return (
-                        <>
-                            {publicTasks[dataIndex].applicant_users.length}
-                        </>
-                    );
+                    return <>{publicTasks[dataIndex].applicant_users.length}</>;
                 },
             },
         },
         {
             name: "determined_personnel",
             label: "確定人数",
-            options: { filter: false },
+            options: { filter: false, sort: false },
         },
         // 編集アイコンを表示
         {

@@ -81,10 +81,11 @@ class PublicTaskController extends Controller
         $user = User::where('id', $id)->first();
         $_this_total_daily_task_hour = $total_daily_task_hour->where("user_id", $user->id)->where("date", $public_task->date)->first();
         $working_hours = $public_task->calculateTime();
+        //必要人数を超えている
         if ($public_task->required_personnel <= $public_task->determined_personnel) {
             return response()->json("over_capacity");
         }
-
+        //一日8時間を超えている
         if ($_this_total_daily_task_hour && !$_this_total_daily_task_hour->canAddTasks($working_hours)) {
             return response()->json("over_hours");
         }
@@ -117,6 +118,13 @@ class PublicTaskController extends Controller
     public function cancelPublicTask(Request $request, PublicTask $public_task, TotalDailyTaskHour $total_daily_task_hour, $id)
     {
         $user = User::where('id', $id)->first();
+        //タスク報告済み
+        $reported = $public_task->applicantUsers->contains(function ($apply_user) use ($id) {
+            return $apply_user->id == $id && $apply_user->pivot->task_completion_notification === 1;
+        });
+        if ($reported) {
+            return response()->json("already_reported");
+        }
         $_this_total_daily_task_hour = $total_daily_task_hour->where("user_id", $user->id)->where("date", $public_task->date)->first();
         $working_hours = $public_task->calculateTime();
 

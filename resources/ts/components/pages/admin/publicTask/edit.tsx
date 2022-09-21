@@ -46,6 +46,15 @@ const EditPublicTaskPage: React.FC = () => {
             color: "",
         },
         applicant_users: {
+            id: 0,
+            name: "",
+            email: "",
+            created_at: "",
+            updated_at: "",
+            pivot: {
+                fixed: false,
+                task_completion_notification: false,
+            },
             length: 0,
         },
     });
@@ -133,7 +142,9 @@ const EditPublicTaskPage: React.FC = () => {
                             )
                             .then((response: AxiosResponse) => {
                                 console.log(response.data);
-
+                                if (response.data == "already_reported") {
+                                    error("タスク完了報告済みです。");
+                                }
                                 getPublicTask();
                             })
                             .catch((err: AxiosError) =>
@@ -181,7 +192,8 @@ const EditPublicTaskPage: React.FC = () => {
                 customBodyRenderLite: (dataIndex: number) => {
                     return (
                         <>
-                            {applicantUsers[dataIndex].pivot.task_completion_notification ? (
+                            {applicantUsers[dataIndex].pivot
+                                .task_completion_notification ? (
                                 <Chip
                                     sx={{ p: 1 }}
                                     label="完了済み"
