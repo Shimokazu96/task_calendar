@@ -5,8 +5,6 @@ import {
     Button,
     CssBaseline,
     TextField,
-    FormControlLabel,
-    Checkbox,
     Link,
     Grid,
     Box,
@@ -152,7 +150,7 @@ const Login = () => {
                                     パスワードを忘れた方はこちら
                                 </Link>
                             </Grid>
-                            <Grid item>
+                            {/* <Grid item>
                                 <Link
                                     component={RouterLink}
                                     to="/register"
@@ -160,7 +158,7 @@ const Login = () => {
                                 >
                                     登録はこちら
                                 </Link>
-                            </Grid>
+                            </Grid> */}
                         </Grid>
                     </Box>
                 </Box>
