@@ -21,6 +21,15 @@ export type PublicTask = {
         color: any;
     };
     applicant_users: {
+        id: number;
+        name: string;
+        email: string;
+        created_at: string;
+        updated_at: string;
+        pivot: {
+            fixed: boolean;
+            task_completion_notification: boolean;
+        };
         length: number;
     };
 };
