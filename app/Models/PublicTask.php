@@ -51,7 +51,7 @@ class PublicTask extends Model
             return $user->id === Auth::guard('web')->user()->id && $user->pivot->fixed === 1;
         });
     }
-    //タスク完了済みか判定
+    //タスク完了報告済みか判定
     public function getTaskCompletionNotificationAttribute()
     {
         if (Auth::guest() || Auth::guard('admin')->user()) {
