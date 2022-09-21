@@ -11,14 +11,14 @@ use Illuminate\Support\Facades\Auth;
 
 class PublicTaskController extends Controller
 {
-
+    // 公開タスク一覧
     public function index(Request $request)
     {
         $public_tasks = PublicTask::where("date", "LIKE", "%" . $request->date . "%")->with(['section', 'task'])->orderBy("date", "asc")->paginate(10);
 
         return response()->json(["public_tasks" => $public_tasks, "date" => $request->date], 200) ?? abort(404);
     }
-
+    // 公開タスクの日付検索
     public function getTasksThisDate($date)
     {
         $public_tasks = PublicTask::where("date", "LIKE", "%" . $date . "%")->with(['section', 'task'])->get();
@@ -36,7 +36,7 @@ class PublicTaskController extends Controller
         }
         return response()->json($public_task, 200) ?? abort(404);
     }
-
+    // 公開タスク詳細
     public function show($id)
     {
         $public_task = PublicTask::where('id', $id)->with(['section', 'task', 'applicantUsers'])->first();

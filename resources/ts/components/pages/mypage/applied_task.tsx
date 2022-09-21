@@ -47,7 +47,7 @@ const AppliedTaskPage: React.FC = () => {
             return error("無効な日付です。");
         }
         await axiosApi
-            .get(`/api/user/applied/public_task?date=${searchDate}&page=1`)
+            .get(`/api/user/applied/public_task?date=${date}&page=1`)
             .then((response: AxiosResponse) => {
                 console.log(response.data);
                 console.log(page);
@@ -159,7 +159,7 @@ const AppliedTaskPage: React.FC = () => {
                     ) : (
                         <Box
                             sx={{
-                                mt: 2,
+                                mt: { xs: "95px", md: "150px" },
                                 textAlign: "center",
                             }}
                         >
