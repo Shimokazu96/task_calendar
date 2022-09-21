@@ -18,6 +18,7 @@ type Props = {
     publicTasks: PublicTask[];
     fetchMoreData: VoidFunction;
     alertMessage: string;
+    link: string;
 };
 
 export default function DateSearchForm(props: Props) {
@@ -31,7 +32,7 @@ export default function DateSearchForm(props: Props) {
             {props.publicTasks.map((publicTask, index) => (
                 <Link
                     key={index}
-                    to={"/public_task/" + props.publicTasks[index].id}
+                    to={props.link + props.publicTasks[index].id}
                 >
                     <StyledPaper
                         sx={{

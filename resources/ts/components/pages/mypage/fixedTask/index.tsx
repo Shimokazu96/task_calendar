@@ -154,6 +154,7 @@ const FixedTaskPage: React.FC = () => {
                             publicTasks={publicTasks}
                             fetchMoreData={fetchMoreData}
                             alertMessage={""}
+                            link="/mypage/fixed_task/"
                         />
                     ) : (
                         <Box

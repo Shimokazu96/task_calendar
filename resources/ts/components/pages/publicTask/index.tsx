@@ -155,6 +155,7 @@ const PublicTaskPage: React.FC = () => {
                             publicTasks={publicTasks}
                             fetchMoreData={fetchMoreData}
                             alertMessage={"申請済み"}
+                            link="/public_task/"
                         />
                     ) : (
                         <Box

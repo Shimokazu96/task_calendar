@@ -24,6 +24,7 @@ import InfiniteScroll from "react-infinite-scroll-component";
 import useNotification from "@/hooks/useNotification";
 import { useForm } from "react-hook-form";
 import Loading from "@/components/parts/Loading";
+import Header from "@/components/templates/front/Header";
 
 const StyledPaper = styled(Paper)(({ theme }) => ({
     backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
@@ -123,10 +124,13 @@ const DetailFixedTaskPage: React.FC = () => {
                 maxWidth: "100%",
                 p: 2,
                 m: "auto",
-                mb: "50px",
-                overflowY: "scroll",
+                mt: { xs: "12%", md: "64px" },
+                mb: { xs: "50px" },
+                // mb: "50px",
+                // overflowY: "scroll",
             }}
         >
+            <Header title={"確定しているタスク"} link={"/mypage/fixed_task"} />
             <Card>
                 <CardContent>
                     {publicTask.task_completion_notification == true ? (

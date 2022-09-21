@@ -154,6 +154,7 @@ const AppliedTaskPage: React.FC = () => {
                             publicTasks={publicTasks}
                             fetchMoreData={fetchMoreData}
                             alertMessage={""}
+                            link={"/public_task/"}
                         />
                     ) : (
                         <Box
