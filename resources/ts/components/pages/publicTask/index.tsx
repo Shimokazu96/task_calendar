@@ -145,9 +145,8 @@ const PublicTaskPage: React.FC = () => {
                         mt: { xs: "95px", md: "150px" },
                         flexGrow: 1,
                         overflowY: "scroll",
-                        minHeight: "33rem",
                         mb: "60px",
-                        height: { md: InfiniteScrollHeight },
+                        // height: { md: InfiniteScrollHeight },
                     }}
                 >
                     {linearProgress ? <LinearProgress /> : <></>}
