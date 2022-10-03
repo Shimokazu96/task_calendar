@@ -13,8 +13,6 @@ import ForgotPassword from "@/components/pages/forgotPassword";
 import ResetPassword from "@/components/pages/resetPassword";
 import NotFound  from '@/components/pages/notFound';
 
-// import AdminRoutes from "./route/admin";
-
 const App: React.FC = () => {
     const location = useLocation();
     const { userStatus, emailVerified, fetchUser } = useUserAuth();
