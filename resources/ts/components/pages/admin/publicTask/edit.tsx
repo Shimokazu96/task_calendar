@@ -121,6 +121,9 @@ const EditPublicTaskPage: React.FC = () => {
                             )
                             .then((response: AxiosResponse) => {
                                 console.log(response.data);
+                                if (response.data == "past_tasks") {
+                                    error("過去の日付はステータスを変更できません。");
+                                }
                                 if (response.data == "over_capacity") {
                                     error("これ以上人数を増やせません。");
                                 }
@@ -142,6 +145,9 @@ const EditPublicTaskPage: React.FC = () => {
                             )
                             .then((response: AxiosResponse) => {
                                 console.log(response.data);
+                                if (response.data == "past_tasks") {
+                                    error("過去の日付はステータスを変更できません。");
+                                }
                                 if (response.data == "already_reported") {
                                     error("タスク完了報告済みです。");
                                 }
