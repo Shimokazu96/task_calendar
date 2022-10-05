@@ -47,6 +47,11 @@ class PublicTaskController extends Controller
     public function applyPublicTask(Request $request, PublicTask $public_task)
     {
         $user = User::where('id', Auth::guard('web')->user()->id)->first();
+        //過去の日付
+        $today = date('Y-m-d');
+        if ($public_task->date < $today) {
+            return response()->json("past_tasks");
+        }
         $public_task->applicantUsers()->detach($user->id);
         $public_task->applicantUsers()->attach($user->id, ["fixed" => false]);
 
@@ -56,6 +61,11 @@ class PublicTaskController extends Controller
     public function cancelPublicTask(Request $request, PublicTask $public_task)
     {
         $user = User::where('id', Auth::guard('web')->user()->id)->first();
+        //過去の日付
+        $today = date('Y-m-d');
+        if ($public_task->date < $today) {
+            return response()->json("past_tasks");
+        }
         if ($public_task->fixed_applied_public_task) {
             return response()->json("fixed_task");
         }
@@ -63,10 +73,15 @@ class PublicTaskController extends Controller
 
         return response()->json(200) ?? response()->json([], 500);
     }
-    //タスク完了
+    //タスク完了報告
     public function completePublicTask(Request $request, PublicTask $public_task, TotalMonthlyTaskHour $total_monthly_task_hour)
     {
         $user = User::where('id', Auth::guard('web')->user()->id)->first();
+        //過去の日付
+        // $today = date('Y-m-d');
+        // if ($public_task->date < $today) {
+        //     return response()->json("past_tasks");
+        // }
         $month = $public_task->formatMonth();
         $working_hours = $public_task->calculateTime();
         $_this_total_monthly_task_hour = $total_monthly_task_hour->where("user_id", $user->id)->where("month", $month)->first();

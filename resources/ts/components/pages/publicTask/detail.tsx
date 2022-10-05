@@ -3,13 +3,10 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { AxiosError, AxiosResponse } from "axios";
 import { axiosApi } from "@/lib/axios";
-import { setYear, setMonth, setDay } from "@/lib/dateFormat";
 import { PublicTask } from "@/types/PublicTask";
 import { ApplicantUsers } from "@/types/User";
-import { styled } from "@mui/material/styles";
 import {
     Box,
-    Paper,
     Grid,
     Card,
     CardContent,
@@ -17,28 +14,11 @@ import {
     Button,
     Chip,
     Alert,
-    AlertTitle,
 } from "@mui/material";
 import { format } from "date-fns";
-import InfiniteScroll from "react-infinite-scroll-component";
 import useNotification from "@/hooks/useNotification";
-import { useForm } from "react-hook-form";
 import Loading from "@/components/parts/Loading";
 import Header from "@/components/templates/front/Header";
-
-const StyledPaper = styled(Paper)(({ theme }) => ({
-    backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
-    ...theme.typography.body2,
-    padding: theme.spacing(2),
-    maxWidth: 400,
-    color: theme.palette.text.primary,
-}));
-
-type Form = {
-    year: string;
-    month: string;
-    day: string;
-};
 
 const DetailPublicTaskPage: React.FC = () => {
     const params = useParams();
@@ -101,6 +81,9 @@ const DetailPublicTaskPage: React.FC = () => {
             .post(`/api/public_task/apply/${params.id}`)
             .then((response: AxiosResponse) => {
                 console.log(response.data);
+                if (response.data == "past_tasks") {
+                    error("過去の日付はステータスを変更できません。");
+                }
                 getPublicTask();
             })
             .catch((err: AxiosError) => console.log(err.response));
@@ -114,6 +97,9 @@ const DetailPublicTaskPage: React.FC = () => {
             .post(`/api/public_task/cancel/${params.id}`)
             .then((response: AxiosResponse) => {
                 console.log(response.data);
+                if (response.data == "past_tasks") {
+                    error("過去の日付はステータスを変更できません。");
+                }
                 if (response.data == "fixed_task") {
                     error("確定済みですのでキャンセルできません。");
                 }
