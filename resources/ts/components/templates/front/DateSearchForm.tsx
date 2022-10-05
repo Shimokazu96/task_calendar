@@ -28,11 +28,6 @@ type Props = {
 };
 
 export default function DateSearchForm(props: Props) {
-    const thisDate = format(new Date(), "yyyy-MM-dd");
-    const thisYear = format(new Date(), "yyyy");
-    const thisMonth = format(new Date(), "M");
-    const thisDay = format(new Date(), "d");
-
     return (
         <Grid
             container
