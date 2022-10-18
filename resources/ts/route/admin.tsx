@@ -1,6 +1,6 @@
 import { lazy } from "react";
 import { Route } from "react-router-dom";
-import Dashboard from "@/components/layout/admin/Dashboard";
+import Dashboard from "@/components/layouts/admin/Dashboard";
 const TopPage = lazy(() => import("@/components/pages/admin/index"));
 const CurrentDatePage = lazy(() => import("@/components/pages/admin/date/CurrentDate"));
 const TaskPage = lazy(() => import("@/components/pages/admin/task"));
