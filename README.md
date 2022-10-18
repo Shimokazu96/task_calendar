@@ -115,3 +115,42 @@ react-swipeable：https://github.com/FormidableLabs/react-swipeable
 
 react-toastify：https://github.com/fkhadra/react-toastify
 
+## React ディレクトリ構成
+
+基本的にNuxt.jsを模倣した形でコンポーネントを構成
+
+```
+resources
+│ 
+├── ts
+│   └── atoms (Recoil 状態管理)
+│        ├── adminAtom.ts (管理者)
+│        └── userAtom.ts (スタッフ)
+├── components
+│   ├── layouts (レイアウト層)
+│   │
+│   ├── pages (ページ層)
+│   │
+│   ├── parts (最小のコンポーネント)
+│   │
+│   ├── templates (再利用可能なコンポーネントグループ)
+│   │
+│   ├── hooks (React Hooksの関数コンポーネント)
+│   │    ├── useAdminAuth.ts (管理者状態管理)
+│   │    ├── useDataTable.ts (mui-datatablesの設定)
+│   │    ├── useNotification.ts (react-toastifyの設定)
+│   │    ├── useUserAuth.ts (スタッフの状態管理)
+│   │    └── useWindowSize.ts (ウィンドウサイズを判定)
+│   │
+│   ├── lib (ライブラリ)
+│   │    ├── axios.ts (axiosのインスタンス設定)
+│   │    └── dateFormat.ts (日付ライブラリや日付の設定)
+│   │
+│   ├── route (ページのルートを定義)
+│   │
+│   └── types (型定義)
+├── App.tsx
+└── index.tsx
+
+```
+
