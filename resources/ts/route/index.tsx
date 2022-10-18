@@ -1,6 +1,6 @@
 import { lazy } from "react";
 import { Route } from "react-router-dom";
-import Layout from "@/components/layout/front/Layout";
+import Layout from "@/components/layouts/front/Layout";
 const TopPage = lazy(() => import("@/components/pages/index"));
 const CurrentDatePage = lazy(() => import("@/components/pages/date/CurrentDate"));
 const PublicTaskPage = lazy(() => import("@/components/pages/publicTask"));
