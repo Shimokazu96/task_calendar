@@ -73,6 +73,18 @@ npm run build
 - API：http://localhost/api
 - mailhog：http://localhost:8025/
 
+#### 管理者ログイン
+
+id admin@example.com
+
+pw 123456789
+
+#### スタッフログイン
+
+id user@example.com
+
+pw 123456789
+
 ### ER図
 https://app.diagrams.net/#G1bUoP5ILj568NSyxWM-RVY5XzQHmHdRzL
 
@@ -115,42 +127,61 @@ react-swipeable：https://github.com/FormidableLabs/react-swipeable
 
 react-toastify：https://github.com/fkhadra/react-toastify
 
+### 日付ライブラリ
+
+date-fns：https://github.com/date-fns/date-fns#readme
+
 ## React ディレクトリ構成
 
-基本的にNuxt.jsを模倣した形でコンポーネントを構成
+基本的にNuxt.jsを模倣した形でコンポーネントを構成している
+
+ルーティングはresources/ts/routeに定義する
 
 ```
 resources
 │ 
-├── ts
-│   └── atoms (Recoil 状態管理)
-│        ├── adminAtom.ts (管理者)
-│        └── userAtom.ts (スタッフ)
-├── components
-│   ├── layouts (レイアウト層)
-│   │
-│   ├── pages (ページ層)
-│   │
-│   ├── parts (最小のコンポーネント)
-│   │
-│   ├── templates (再利用可能なコンポーネントグループ)
-│   │
-│   ├── hooks (React Hooksの関数コンポーネント)
-│   │    ├── useAdminAuth.ts (管理者状態管理)
-│   │    ├── useDataTable.ts (mui-datatablesの設定)
-│   │    ├── useNotification.ts (react-toastifyの設定)
-│   │    ├── useUserAuth.ts (スタッフの状態管理)
-│   │    └── useWindowSize.ts (ウィンドウサイズを判定)
-│   │
-│   ├── lib (ライブラリ)
-│   │    ├── axios.ts (axiosのインスタンス設定)
-│   │    └── dateFormat.ts (日付ライブラリや日付の設定)
-│   │
-│   ├── route (ページのルートを定義)
-│   │
-│   └── types (型定義)
-├── App.tsx
-└── index.tsx
+└── ts
+    ├── atoms (Recoil 状態管理)
+    │    ├── adminAtom.ts (管理者)
+    │    └── userAtom.ts (スタッフ)
+    │    
+    ├── components
+    │    ├── layouts (レイアウト層)
+    │    │
+    │    ├── pages (ページ層)
+    │    │    ├── admin (http://localhost/admin のディレクトリ群)
+    │    │    │    ├── login 
+    │    │    │    │    └── index.tsx (http://localhost/admin/login)
+    │    │    ├── date 
+    │    │    │    └── CurrentDate.tsx (http://localhost/date/{日付等})
+    │    │    │ 
+    │    │    ├── login 
+    │    │    │    └── index.tsx (http://localhost/login)
+    │    │    └── index.tsx (http://localhost)
+    │    │
+    │    │
+    │    ├── parts (最小のコンポーネント)
+    │    │
+    │    └── templates (再利用可能なコンポーネントグループ)
+    │
+    ├── hooks (React Hooksの関数コンポーネント)
+    │    ├── useAdminAuth.ts (管理者状態管理)
+    │    ├── useDataTable.ts (mui-datatablesの設定)
+    │    ├── useNotification.ts (react-toastifyの設定)
+    │    ├── useUserAuth.ts (スタッフの状態管理)
+    │    └── useWindowSize.ts (ウィンドウサイズを判定)
+    │
+    ├── lib (ライブラリ)
+    │    ├── axios.ts (axiosのインスタンス設定)
+    │    └── dateFormat.ts (日付ライブラリや日付の設定)
+    │
+    ├── route (ページのルートを定義)
+    │    ├── admin.tsx (管理者側のルーティング)
+    │    └── index.tsx (スタッフ側のルーティング)
+    │
+    ├── types (型定義)
+    ├── App.tsx
+    └── index.tsx
 
 ```
 
