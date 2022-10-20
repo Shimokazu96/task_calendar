@@ -14,7 +14,7 @@ import { format } from "date-fns";
 import resourceTimeGridPlugin from "@fullcalendar/resource-timegrid";
 import scrollGridPlugin from "@fullcalendar/scrollgrid";
 import useWindowSize, { CalendarDifferenceHeight } from "@/hooks/useWindowSize";
-import { useSwipeable } from "react-swipeable";
+// import { useSwipeable } from "react-swipeable";
 
 const CurrentDatePage: React.FC = () => {
     const params = useParams();
@@ -49,18 +49,18 @@ const CurrentDatePage: React.FC = () => {
         return publicTasks;
     };
 
-    const handlers = useSwipeable({
-        onSwiped: (event) => {
-            const calendarApi = calendarRef.current.getApi();
-            if (event.dir == "Left") {
-                calendarApi.next();
-            }
-            if (event.dir == "Right") {
-                calendarApi.prev();
-            }
-        },
-        trackMouse: true,
-    });
+    // const handlers = useSwipeable({
+    //     onSwiped: (event) => {
+    //         const calendarApi = calendarRef.current.getApi();
+    //         if (event.dir == "Left") {
+    //             calendarApi.next();
+    //         }
+    //         if (event.dir == "Right") {
+    //             calendarApi.prev();
+    //         }
+    //     },
+    //     trackMouse: true,
+    // });
 
     useEffect(() => {
         getPublicTasks();
@@ -72,7 +72,8 @@ const CurrentDatePage: React.FC = () => {
     }
     return (
         <>
-            <div {...handlers} className="frontCalendar">
+            {/* <div {...handlers} className="frontCalendar"> */}
+            <div className="frontCalendar">
                 <FullCalendar
                     ref={calendarRef}
                     plugins={[

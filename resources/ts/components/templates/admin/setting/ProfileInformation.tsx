@@ -61,13 +61,13 @@ export default function ProfileInformation({ admin }: { admin: Admin }) {
                         >
                             アカウント編集
                         </Typography>
-                        <Typography
+                        {/* <Typography
                             sx={{ mb: 2 }}
                             component="h3"
                             variant="subtitle2"
                         >
                             ※メールアドレスを変更すると認証メールが送付されます。
-                        </Typography>
+                        </Typography> */}
                         <TextField
                             {...register("name", {
                                 required: "必須入力です。",
